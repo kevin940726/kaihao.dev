@@ -1,0 +1,49 @@
+---
+title: '<Counter /> with React hooks'
+date: '2019-02-17'
+---
+
+# `console.log` with line numbers
+
+Have you every wished for `console.log` to prepend a line number in front of the log statement so that you can quickly figure out which part of your code is executing? Manually adding them is tedious and error-prone, we have to update every line number whenever we updated our code.
+
+Is there a way to automatically add the line number to _every_ `console.log` statement? Without the help of transpiler plugin like `babel`, just in vanilla JavaScript?
+
+Let's build a `line-logger` to replace our `console.log` function.
+
+```js
+const STACK_LINE_REGEX = /(\d+):(\d+)\)?$/;
+
+function lineLogger(...log) {
+  let err;
+
+  try {
+    throw new Error();
+  } catch (error) {
+    err = error;
+  }
+
+  try {
+    const stacks = err.stack.split('\\n');
+    const [, line] = STACK_LINE_REGEX.exec(stacks[2]);
+
+    return this(`[${line}]`, ...log);
+  } catch (err) {
+    return this(...log);
+  }
+}
+
+lineLogger.call(console.log, 'foobar');
+lineLogger.call(console.error, 42);
+```
+
+So lots of things is happening here, in short, the basic idea is that we can get the line number through stack trace by throwing an error. Then we just need to parse the stack trace and select the nearest function call where we call `lineLogger()` and print them. Here is the actual output in action.
+
+```
+[22] foobar
+[23] 42
+```
+
+Just thought of it the other day and also almost immediately after that, thought that it's super pointless 😂. In practice, you should use a transpiler plugin do such things. Throwing errors and generate stack trace for each of them is going to harm performance. However, as just a funny trick to do only in debugging, I think it is pretty interesting and we can learn more about the stack trace too.
+
+Obviously, I'm not the first one to ever thought about it either. A quick search on npm can find a lots of similar concept packages already out there, each with different and even more interesting approach. I recommend go see their source code, They're actually brilliant.
