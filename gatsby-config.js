@@ -7,7 +7,6 @@ module.exports = {
     author: pkg.author,
   },
   plugins: [
-    'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
     {
       resolve: `gatsby-source-filesystem`,
@@ -21,13 +20,24 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'gatsby-starter-default',
-        short_name: `starter`,
+        name: 'Kai Hao',
+        short_name: `kaihao`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#f2994a`,
+        theme_color: `#f2994a`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/logo.svg`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-prefetch-google-fonts',
+      options: {
+        fonts: [
+          {
+            family: 'Open Sans',
+            variants: ['400'],
+          },
+        ],
       },
     },
     'gatsby-mdx',
@@ -42,5 +52,13 @@ module.exports = {
     },
     'gatsby-plugin-emotion',
     'gatsby-plugin-netlify',
+    'gatsby-plugin-remove-trailing-slashes',
+    {
+      resolve: 'gatsby-plugin-google-analytics',
+      options: {
+        trackingId: 'UA-75983216-5',
+        respectDNT: true,
+      },
+    },
   ],
 };

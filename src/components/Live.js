@@ -4,12 +4,7 @@ import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 
 import './prism-theme.css';
 
-type Props = {
-  children: string;
-  live: boolean;
-};
-
-const Live = ({ children, live }: Props) => (
+const Live = ({ children, live }) => (
   <LiveProvider
     css={css`
       margin-bottom: 2em;

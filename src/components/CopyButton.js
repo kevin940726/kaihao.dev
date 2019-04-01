@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import SVG from './SVG';
 import clipboardIcon from '../images/clipboard-text.svg';
 import useCopyToClipboard from '../hooks/useCopyToClipboard';
 
-const CopyButton = ({ code, ...props }: { code: string }) => {
+const CopyButton = ({ code, ...props }) => {
   const handleClick = useCopyToClipboard(code);
 
   return (

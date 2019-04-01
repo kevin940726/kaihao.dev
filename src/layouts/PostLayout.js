@@ -2,24 +2,31 @@ import React, { Fragment } from 'react';
 import { graphql } from 'gatsby';
 import { MDXProvider } from '@mdx-js/tag';
 import MDXRenderer from 'gatsby-mdx/mdx-renderer';
-import { css } from '@emotion/core';
+import { Global, css } from '@emotion/core';
 import Layout from './Layout';
 import SEO from '../components/seo';
-import { H1, H2, H3, H4, H5, H6 } from '../components/Headings';
+import { H1, H2, H3, H4, H5, H6 } from '../components/Headers';
 import Paragraph from '../components/Paragraph';
 import InlineCode from '../components/InlineCode';
 import Live from '../components/Live';
 import Highlight from '../components/Highlight';
+import PostLink from '../components/PostLink';
+import BackTo from '../components/BackTo';
 
 const PostLayout = ({ data: { mdx } }) => (
   <Layout
     css={css`
       line-height: 1.8;
       width: 760px;
-      padding: 20px 40px;
-      margin-bottom: 4em;
+      margin: 2rem auto 4em;
     `}
   >
+    <Global
+      styles={css`
+        @import url(https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css);
+      `}
+    />
+
     <MDXProvider
       components={{
         // Map HTML element tag to React component
@@ -31,6 +38,7 @@ const PostLayout = ({ data: { mdx } }) => (
         h6: H6,
         p: Paragraph,
         inlineCode: InlineCode,
+        a: PostLink,
         pre: Fragment,
         code: ({ children, live }) =>
           live ? <Live>{children}</Live> : <Highlight>{children}</Highlight>,
@@ -38,8 +46,34 @@ const PostLayout = ({ data: { mdx } }) => (
     >
       <SEO title={mdx.frontmatter.title} />
 
+      <H1>
+        {mdx.frontmatter.title}
+        <time
+          dateTime={mdx.frontmatter.date}
+          title={mdx.frontmatter.date}
+          css={css`
+            display: block;
+            font-size: 12px;
+            color: #aaaaaa;
+            text-align: right;
+          `}
+        >
+          {mdx.frontmatter.date}
+        </time>
+      </H1>
+
       <MDXRenderer>{mdx.code.body}</MDXRenderer>
     </MDXProvider>
+
+    <BackTo
+      to="/posts"
+      css={css`
+        margin-top: 4em;
+        align-self: center;
+      `}
+    >
+      Back to posts list
+    </BackTo>
   </Layout>
 );
 
@@ -49,6 +83,7 @@ export const pageQuery = graphql`
       id
       frontmatter {
         title
+        date
       }
       code {
         body

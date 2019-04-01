@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-const useCopyToClipboard = (text: string) => {
+const useCopyToClipboard = text => {
   return useCallback(() => {
     try {
       let succeed = false;

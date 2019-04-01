@@ -1,24 +1,25 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import PrismHighlight, { defaultProps } from 'prism-react-renderer';
 import dracula from 'prism-react-renderer/themes/dracula';
 import CopyButton from './CopyButton';
 
 const Pre = styled.pre`
   && {
+    font-family: 'Fira Code', 'Open Sans', sans-serif;
     position: relative;
     overflow: auto;
-    margin: 0 -20px;
     border-radius: 4px;
+    margin: 0;
     padding: 20px;
     line-height: 1.6;
     font-size: 14px;
     margin-bottom: 2rem;
     counter-reset: lines-number;
 
-    &:hover ${CopyButton} {
-      transform: translateY(0%);
-      opacity: 1;
+    @media screen and (max-width: 760px) {
+      border-radius: 0;
     }
   }
 `;
@@ -50,17 +51,30 @@ const Highlight = ({ children }) => (
     theme={dracula}
   >
     {({ className, style, tokens, getLineProps, getTokenProps }) => (
-      <Pre className={className} style={style}>
-        {tokens.map((line, i) => (
-          <Line {...getLineProps({ line, key: i })}>
-            {line.map((token, key) => (
-              <span {...getTokenProps({ token, key })} />
-            ))}
-            {'\n'}
-          </Line>
-        ))}
+      <div
+        css={css`
+          position: relative;
+          overflow: hidden;
+          margin: 0 -20px;
+
+          &:hover ${CopyButton} {
+            transform: translateY(0%);
+            opacity: 1;
+          }
+        `}
+      >
+        <Pre className={className} style={style}>
+          {tokens.map((line, i) => (
+            <Line {...getLineProps({ line, key: i })}>
+              {line.map((token, key) => (
+                <span {...getTokenProps({ token, key })} />
+              ))}
+              {'\n'}
+            </Line>
+          ))}
+        </Pre>
         <CopyButton code={children} />
-      </Pre>
+      </div>
     )}
   </PrismHighlight>
 );

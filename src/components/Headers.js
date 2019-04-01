@@ -1,22 +1,18 @@
-import React, { useMemo, Children } from 'react';
+import React, { useMemo } from 'react';
 import { css } from '@emotion/core';
 import slugify from 'slugify';
+import getTextContent from '../utils/getTextContent';
+import { SUB_TEXT } from '../constants';
 
 slugify.extend({
   '<': '',
   '>': '',
 });
 
-type Props = {
-  children: string | string[];
-};
-
-const Heading = (RenderComponent: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') => ({
-  children,
-}: Props) => {
+const Header = RenderComponent => ({ children }) => {
   const fragment = useMemo(
     () =>
-      slugify(Children.toArray(children).join(''), {
+      slugify(getTextContent(children), {
         lower: true,
       }),
     [children]
@@ -28,10 +24,14 @@ const Heading = (RenderComponent: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') => ({
       css={css`
         position: relative;
         line-height: 2;
+        color: ${SUB_TEXT};
         border-bottom: 1px solid #eeeeee;
+        scroll-margin-top: 50px;
 
-        &:hover > a {
-          opacity: 1;
+        @media screen and (min-width: 760px) {
+          &:hover > a {
+            opacity: 1;
+          }
         }
       `}
     >
@@ -55,9 +55,9 @@ const Heading = (RenderComponent: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') => ({
   );
 };
 
-export const H1 = Heading('h1');
-export const H2 = Heading('h2');
-export const H3 = Heading('h3');
-export const H4 = Heading('h4');
-export const H5 = Heading('h5');
-export const H6 = Heading('h6');
+export const H1 = Header('h1');
+export const H2 = Header('h2');
+export const H3 = Header('h3');
+export const H4 = Header('h4');
+export const H5 = Header('h5');
+export const H6 = Header('h6');

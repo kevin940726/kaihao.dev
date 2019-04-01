@@ -1,17 +1,15 @@
 ---
-title: '<Counter /> with React hooks'
+title: 'console.log with line numbers'
 date: '2019-02-17'
 ---
 
-# `console.log` with line numbers
-
-Have you every wished for `console.log` to prepend a line number in front of the log statement so that you can quickly figure out which part of your code is executing? Manually adding them is tedious and error-prone, we have to update every line number whenever we updated our code.
+Have you ever wished for `console.log` to prepend a line number in front of the log statement so that you can quickly figure out which part of your code is executing? Manually adding them is tedious and error-prone, we have to update every line number whenever we updated our code.
 
 Is there a way to automatically add the line number to _every_ `console.log` statement? Without the help of transpiler plugin like `babel`, just in vanilla JavaScript?
 
 Let's build a `line-logger` to replace our `console.log` function.
 
-```js
+```js {7,13,14}
 const STACK_LINE_REGEX = /(\d+):(\d+)\)?$/;
 
 function lineLogger(...log) {

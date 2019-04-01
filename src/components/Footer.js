@@ -13,7 +13,7 @@ const Footer = () => (
       text-align: center;
     `}
   >
-    © {new Date().getFullYear()}, Built with ❤
+    © {new Date().getFullYear()}, Built with my laptop
   </footer>
 );
 
