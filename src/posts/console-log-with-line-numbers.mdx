@@ -3,9 +3,9 @@ title: 'console.log with line numbers'
 date: '2019-02-17'
 ---
 
-Have you ever wished for `console.log` to prepend a line number in front of the log statement so that you can quickly figure out which part of your code is executing? Manually adding them is tedious and error-prone, we have to update every line number whenever we updated our code.
+Have you ever wished for `console.log` to prepend a line number in front of the log statement so that you can quickly figure out which part of your code is executing? Manually adding them is tedious and error-prone, we have to update every line numbers whenever we updated our code.
 
-Is there a way to automatically add the line number to _every_ `console.log` statement? Without the help of transpiler plugin like `babel`, just in vanilla JavaScript?
+Is there a way to automatically add the line numbers to _every_ `console.log` statements? Without the help of transpiler plugin like `babel`, just in vanilla JavaScript?
 
 Let's build a `line-logger` to replace our `console.log` function.
 
@@ -42,6 +42,6 @@ So lots of things is happening here, in short, the basic idea is that we can get
 [23] 42
 ```
 
-Just thought of it the other day and also almost immediately after that, thought that it's super pointless 😂. In practice, you should use a transpiler plugin do such things. Throwing errors and generate stack trace for each of them is going to harm performance. However, as just a funny trick to do only in debugging, I think it is pretty interesting and we can learn more about the stack trace too.
+Just thought of it the other day and also almost immediately after that thought that it's super pointless 😂. In practice, you should use a transpiler plugin to do such things. Throwing errors and generating stack trace for each of them is going to harm performance. However, as just a funny trick to do only during debugging, I think it is pretty interesting and we can learn more about the stack trace from it.
 
-Obviously, I'm not the first one to ever thought about it either. A quick search on npm can find a lots of similar concept packages already out there, each with different and even more interesting approach. I recommend go see their source code, They're actually brilliant.
+Obviously, I'm not the first one to ever thought of it either. A quick search on npm can find a lots of similar concept packages already sitting out there, each with different and even more interesting approach. I recommend to go to see their source code, they're actually brilliant.

@@ -38,6 +38,7 @@ const Title = styled.h3`
     transition: opacity 0.15s ease-out;
 
     &:hover {
+      text-decoration: none;
       opacity: 0.8;
     }
   }
