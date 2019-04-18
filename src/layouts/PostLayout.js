@@ -4,7 +4,7 @@ import { MDXProvider } from '@mdx-js/tag';
 import MDXRenderer from 'gatsby-mdx/mdx-renderer';
 import { Global, css } from '@emotion/core';
 import Layout from './Layout';
-import SEO from '../components/seo';
+import SEO from '../components/SEO';
 import { H1, H2, H3, H4, H5, H6 } from '../components/Headers';
 import Paragraph from '../components/Paragraph';
 import InlineCode from '../components/InlineCode';
@@ -48,7 +48,7 @@ const PostLayout = ({ data: { mdx } }) => (
           ),
       }}
     >
-      <SEO title={mdx.frontmatter.title} />
+      <SEO title={mdx.frontmatter.title} description={mdx.excerpt} />
 
       <H1>
         {mdx.frontmatter.title}
@@ -85,6 +85,7 @@ export const pageQuery = graphql`
   query BlogPostQuery($id: String) {
     mdx(id: { eq: $id }) {
       id
+      excerpt
       frontmatter {
         title
         date

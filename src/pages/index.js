@@ -1,13 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import Layout from '../layouts/Layout';
-import SEO from '../components/seo';
+import SEO from '../components/SEO';
 import Hero from '../components/Hero';
 import PostList from '../components/PostList';
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Home" />
+    <SEO />
 
     <Hero />
 

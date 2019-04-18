@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import Layout from '../layouts/Layout';
-import SEO from '../components/seo';
+import SEO from '../components/SEO';
 import PostList from '../components/PostList';
 
 const PostsPage = () => (
