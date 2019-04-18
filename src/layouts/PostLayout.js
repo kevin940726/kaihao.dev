@@ -40,8 +40,12 @@ const PostLayout = ({ data: { mdx } }) => (
         inlineCode: InlineCode,
         a: PostLink,
         pre: Fragment,
-        code: ({ children, live }) =>
-          live ? <Live>{children}</Live> : <Highlight>{children}</Highlight>,
+        code: ({ children, live, ...props }) =>
+          live ? (
+            <Live {...props}>{children}</Live>
+          ) : (
+            <Highlight {...props}>{children}</Highlight>
+          ),
       }}
     >
       <SEO title={mdx.frontmatter.title} />

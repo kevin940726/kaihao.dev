@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import PrismHighlight, { defaultProps } from 'prism-react-renderer';
 import dracula from 'prism-react-renderer/themes/dracula';
 import CopyButton from './CopyButton';
+import parseMetaString from '../utils/parseMetaString';
 
 const Pre = styled.pre`
   && {
@@ -12,7 +13,7 @@ const Pre = styled.pre`
     overflow: auto;
     border-radius: 4px;
     margin: 0;
-    padding: 20px;
+    padding: 20px 0;
     line-height: 1.6;
     font-size: 14px;
     margin-bottom: 2rem;
@@ -24,8 +25,10 @@ const Pre = styled.pre`
   }
 `;
 
-const Line = styled.span`
+const Line = styled.div`
+  padding: 0 20px;
   min-height: 1.6em;
+  background-color: ${props => (props.highlight ? '#414458' : 'transparent')};
 
   &:before {
     counter-increment: lines-number;
@@ -43,40 +46,49 @@ const Line = styled.span`
   }
 `;
 
-const Highlight = ({ children }) => (
-  <PrismHighlight
-    {...defaultProps}
-    code={children.trim()}
-    language="jsx"
-    theme={dracula}
-  >
-    {({ className, style, tokens, getLineProps, getTokenProps }) => (
-      <div
-        css={css`
-          position: relative;
-          overflow: hidden;
-          margin: 0 -20px;
+const Highlight = ({ children, metastring, ...props }) => {
+  const metaProps = useMemo(() => parseMetaString(metastring), [metastring]);
 
-          &:hover ${CopyButton} {
-            transform: translateY(0%);
-            opacity: 1;
-          }
-        `}
-      >
-        <Pre className={className} style={style}>
-          {tokens.map((line, i) => (
-            <Line {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-              {'\n'}
-            </Line>
-          ))}
-        </Pre>
-        <CopyButton code={children} />
-      </div>
-    )}
-  </PrismHighlight>
-);
+  const { highlightLines } = metaProps;
+
+  return (
+    <PrismHighlight
+      {...defaultProps}
+      code={children.trim()}
+      language={props.className && props.className.split('-')[1]}
+      theme={dracula}
+    >
+      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+        <div
+          css={css`
+            position: relative;
+            overflow: hidden;
+            margin: 0 -20px;
+
+            &:hover ${CopyButton} {
+              transform: translateY(0%);
+              opacity: 1;
+            }
+          `}
+        >
+          <Pre className={className} style={style}>
+            {tokens.map((line, i) => (
+              <Line
+                {...getLineProps({ line, key: i })}
+                highlight={highlightLines && highlightLines.has(i + 1)}
+              >
+                {line.map((token, key) => (
+                  <span {...getTokenProps({ token, key })} />
+                ))}
+                {'\n'}
+              </Line>
+            ))}
+          </Pre>
+          <CopyButton code={children} />
+        </div>
+      )}
+    </PrismHighlight>
+  );
+};
 
 export default Highlight;
