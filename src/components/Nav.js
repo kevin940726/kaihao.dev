@@ -96,8 +96,14 @@ const Nav = () => {
             </Link>
           </Title>
 
-          <ul>
-            <LinkItem to="/posts">Blog</LinkItem>
+          <ul
+            css={css`
+              list-style: none;
+            `}
+          >
+            <li>
+              <LinkItem to="/posts">Blog</LinkItem>
+            </li>
           </ul>
         </div>
       </NavContainer>

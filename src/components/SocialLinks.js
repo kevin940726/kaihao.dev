@@ -79,19 +79,27 @@ const LinkedInLink = () => (
 const SocialLinks = () => (
   <ul
     css={css`
+      list-style: none;
       padding: 0;
       display: flex;
       justify-content: center;
       margin: 0;
 
-      a {
+      > li {
+        display: inline-flex;
         margin: 0 15px;
       }
     `}
   >
-    <TwitterLink />
-    <GithubLink />
-    <LinkedInLink />
+    <li>
+      <TwitterLink />
+    </li>
+    <li>
+      <GithubLink />
+    </li>
+    <li>
+      <LinkedInLink />
+    </li>
   </ul>
 );
 
