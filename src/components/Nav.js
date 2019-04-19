@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, graphql, useStaticQuery } from 'gatsby';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import { mobile } from '../utils/media';
 import logo from '../images/logo.svg';
 import { SUB_TEXT, CONTENT_TEXT } from '../constants';
 
@@ -10,6 +11,7 @@ const MAX_NAV_WIDTH = 760; // px
 
 const NavContainer = styled.nav`
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   height: ${NAV_HEIGHT}px;
   width: 100%;
@@ -20,6 +22,10 @@ const NavContainer = styled.nav`
   background-color: #ffffff;
   padding: 10px 20px;
   z-index: 100;
+
+  ${mobile(css`
+    padding: 10px;
+  `)}
 `;
 
 const Title = styled.h3`

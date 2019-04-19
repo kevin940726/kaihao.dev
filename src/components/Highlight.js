@@ -3,19 +3,37 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import PrismHighlight, { defaultProps } from 'prism-react-renderer';
 import dracula from 'prism-react-renderer/themes/dracula';
+import { mobile } from '../utils/media';
 import CopyButton from './CopyButton';
 import parseMetaString from '../utils/parseMetaString';
+
+const Container = styled.div`
+  position: relative;
+  overflow: hidden;
+  margin: 0 -20px 2rem;
+  border-radius: 4px;
+
+  &:hover ${CopyButton} {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+
+  ${mobile(css`
+    border-radius: 0;
+  `)}
+`;
 
 const Pre = styled.pre`
   && {
     position: relative;
-    overflow: auto;
+    overflow: initial;
+    float: left;
     border-radius: 4px;
     margin: 0;
     padding: 20px 0;
+    min-width: 100%;
     line-height: 1.6;
     font-size: 14px;
-    margin-bottom: 2rem;
     counter-reset: lines-number;
 
     @media screen and (max-width: 760px) {
@@ -43,6 +61,10 @@ const Line = styled.div`
   &::selection {
     background-color: #eee;
   }
+
+  ${mobile(css`
+    padding: 0 10px;
+  `)}
 `;
 
 const Highlight = ({ children, metastring, ...props }) => {
@@ -58,33 +80,28 @@ const Highlight = ({ children, metastring, ...props }) => {
       theme={dracula}
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <div
-          css={css`
-            position: relative;
-            overflow: hidden;
-            margin: 0 -20px;
-
-            &:hover ${CopyButton} {
-              transform: translateY(0%);
-              opacity: 1;
-            }
-          `}
-        >
-          <Pre className={className} style={style}>
-            {tokens.map((line, i) => (
-              <Line
-                {...getLineProps({ line, key: i })}
-                highlight={highlightLines && highlightLines.has(i + 1)}
-              >
-                {line.map((token, key) => (
-                  <span {...getTokenProps({ token, key })} />
-                ))}
-                {'\n'}
-              </Line>
-            ))}
-          </Pre>
+        <Container>
+          <div
+            css={css`
+              overflow: auto;
+            `}
+          >
+            <Pre className={className} style={style}>
+              {tokens.map((line, i) => (
+                <Line
+                  {...getLineProps({ line, key: i })}
+                  highlight={highlightLines && highlightLines.has(i + 1)}
+                >
+                  {line.map((token, key) => (
+                    <span {...getTokenProps({ token, key })} />
+                  ))}
+                  {'\n'}
+                </Line>
+              ))}
+            </Pre>
+          </div>
           <CopyButton code={children} />
-        </div>
+        </Container>
       )}
     </PrismHighlight>
   );

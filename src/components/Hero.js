@@ -8,6 +8,7 @@ const HeroSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   height: 350px;
   background: linear-gradient(
     105.18deg,

@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import { MDXProvider } from '@mdx-js/tag';
 import MDXRenderer from 'gatsby-mdx/mdx-renderer';
 import { Global, css } from '@emotion/core';
+import { mobile } from '../utils/media';
 import useFont from '../hooks/useFont';
 import Layout from './Layout';
 import SEO from '../components/SEO';
@@ -28,6 +29,10 @@ const PostLayout = ({ data: { mdx } }) => {
         code {
           ${fontCSS}
         }
+
+        ${mobile(css`
+          padding: 0 20px;
+        `)}
       `}
     >
       <Global
