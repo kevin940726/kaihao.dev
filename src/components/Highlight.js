@@ -8,7 +8,6 @@ import parseMetaString from '../utils/parseMetaString';
 
 const Pre = styled.pre`
   && {
-    font-family: 'Fira Code', 'Open Sans', sans-serif;
     position: relative;
     overflow: auto;
     border-radius: 4px;

@@ -10,6 +10,7 @@
     "@emotion/styled": "^10.0.7",
     "@mdx-js/mdx": "^0.16.8",
     "@mdx-js/tag": "^0.16.8",
+    "fontfaceobserver": "^2.1.0",
     "gatsby": "^2.3.22",
     "gatsby-image": "^2.0.29",
     "gatsby-mdx": "^0.3.5",
