@@ -49,7 +49,7 @@ const PostList = ({ shouldShowFullList, ...props }) => {
           <li
             key={post.id}
             css={css`
-              margin-bottom: 30px;
+              margin-bottom: 40px;
             `}
           >
             <Link
