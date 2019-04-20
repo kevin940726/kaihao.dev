@@ -56,21 +56,21 @@ const SocialLink = ({ title, icon, to, children, ...props }) => (
 
 const TwitterLink = () => (
   <SocialLink
-    title="twitter"
+    title="Twitter"
     icon={twitterIcon}
     to="https://twitter.com/kevin940726"
   />
 );
 const GithubLink = () => (
   <SocialLink
-    title="twitter"
+    title="Github"
     icon={githubIcon}
     to="https://github.com/kevin940726"
   />
 );
 const LinkedInLink = () => (
   <SocialLink
-    title="twitter"
+    title="LinkedIn"
     icon={linkedinIcon}
     to="https://linkedin.com/in/kai-hao"
   />
