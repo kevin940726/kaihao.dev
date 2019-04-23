@@ -9,9 +9,19 @@ import Footer from '../components/Footer';
 
 const font = new FontFaceObserver('Open Sans');
 
-font.load().then(() => {
-  document.body.classList.add('font-loaded');
-});
+font
+  .load()
+  .then(() => {
+    if (typeof document !== 'undefined') {
+      document.body.classList.add('font-loaded');
+    }
+  })
+  .catch(err => {
+    if (typeof document !== 'undefined') {
+      // For whatever reason it failed, we still want the font to be appended.
+      document.body.classList.add('font-loaded');
+    }
+  });
 
 const Container = styled.div`
   display: flex;
