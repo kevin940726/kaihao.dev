@@ -1,5 +1,7 @@
 const pkg = require('./package.json');
 
+const isAuditing = process.env.BUILD_ENV === 'audit';
+
 module.exports = {
   siteMetadata: {
     title: pkg.title,
@@ -60,5 +62,12 @@ module.exports = {
         respectDNT: true,
       },
     },
-  ],
+    isAuditing && {
+      resolve: 'gatsby-plugin-webpack-bundle-analyzer',
+      options: {
+        production: true,
+        defaultSizes: 'gzip',
+      },
+    },
+  ].filter(Boolean),
 };
