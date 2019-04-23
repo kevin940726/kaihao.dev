@@ -11,7 +11,6 @@ import { H1, H2, H3, H4, H5, H6 } from '../components/Headers';
 import Paragraph from '../components/Paragraph';
 import InlineCode from '../components/InlineCode';
 import BlockQuote from '../components/BlockQuote';
-import Live from '../components/Live';
 import Highlight from '../components/Highlight';
 import PostLink from '../components/PostLink';
 import BackTo from '../components/BackTo';
@@ -56,12 +55,9 @@ const PostLayout = ({ data: { mdx } }) => {
           a: PostLink,
           blockquote: BlockQuote,
           pre: Fragment,
-          code: ({ children, live, ...props }) =>
-            live ? (
-              <Live {...props}>{children}</Live>
-            ) : (
-              <Highlight {...props}>{children}</Highlight>
-            ),
+          code: ({ children, ...props }) => (
+            <Highlight {...props}>{children}</Highlight>
+          ),
         }}
       >
         <SEO title={mdx.frontmatter.title} description={mdx.excerpt} />
