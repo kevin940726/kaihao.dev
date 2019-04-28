@@ -15,7 +15,7 @@ Given a list of sorted elements, what is the most performant way to find a speci
 
 Consider we have a bug in our application, we want to find the commit which introduced this bug. For simplicity, the bug is that one of these commits has accidentally remove the file `index.js`.
 
-```bash
+```sh
 * e25b6d2 (HEAD) Remove b.js
 * 92f7e81 Add c.js
 * ffa3ea1 Remove a.js
@@ -28,13 +28,13 @@ Consider we have a bug in our application, we want to find the commit which intr
 
 First we have start the bisect program, by running `git bisect start`
 
-```bash
-git bisect start
+```sh
+$ git bisect start
 ```
 
 Then we want to find two commits as the starting and ending point. One should be marked as `good` which means the `index.js` file is still present, and another should be marked as `bad` which means the `index.js` file is missing. In this case we just have to mark `e25b6d2` as `bad` and the first commit `301fd10` as `good`.
 
-```bash
+```sh
 $ git bisect bad # Mark current HEAD `e25b6d2` as `bad`
 $ git checkout 301fd10
 $ git bisect good # Mark the first commit as `good`
@@ -42,21 +42,21 @@ $ git bisect good # Mark the first commit as `good`
 
 After we have both a commit marked as `good` and a commit marked as `bad`, the `bisect` program will start automatically. The output will display something like below.
 
-```bash
+```sh
 Bisecting: 2 revisions left to test after this (roughly 1 step)
 [aec5b41c8c441ee23a6c484812ce9d7061962813] Add b.js
 ```
 
 Now we are being checked out to the commit in the middle between our starting and ending point. All we have to do now is to determine if this commit can reproduce the bug we are trying the find. In this case we can just list the files in the directory and find whether `index.js` exists. Or run a simple command.
 
-```bash
+```sh
 $ test index.js | echo "Not found"
 # echo "Not found" if... not found
 ```
 
 If the result is empty, then it means that we haven't found the commit yet, we can then mark this commit as `good` and then perform another search. If the result is `Not found`, then it means this commit can reproduce the bug, but not necessary the first commit which introduce the bug, we can mark it as `bad` and go on.
 
-```bash
+```sh
 $ git bisect good
 Bisecting: 0 revisions left to test after this (roughly 1 step)
 [92f7e815080a215b40e3b8b5fe4495b48d4d3f32] Add c.js
@@ -64,7 +64,7 @@ Bisecting: 0 revisions left to test after this (roughly 1 step)
 
 We repeat the above methods over and over agian, until we reach to the point where there is no commits left to be tested.
 
-```bash
+```sh
 $ test index.js | echo "Not found"
 Not found
 
@@ -86,3 +86,47 @@ Date:   Sun Apr 28 19:23:02 2019 +0800
 :100644 000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 0000000000000000000000000000000000000000 D	a.js
 :100644 000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 0000000000000000000000000000000000000000 D	index.js
 ```
+
+Notice the line said `ffa3e... is the first bad commit`, we found the commit which introduced the bug! Furthermore, `git` also gives us the summary of the commit, which in fact deletes the file `index.js`.
+
+Now that we've finished finding what we want, the last step is to checkout to the original `HEAD` we were working on. 
+What you are going to do with that commit is up to you. You can just fix the bug, comment it in code review, or even amend it in the commit then rebase.
+
+```sh
+$ git bisect reset
+```
+
+## Tips & Tricks
+
+#### Mark without checkout
+
+You can simply mark the commit without checking out to it. Useful for when starting the bisect
+
+```sh
+$ git bisect good HEAD # Mark `HEAD` as `good`
+$ git bisect bad 301fd10 # Mark `301fd10` as `bad`
+```
+
+#### Start alias
+
+Going further, we can start the bisect in one line.
+
+```sh
+$ git bisect start 301fd10 HEAD -- # Start bisect with `301fd10` marked as `bad` and `HEAD` marked as `good`
+```
+
+#### Automation
+
+If you have already setup a command to automatically check whether the commit is `good` or `bad`, like in the previous example we use `test index.js` to check whether `index.js` exists. We can actually automate the above steps with a command called `git bisect run`
+
+```sh
+$ git bisect start 301fd10 HEAD --
+$ git bisect run test index.js
+$ git bisect reset
+```
+
+This means that we can actually use `bisect` in CI environment, for tasks like finding the commit which broke the tests and generate report, or even hotfix it when necessary.
+
+## References
+
+- [https://git-scm.com/docs/git-bisect](Git official doc on `bisect`)
