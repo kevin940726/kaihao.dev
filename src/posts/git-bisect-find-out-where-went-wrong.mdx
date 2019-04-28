@@ -1,0 +1,88 @@
+---
+title: 'git bisect: Find out where went wrong'
+date: '2019-04-28'
+---
+
+As a stupid developer who consistently makes mistakes, it happens all the time to discover some bugs only after shipping them to production. Determing on how deep the bug is, it could be really hard to find out which commit introduced it. We often just trace code and try to find the exact line which caused the bug, but sometimes it's happening everywhere and we can do better.
+
+## Binary search
+
+I only just discovered `git bisect` recently, and I felt so dumb for knowing it so late. It's a powerful tool built in in `git` for debugging commits using **binary search**.
+
+Given a list of sorted elements, what is the most performant way to find a specific element? We can go through the list one by one from one end and try to find it, but it's gonna be linear time (`O(N)`), which is good but not ideal. Another approach is to use **binary search**, since we already have all the elements sorted, we can first check if the element in the middle match the criteria, and then eliminate half of the elements in the list and so on. Finally we can get the element we want in `O(log N)`. Guess what, this technique also works in debugging with `git`.
+
+## The problem
+
+Consider we have a bug in our application, we want to find the commit which introduced this bug. For simplicity, the bug is that one of these commits has accidentally remove the file `index.js`.
+
+```bash
+* e25b6d2 (HEAD) Remove b.js
+* 92f7e81 Add c.js
+* ffa3ea1 Remove a.js
+* aec5b41 Add b.js
+* 9b970bf Add a.js
+* 301fd10 Add index.js
+```
+
+## Introducing `git bisect`
+
+First we have start the bisect program, by running `git bisect start`
+
+```bash
+git bisect start
+```
+
+Then we want to find two commits as the starting and ending point. One should be marked as `good` which means the `index.js` file is still present, and another should be marked as `bad` which means the `index.js` file is missing. In this case we just have to mark `e25b6d2` as `bad` and the first commit `301fd10` as `good`.
+
+```bash
+$ git bisect bad # Mark current HEAD `e25b6d2` as `bad`
+$ git checkout 301fd10
+$ git bisect good # Mark the first commit as `good`
+```
+
+After we have both a commit marked as `good` and a commit marked as `bad`, the `bisect` program will start automatically. The output will display something like below.
+
+```bash
+Bisecting: 2 revisions left to test after this (roughly 1 step)
+[aec5b41c8c441ee23a6c484812ce9d7061962813] Add b.js
+```
+
+Now we are being checked out to the commit in the middle between our starting and ending point. All we have to do now is to determine if this commit can reproduce the bug we are trying the find. In this case we can just list the files in the directory and find whether `index.js` exists. Or run a simple command.
+
+```bash
+$ test index.js | echo "Not found"
+# echo "Not found" if... not found
+```
+
+If the result is empty, then it means that we haven't found the commit yet, we can then mark this commit as `good` and then perform another search. If the result is `Not found`, then it means this commit can reproduce the bug, but not necessary the first commit which introduce the bug, we can mark it as `bad` and go on.
+
+```bash
+$ git bisect good
+Bisecting: 0 revisions left to test after this (roughly 1 step)
+[92f7e815080a215b40e3b8b5fe4495b48d4d3f32] Add c.js
+```
+
+We repeat the above methods over and over agian, until we reach to the point where there is no commits left to be tested.
+
+```bash
+$ test index.js | echo "Not found"
+Not found
+
+$ git bisect bad
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[ffa3ea19589ed0672a03f651919e3557be65f33d] Remove a.js
+
+$ test index.js | echo "Not found"
+Not found
+
+$ git bisect bad
+ffa3ea19589ed0672a03f651919e3557be65f33d is the first bad commit
+commit ffa3ea19589ed0672a03f651919e3557be65f33d
+Author: Kai Hao <kevin830726@gmail.com>
+Date:   Sun Apr 28 19:23:02 2019 +0800
+
+    Remove a.js
+
+:100644 000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 0000000000000000000000000000000000000000 D	a.js
+:100644 000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 0000000000000000000000000000000000000000 D	index.js
+```
