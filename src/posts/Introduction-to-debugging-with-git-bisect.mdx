@@ -89,7 +89,7 @@ Date:   Sun Apr 28 19:23:02 2019 +0800
 
 Notice the line said `ffa3e... is the first bad commit`, we found the commit which introduced the bug! Furthermore, `git` also gives us the summary of the commit, which in fact deletes the file `index.js`.
 
-Now that we've finished finding what we want, the last step is to checkout to the original `HEAD` we were working on. 
+Now that we've finished finding what we want, the last step is to checkout to the original `HEAD` we were working on.
 What you are going to do with that commit is up to you. You can just fix the bug, comment it in code review, or even amend it in the commit then rebase.
 
 ```sh
@@ -112,7 +112,8 @@ $ git bisect bad 301fd10 # Mark `301fd10` as `bad`
 Going further, we can start the bisection in one line.
 
 ```sh
-$ git bisect start HEAD 301fd10 -- # Start bisect with `HEAD` marked as `bad` and `301fd10` marked as `good`
+# Start bisect with `HEAD` marked as `bad` and `301fd10` marked as `good`
+$ git bisect start HEAD 301fd10 --
 ```
 
 #### Automation
