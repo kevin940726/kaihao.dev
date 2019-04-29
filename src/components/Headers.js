@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { css } from '@emotion/core';
 import slugify from 'slugify';
 import getTextContent from '../utils/getTextContent';
+import { mobile } from '../utils/media';
 import { SUB_TEXT } from '../constants';
 
 slugify.extend({
@@ -9,7 +10,9 @@ slugify.extend({
   '>': '',
 });
 
-const Header = RenderComponent => ({ children }) => {
+const Header = (RenderComponent, options = {}) => ({ children }) => {
+  const hideBorderBottom = options.hideBorderBottom;
+
   const fragment = useMemo(
     () =>
       slugify(getTextContent(children), {
@@ -25,14 +28,17 @@ const Header = RenderComponent => ({ children }) => {
         position: relative;
         line-height: 2;
         color: ${SUB_TEXT};
-        border-bottom: 1px solid #eeeeee;
+        ${!hideBorderBottom &&
+          css`
+            border-bottom: 1px solid #eeeeee;
+          `}
         scroll-margin-top: 50px;
 
-        @media screen and (min-width: 760px) {
+        ${mobile(css`
           &:hover > a {
             opacity: 1;
           }
-        }
+        `)}
       `}
     >
       <a
@@ -58,6 +64,6 @@ const Header = RenderComponent => ({ children }) => {
 export const H1 = Header('h1');
 export const H2 = Header('h2');
 export const H3 = Header('h3');
-export const H4 = Header('h4');
-export const H5 = Header('h5');
-export const H6 = Header('h6');
+export const H4 = Header('h4', { hideBorderBottom: true });
+export const H5 = Header('h5', { hideBorderBottom: true });
+export const H6 = Header('h6', { hideBorderBottom: true });
