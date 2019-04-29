@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { css } from '@emotion/core';
 import slugify from 'slugify';
 import getTextContent from '../utils/getTextContent';
-import { mobile } from '../utils/media';
+import { desktop } from '../utils/media';
 import { SUB_TEXT } from '../constants';
 
 slugify.extend({
@@ -34,7 +34,7 @@ const Header = (RenderComponent, options = {}) => ({ children }) => {
           `}
         scroll-margin-top: 50px;
 
-        ${mobile(css`
+        ${desktop(css`
           &:hover > a {
             opacity: 1;
           }
