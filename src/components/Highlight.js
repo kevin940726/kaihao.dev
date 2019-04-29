@@ -83,13 +83,26 @@ const Line = styled.div`
   }
 
   > .prompt.sign {
-    color: #000000;
-    background-color: #417ab3;
-    padding: 0 0.5em;
+    position: relative;
+    padding: 0 0.4em 0 0.5em;
+    margin-right: 0.2em;
     user-select: none;
     font-size: 12px;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
+    color: #000000;
+    background-color: #417ab3;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      top: 0;
+      bottom: 0;
+      height: 0;
+      width: 0;
+      border-left: 5px solid #417ab3;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+    }
   }
 
   ${mobile(css`
