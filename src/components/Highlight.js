@@ -30,6 +30,8 @@ const Container = styled.div`
   overflow: hidden;
   margin: 0 -20px 2rem;
   border-radius: 4px;
+  /* Create a new stacking context to correctly show the border-radius */
+  perspective: 1px;
 
   &:hover ${CopyButton} {
     transform: translateY(0%);
