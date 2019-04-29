@@ -1,11 +1,25 @@
 import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import PrismHighlight, { defaultProps } from 'prism-react-renderer';
+import PrismHighlight, { defaultProps, Prism } from 'prism-react-renderer';
 import dracula from 'prism-react-renderer/themes/dracula';
 import { mobile } from '../utils/media';
 import CopyButton from './CopyButton';
 import parseMetaString from '../utils/parseMetaString';
+
+const bash = { ...Prism.languages.bash };
+Prism.languages.sh = {
+  prompt: {
+    pattern: /^\$(?=\s).*/m,
+    inside: {
+      sign: {
+        pattern: /^\$(?=\s)/,
+        lookbehind: true,
+      },
+      rest: bash,
+    },
+  },
+};
 
 const Container = styled.div`
   position: relative;
@@ -36,9 +50,9 @@ const Pre = styled.pre`
     font-size: 14px;
     counter-reset: lines-number;
 
-    @media screen and (max-width: 760px) {
+    ${mobile(css`
       border-radius: 0;
-    }
+    `)}
   }
 `;
 
@@ -62,6 +76,16 @@ const Line = styled.div`
     background-color: #eee;
   }
 
+  > .prompt.sign {
+    color: #000000;
+    background-color: #417ab3;
+    padding: 0 0.5em;
+    user-select: none;
+    font-size: 12px;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+  }
+
   ${mobile(css`
     padding: 0 10px;
   `)}
@@ -72,11 +96,13 @@ const Highlight = ({ children, metastring, ...props }) => {
 
   const { highlightLines } = metaProps;
 
+  const language = props.className && props.className.split('-')[1];
+
   return (
     <PrismHighlight
       {...defaultProps}
       code={children.trim()}
-      language={props.className && props.className.split('-')[1]}
+      language={language}
       theme={dracula}
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
