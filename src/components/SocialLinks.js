@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import twitterIcon from '../images/twitter-icon.svg';
-import githubIcon from '../images/github-icon.svg';
+import githubIcon from '../images/github-icon.png';
 import linkedinIcon from '../images/linkedin-icon.svg';
 
 const SocialLink = ({ title, icon, to, children, ...props }) => (
