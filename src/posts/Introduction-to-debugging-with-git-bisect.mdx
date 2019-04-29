@@ -11,7 +11,7 @@ I only just discovered `git bisect` recently, and I felt so dumb for knowing it 
 
 Given a list of sorted elements, what is the most performant way to find a specific element? We can go through the list one by one from one end and try to find it, but it's gonna be linear time (`O(N)`), which is good but not ideal. Another approach is to use **binary search**, since we already have all the elements sorted, we can first check if the element in the middle match the criteria, and then eliminate half of the elements in the list and so on. Finally we can get the element we want in `O(log N)`. Guess what, this technique also works in debugging with `git`.
 
-## The problem
+## An example
 
 Consider we have a bug in our application, we want to find the commit which introduced this bug. For simplicity, the bug is that one of these commits has accidentally remove the file `index.js`.
 
@@ -100,11 +100,11 @@ $ git bisect reset
 
 #### Mark without checkout
 
-You can simply mark the commit without checking out to it. Useful for when starting the bisection.
+You can simply mark the commit without checking out to it. Useful when starting the bisection.
 
 ```sh
-$ git bisect good HEAD # Mark `HEAD` as `good`
-$ git bisect bad 301fd10 # Mark `301fd10` as `bad`
+$ git bisect bad HEAD # Mark `HEAD` as `bad`
+$ git bisect good 301fd10 # Mark `301fd10` as `good`
 ```
 
 #### Start alias
@@ -112,7 +112,7 @@ $ git bisect bad 301fd10 # Mark `301fd10` as `bad`
 Going further, we can start the bisection in one line.
 
 ```sh
-# Start bisect with `HEAD` marked as `bad` and `301fd10` marked as `good`
+# Start bisection with `HEAD` marked as `bad` and `301fd10` marked as `good`
 $ git bisect start HEAD 301fd10 --
 ```
 
