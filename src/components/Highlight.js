@@ -84,6 +84,9 @@ const Line = styled.div`
 
   > .prompt.sign {
     position: relative;
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
     padding: 0 0.4em 0 0.5em;
     margin-right: 0.2em;
     user-select: none;
