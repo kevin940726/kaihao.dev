@@ -5,7 +5,7 @@ date: '2017-03-05'
 
 要怎麼寫 `commit messages` 一直是爭論不休的議題，每個 team 有自己偏好的方式，以及所謂的 _best practices_，像是知名的 [AngularJS commit convensions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)，在這裡我不想討論哪個標準才是最好的，因為實際上還是要根據自己的團隊去選擇適合的標準，只要內部統一了且每個人都能遵守那個規範的話，我覺得沒有必要為了達到完美而拖慢或限制了團隊的步伐。
 
-說是這麼說⋯⋯但你會想看到這樣的 `commit log` 嗎？
+說是這麼說 ⋯⋯ 但你會想看到這樣的 `commit log` 嗎？
 
 ```bash
 [5f25bbe] hide loading-word too
@@ -58,7 +58,6 @@ date: '2017-03-05'
 
 格式可以自己決定，冒號只是一般的表現方式，後面就接原本 subject 的祈使句。
 
-
 ## Commitizen
 
 身為開發者，當然是所有東西都可以自動化的話越好，又或者在不同專案中要使用不同的 `commit` 規則，這時就會需要一些工具來幫忙了。[Commitizen](https://github.com/commitizen/cz-cli) 是其中一個相當受歡迎的工具，尤其和 Node.js 的專案相容性很高。
@@ -66,25 +65,28 @@ date: '2017-03-05'
 ### Getting Started
 
 首先安裝 `Commitizen`（或是使用 npm 安裝，以下皆使用 yarn 做示範）。
-```bash
-yarn global add commitizen
+
+```sh
+$ yarn global add commitizen
 # npm install -g commitizen
 ```
 
 之後安裝其中一個 `adapter`，可以把它當作一種預設的規範，你可以選擇直接使用現有的或是自己寫一個適合團隊的，在這裡我用我自己寫的 [`emoji-cz`](https://github.com/kevin940726/emoji-cz) `adapter` 來做示範，這是一個基於以上我推薦的大原則之下在 subject 前面加上 type 對應的 emoji 的 `adapter`。
 
-```bash
-yarn global add emoji-cz
+```sh
+$ yarn global add emoji-cz
 ```
 
 接下來指定將 `emoji-cz` 作為 `Commitizen` 的 global `adapter`。
-```bash
-echo '{ "path": "emoji-cz" }' > ~/.czrc
+
+```sh
+$ echo '{ "path": "emoji-cz" }' > ~/.czrc
 ```
 
 完成後往後的 `commit` 都用 `git cz` 來取代原本的 `git commit` 指令。
-```text
-> git cz
+
+```sh
+$ git cz
 ? Select the type of change that you're committing: (Use arrow keys)
 ❯ ✨  Feat:      A new feature
   🐛  Fix:       A bug fix
@@ -126,9 +128,10 @@ echo '{ "path": "emoji-cz" }' > ~/.czrc
 ```
 
 或是更簡單的使用 [`git alias`](https://git-scm.com/book/zh-tw/v1/Git-%E5%9F%BA%E7%A4%8E-%E6%8F%90%E7%A4%BA%E5%92%8C%E6%8A%80%E5%B7%A7#Git-命令別名) 的功能來做全域設定：
-```bash
-git config --global alias.c cz
-git c # equals to 'git cz'
+
+```sh
+$ git config --global alias.c cz
+$ git c # equals to 'git cz'
 ```
 
 如果想要更進一步防止團隊中的人不小心 `commit` 了錯誤的格式，可以使用 git hook 像是 [`pre-commit`](https://github.com/observing/pre-commit) 來做更進一步的檢查。
@@ -138,6 +141,7 @@ git c # equals to 'git cz'
 維護好的 `commit` 訊息人人有責！以上的原則雖然不是絕對，但遵守多一點點規則卻可以大幅的增加整體訊息的可讀性，希望大家看了以後也可以在自己的專案或是團隊中嘗試導入這些系統。當然如果喜歡我的 [`emoji-cz`](https://github.com/kevin940726/emoji-cz) 的風格也不要吝嗇地幫我跟 [Commitizen](https://github.com/commitizen/cz-cli) 點個 star 分享給更多人哦～
 
 ## Reference
+
 - [How to Write a Git Commit Message - Chris Beams](https://chris.beams.io/posts/git-commit/)
 - [AngularJS Git Commit Message Conventions - stephenparish](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)
 - [Commitizen](https://github.com/commitizen/cz-cli)

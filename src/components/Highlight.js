@@ -19,6 +19,10 @@ Prism.languages.sh = {
       rest: bash,
     },
   },
+  comment: bash.comment,
+  shebang: bash.shebang,
+  string: bash.string,
+  punctuation: bash.punctuation,
 };
 
 const Container = styled.div`
