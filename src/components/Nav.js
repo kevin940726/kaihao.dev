@@ -3,7 +3,7 @@ import { Link, graphql, useStaticQuery } from 'gatsby';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { mobile } from '../utils/media';
-import logo from '../images/logo.svg';
+import logo from '../images/logo.png';
 import { SUB_TEXT, CONTENT_TEXT } from '../constants';
 
 const NAV_HEIGHT = 50; // px
