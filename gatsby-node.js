@@ -7,14 +7,23 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
   // remote CMS we could also check to see if the parent node was a
   // `File` node here
   if (node.internal.type === 'Mdx') {
-    const value = createFilePath({ node, getNode });
-    createNodeField({
-      // Name of the field you are adding
-      name: 'slug',
-      // Individual MDX node
+    const value = createFilePath({
       node,
-      // Generated value based on filepath with "posts" prefix
+      getNode,
+      basePath: 'src/posts',
+      trailingSlash: false,
+    });
+
+    createNodeField({
+      name: 'slug',
+      node,
       value: `/posts${value}`,
+    });
+
+    createNodeField({
+      name: 'fileName',
+      node,
+      value: path.basename(node.fileAbsolutePath),
     });
   }
 };

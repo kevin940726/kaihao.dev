@@ -14,6 +14,7 @@ import BlockQuote from '../components/BlockQuote';
 import Highlight from '../components/Highlight';
 import PostLink from '../components/PostLink';
 import BackTo from '../components/BackTo';
+import EditOnGithub from '../components/EditOnGithub';
 
 const PostLayout = ({ data: { mdx } }) => {
   const fontCSS = useFont('Fira Code', 'Menlo', 'Courier', 'monospace');
@@ -79,6 +80,8 @@ const PostLayout = ({ data: { mdx } }) => {
         </H1>
 
         <MDXRenderer>{mdx.code.body}</MDXRenderer>
+
+        <EditOnGithub postFileName={mdx.fields.fileName} />
       </MDXProvider>
 
       <BackTo
@@ -99,6 +102,9 @@ export const pageQuery = graphql`
     mdx(id: { eq: $id }) {
       id
       excerpt
+      fields {
+        fileName
+      }
       frontmatter {
         title
         date

@@ -7,6 +7,7 @@ module.exports = {
     title: pkg.title,
     description: pkg.description,
     author: pkg.author,
+    repo: pkg.repository.url,
   },
   plugins: [
     'gatsby-plugin-react-helmet',
