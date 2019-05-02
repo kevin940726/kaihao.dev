@@ -30,6 +30,7 @@ const EditOnGithub = ({ postFileName }) => {
         align-items: center;
         align-self: flex-end;
         font-size: 14px;
+        line-height: 1.8;
         color: #000000;
         border-color: #000000;
         padding-right: 0.2em;
