@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
 import SVG from './SVG';
 import clipboardIcon from '../images/clipboard-text.svg';
 import useCopyToClipboard from '../hooks/useCopyToClipboard';
 
-const CopyButton = ({ code, ...props }) => {
+const CopyButton = forwardRef(({ code, ...props }, ref) => {
   const handleClick = useCopyToClipboard(code);
 
   return (
-    <button onClick={handleClick} aria-label="Copy" title="Copy" {...props}>
+    <button
+      onClick={handleClick}
+      aria-label="Copy"
+      title="Copy"
+      {...props}
+      ref={ref}
+    >
       <SVG src={clipboardIcon} height="24" width="24" />
       Copy
     </button>
   );
-};
+});
 
 export default styled(CopyButton)`
   position: absolute;
