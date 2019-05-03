@@ -1,6 +1,6 @@
 import React from 'react';
 import { Global, css } from '@emotion/core';
-import GlobalStyles from '../GlobalStyles';
+import GlobalStyles from './components/GlobalStyles';
 
 export default ({ children }) => (
   <>

@@ -13,7 +13,7 @@
     "analyze": "BUILD_ENV=audit npm run build",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
     "cosmos": "NODE_ENV=test cosmos",
-    "cosmos:export": "cosmos-export"
+    "cosmos:export": "NODE_ENV=production GATSBY_BUILD_STAGE=build-javascript cosmos-export"
   },
   "keywords": [
     "gatsby"

@@ -1,6 +1,7 @@
 const webpack = require('webpack');
+const path = require('path');
 
-module.exports = baseConfig => {
+module.exports = (baseConfig, { env }) => {
   // Setup js rule to use the gatsby version to support graphql calls
   const jsRule = baseConfig.module.rules.find(rule => rule.test.test('.js'));
   jsRule.exclude = /node_modules\/(?!gatsby)/;
@@ -40,6 +41,15 @@ module.exports = baseConfig => {
 
   // Override mainFields to better match gatsby resolution
   baseConfig.resolve.mainFields = ['browser', 'module', 'main'];
+
+  baseConfig.resolve.alias = {
+    '@babel/runtime': path.dirname(
+      require.resolve('@babel/runtime/package.json')
+    ),
+    'core-js': path.dirname(require.resolve('core-js/package.json')),
+  };
+
+  baseConfig.optimization.minimize = env === 'production';
 
   return baseConfig;
 };

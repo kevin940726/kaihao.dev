@@ -1,4 +1,6 @@
 {
+  "fixturesDir": "__fixtures__",
+  "fixtureFileSuffix": "fixture",
   "webpack": {
     "configPath": "./configs/webpack.cosmos.config.js"
   }
