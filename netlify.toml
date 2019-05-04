@@ -16,3 +16,18 @@
 [[redirects]]
   from = "https://kaihao-info.netlify.com/*"
   to = "https://kaihao.info/:splat"
+
+[[headers]]
+  for = "/cosmos/*"
+
+  # react-cosmos will inject an iframe inside the app for preview.
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "frame-ancestors 'self' https://www.facebook.com"
+    # Disable cache for react-cosmos site
+    cache-control = '''
+    max-age=0,
+    no-cache,
+    no-store,
+    must-revalidate'''
