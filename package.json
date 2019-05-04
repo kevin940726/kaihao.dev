@@ -8,10 +8,11 @@
   "scripts": {
     "postinstall": "patch-package",
     "build": "gatsby build",
+    "build:netlify": "./scripts/build-netlify.sh",
     "develop": "gatsby develop",
-    "start": "npm run develop",
+    "start": "yarn run develop",
     "serve": "gatsby serve",
-    "analyze": "BUILD_ENV=audit npm run build",
+    "analyze": "BUILD_ENV=audit yarn run build",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
     "cosmos": "NODE_ENV=test cosmos",
     "cosmos:export": "NODE_ENV=production GATSBY_BUILD_STAGE=build-javascript cosmos-export"

@@ -69,7 +69,8 @@ yarn-error.log
 .yarn-integrity
 
 # react-cosmos
-cosmos-export
+/cosmos-export
+/cosmos
 
 # vscode
 .vscode

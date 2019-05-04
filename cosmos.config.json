@@ -1,4 +1,5 @@
 {
+  "exportPath": "cosmos",
   "fixturesDir": "__fixtures__",
   "fixtureFileSuffix": "fixture",
   "webpack": {

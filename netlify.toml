@@ -1,0 +1,18 @@
+[Settings]
+[build]
+  publish = "public/"
+  command = "yarn run build:netlify"
+
+# Redirect from old blog path to new posts path
+[[redirects]]
+  from = "/blog/*"
+  to = "/posts/:splat"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "https://kaihao-info.netlify.com/*"
+  to = "https://kaihao.info/:splat"
