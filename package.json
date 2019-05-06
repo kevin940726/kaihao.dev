@@ -16,7 +16,7 @@
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
     "cosmos": "NODE_ENV=test cosmos",
     "cosmos:export": "NODE_ENV=production GATSBY_BUILD_STAGE=build-javascript cosmos-export",
-    "generate-images": "./scripts/check-post-meta-image.sh"
+    "check-meta-images-and-commit": "./scripts/check-post-meta-image.sh"
   },
   "husky": {
     "hooks": {
@@ -85,7 +85,8 @@
     "lint-staged": "^8.1.6",
     "prettier": "1.16.4",
     "puppeteer": "^1.15.0",
-    "react-cosmos": "^5.0.0-alpha.2"
+    "react-cosmos": "^5.0.0-alpha.2",
+    "wait-for-localhost": "^3.2.0"
   },
   "resolutions": {
     "react-live/prismjs": "1.15.0"

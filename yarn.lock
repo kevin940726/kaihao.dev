@@ -12643,6 +12643,11 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+wait-for-localhost@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/wait-for-localhost/-/wait-for-localhost-3.2.0.tgz#d071e7228e2a0978742778fe060dae67417bc9d4"
+  integrity sha512-rs63O/IKjxyPTPyFlCoZrzrefmxQATfPwkvrKsZNRIla4rVWvn/HVvbYRPmi5mZEWCui4OUU2HtEhYXa44X8qQ==
+
 warning@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
