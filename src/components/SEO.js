@@ -35,18 +35,21 @@ function SEO({ title, description, image, lang = 'en', children }) {
       defaultTitle={data.site.siteMetadata.title}
     >
       <title>{title}</title>
-      <meta name="description" content={metaDescription} />
-      <meta name="og:title" content={title} />
-      <meta name="og:description" content={metaDescription} />
-      <meta name="og:image" content={metaImage.src} />
-      <meta name="og:image:width" content={metaImage.width} />
-      <meta name="og:image:height" content={metaImage.height} />
-      <meta name="og:type" content="website" />
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:creator" content={data.site.siteMetadata.author} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={metaDescription} />
-      <meta name="twitter:image" content={metaImage.src} />
+      <meta property="description" content={metaDescription} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={metaDescription} />
+      <meta property="og:image" content={metaImage.src} />
+      <meta property="og:image:width" content={metaImage.width} />
+      <meta property="og:image:height" content={metaImage.height} />
+      <meta property="og:type" content="website" />
+      <meta property="twitter:card" content="summary" />
+      <meta
+        property="twitter:creator"
+        content={data.site.siteMetadata.author}
+      />
+      <meta property="twitter:title" content={title} />
+      <meta property="twitter:description" content={metaDescription} />
+      <meta property="twitter:image" content={metaImage.src} />
       {children}
     </Helmet>
   );
