@@ -61,7 +61,11 @@ const PostLayout = ({ data: { mdx } }) => {
           ),
         }}
       >
-        <SEO title={mdx.frontmatter.title} description={mdx.excerpt} />
+        <SEO
+          title={mdx.frontmatter.title}
+          description={mdx.excerpt}
+          image={mdx.fields.image.fixed}
+        />
 
         <H1>
           {mdx.frontmatter.title}
@@ -104,6 +108,13 @@ export const pageQuery = graphql`
       excerpt
       fields {
         fileName
+        image {
+          fixed(width: 600) {
+            src
+            width
+            height
+          }
+        }
       }
       frontmatter {
         title

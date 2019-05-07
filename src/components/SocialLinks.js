@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
+// They will all get inlined so no need to use gatsby-image
 import twitterIcon from '../images/twitter-icon.svg';
 import githubIcon from '../images/github-icon.png';
 import linkedinIcon from '../images/linkedin-icon.svg';

@@ -14,6 +14,8 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       trailingSlash: false,
     });
 
+    const postDir = path.basename(path.dirname(node.fileAbsolutePath));
+
     createNodeField({
       name: 'slug',
       node,
@@ -21,10 +23,44 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     });
 
     createNodeField({
+      name: 'postDir',
+      node,
+      value: postDir,
+    });
+
+    createNodeField({
       name: 'fileName',
       node,
-      value: path.basename(node.fileAbsolutePath),
+      value: path.join(postDir, path.basename(node.fileAbsolutePath)),
     });
+  }
+};
+
+exports.sourceNodes = ({ actions, getNode, getNodesByType, getNodes }) => {
+  const { createNodeField } = actions;
+
+  const allFile = getNodesByType('File');
+  const allMdx = getNodesByType('Mdx');
+
+  const FILE_EXTS = /\.(png|jpe?g|gif)/i;
+
+  const metaImageMap = new Map();
+
+  for (let file of allFile) {
+    if (file.name === 'meta-image' && FILE_EXTS.test(file.ext)) {
+      const imageSharp = getNode(file.children[0]);
+      metaImageMap.set(file.relativeDirectory, imageSharp.id);
+    }
+  }
+
+  for (let mdx of allMdx) {
+    if (!mdx.frontmatter.image && metaImageMap.has(mdx.fields.postDir)) {
+      createNodeField({
+        node: getNode(mdx.id),
+        name: 'image',
+        value: metaImageMap.get(mdx.fields.postDir),
+      });
+    }
   }
 };
 

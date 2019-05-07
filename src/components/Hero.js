@@ -1,7 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import profileImage from '../images/profile.jpeg';
+import { graphql, useStaticQuery } from 'gatsby';
+import Img from 'gatsby-image';
 import SocialLinks from './SocialLinks';
 
 const HeroSection = styled.section`
@@ -25,10 +26,22 @@ const HeroSection = styled.section`
 `;
 
 const Hero = () => {
+  const data = useStaticQuery(graphql`
+    query profileImage {
+      file(relativePath: { eq: "profile.jpeg" }) {
+        childImageSharp {
+          fixed(width: 95, height: 95) {
+            ...GatsbyImageSharpFixed_withWebp
+          }
+        }
+      }
+    }
+  `);
+
   return (
     <HeroSection>
-      <img
-        src={profileImage}
+      <Img
+        fixed={data.file.childImageSharp.fixed}
         alt="Kai Hao"
         css={css`
           height: 95px;

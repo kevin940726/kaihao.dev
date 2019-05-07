@@ -3,6 +3,9 @@ const pkg = require('./package.json');
 const isAuditing = process.env.BUILD_ENV === 'audit';
 
 module.exports = {
+  mapping: {
+    'Mdx.fields.image': 'ImageSharp',
+  },
   siteMetadata: {
     title: pkg.title,
     description: pkg.description,
@@ -11,6 +14,15 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-react-helmet',
+    // Add a collection called "posts" that looks
+    // for files in content/posts/
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'posts',
+        path: `${__dirname}/src/posts/`,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -18,6 +30,7 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    'gatsby-mdx',
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
@@ -41,16 +54,6 @@ module.exports = {
             variants: ['400'],
           },
         ],
-      },
-    },
-    'gatsby-mdx',
-    // Add a collection called "posts" that looks
-    // for files in content/posts/
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'posts',
-        path: `${__dirname}/src/posts/`,
       },
     },
     'gatsby-plugin-emotion',
