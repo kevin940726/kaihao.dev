@@ -44,4 +44,10 @@ export default styled(CopyButton)`
   &:hover {
     background-color: rgba(255, 255, 255, 1);
   }
+
+  &:active,
+  &:focus {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `;

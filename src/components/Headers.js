@@ -52,6 +52,11 @@ const Header = (RenderComponent, options = {}) => ({ children }) => {
           transform: translateX(-100%);
           opacity: 0;
           padding-right: 10px;
+
+          &:active,
+          &:focus {
+            opacity: 1;
+          }
         `}
       >
         #
