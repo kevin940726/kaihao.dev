@@ -109,7 +109,7 @@ export const pageQuery = graphql`
       fields {
         fileName
         image {
-          fixed(width: 600) {
+          fixed(width: 1200) {
             src
             width
             height

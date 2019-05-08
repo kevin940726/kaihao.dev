@@ -85,6 +85,7 @@ async function main() {
 
   const browser = await puppeteer.launch({
     defaultViewport: {
+      deviceScaleFactor: 2,
       width: WIDTH * 2,
       height: 313,
     },
