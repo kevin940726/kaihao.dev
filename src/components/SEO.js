@@ -11,9 +11,9 @@ const detailsQuery = graphql`
         author
       }
     }
-    file(relativePath: { eq: "profile.jpeg" }) {
+    file(relativePath: { eq: "default-meta-image.png" }) {
       childImageSharp {
-        fixed(width: 600, height: 600) {
+        fixed(width: 1200, height: 626) {
           src
           width
           height
