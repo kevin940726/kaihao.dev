@@ -1,7 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
 
-module.exports = (baseConfig, { env }) => {
+const isProd = process.env.NODE_ENV === 'production';
+
+module.exports = baseConfig => {
   // Setup js rule to use the gatsby version to support graphql calls
   const jsRule = baseConfig.module.rules.find(rule => rule.test.test('.js'));
   jsRule.exclude = /node_modules\/(?!gatsby)/;
@@ -49,7 +51,7 @@ module.exports = (baseConfig, { env }) => {
     'core-js': path.dirname(require.resolve('core-js/package.json')),
   };
 
-  baseConfig.optimization.minimize = env === 'production';
+  baseConfig.optimization.minimize = isProd;
 
   return baseConfig;
 };

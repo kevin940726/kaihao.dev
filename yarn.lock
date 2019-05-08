@@ -1231,11 +1231,6 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.1.tgz#5c85d662f76fa1d34575766c5dcd6615abcd30d8"
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
 
-"@yarnpkg/lockfile@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
-  integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
-
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -4868,14 +4863,6 @@ find-versions@^3.0.0:
     array-uniq "^2.1.0"
     semver-regex "^2.0.0"
 
-find-yarn-workspace-root@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/find-yarn-workspace-root/-/find-yarn-workspace-root-1.2.1.tgz#40eb8e6e7c2502ddfaa2577c176f221422f860db"
-  integrity sha512-dVtfb0WuQG+8Ag2uWkbG79hOUzEsRrhBzgfn86g2sJPkzmcpGdghbNTfUKGTxymFrY/tLIodDzLoW9nOJ4FY8Q==
-  dependencies:
-    fs-extra "^4.0.3"
-    micromatch "^3.1.4"
-
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
@@ -4988,7 +4975,7 @@ fs-exists-cached@1.0.0, fs-exists-cached@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs-exists-cached/-/fs-exists-cached-1.0.0.tgz#cf25554ca050dc49ae6656b41de42258989dcbce"
   integrity sha1-zyVVTKBQ3EmuZla0HeQiWJidy84=
 
-fs-extra@^4.0.1, fs-extra@^4.0.2, fs-extra@^4.0.3:
+fs-extra@^4.0.1, fs-extra@^4.0.2:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.3.tgz#0d852122e5bc5beb453fb028e9c0c9bf36340c94"
   integrity sha512-q6rbdDd1o2mAnQreO7YADIxf/Whx4AHBiRf6d+/cVT8h44ss+lHgxf1FemcqDnQt9X3ct4McHr+JMGlYSsK7Cg==
@@ -7259,13 +7246,6 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
   integrity sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
 
-klaw-sync@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/klaw-sync/-/klaw-sync-6.0.0.tgz#1fd2cfd56ebb6250181114f0a581167099c2b28c"
-  integrity sha512-nIeuVSzdCCs6TDPTqI8w1Yre34sSq7AkZ4B3sfOBbI2CgVSB4Du4aLQijFU2+lhAFCwt9+42Hel6lQNIv6AntQ==
-  dependencies:
-    graceful-fs "^4.1.11"
-
 kleur@^3.0.2:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
@@ -9040,25 +9020,6 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
-patch-package@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/patch-package/-/patch-package-6.1.2.tgz#9ed0b3defb5c34ecbef3f334ddfb13e01b3d3ff6"
-  integrity sha512-5GnzR8lEyeleeariG+hGabUnD2b1yL7AIGFjlLo95zMGRWhZCel58IpeKD46wwPb7i+uNhUI8unV56ogk8Bgqg==
-  dependencies:
-    "@yarnpkg/lockfile" "^1.1.0"
-    chalk "^2.4.2"
-    cross-spawn "^6.0.5"
-    find-yarn-workspace-root "^1.2.1"
-    fs-extra "^7.0.1"
-    is-ci "^2.0.0"
-    klaw-sync "^6.0.0"
-    minimist "^1.2.0"
-    rimraf "^2.6.3"
-    semver "^5.6.0"
-    slash "^2.0.0"
-    tmp "^0.0.33"
-    update-notifier "^2.5.0"
-
 path-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/path-browserify/-/path-browserify-0.0.0.tgz#a0b870729aae214005b7d5032ec2cbbb0fb4451a"
@@ -9649,11 +9610,6 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.5:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postinstall-postinstall@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/postinstall-postinstall/-/postinstall-postinstall-2.0.0.tgz#7ba6711b4420575c4f561638836a81faad47f43f"
-  integrity sha512-3f6qWexsHiT4WKtZc5DRb0FPLilHtARi5KpY4fqban/DJNn8/YhZH8U7dVKVz51WbOxEnR31gV+qYQhvEdHtdQ==
-
 potrace@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/potrace/-/potrace-2.1.1.tgz#79111a858197f366418845f667fe8f7fac0a79db"
@@ -10021,35 +9977,35 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-cosmos-fixture@^5.0.0-alpha.2:
-  version "5.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/react-cosmos-fixture/-/react-cosmos-fixture-5.0.0-alpha.2.tgz#72f715b803c8f15038cf29c1c16ab009f1892fd1"
-  integrity sha512-DzzgxgWRbwRD40LeX0rKNsU0BubJcoYRGS/zWdH1k0HofzurFP29CJnjoFNsNrvi976NzUSEonjxrRQG2ao3Iw==
+react-cosmos-fixture@^5.0.0-alpha.3:
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/react-cosmos-fixture/-/react-cosmos-fixture-5.0.0-alpha.3.tgz#a178265b52cabd425c7696a1878ac0c310f9f5d6"
+  integrity sha512-yr74IZhkCgrUuc9CExzQcnDtEzEEfEkFCSQcwRRl2N6uxP4D9em27oDdMd0sqH/nRQFHxgLSkOahxmcfLEOnzA==
   dependencies:
     lodash "^4.17.11"
     memoize-one "^5.0.4"
-    react-cosmos-shared2 "^5.0.0-alpha.2"
+    react-cosmos-shared2 "^5.0.0-alpha.3"
     react-is "^16.8.6"
     socket.io-client "^2.2.0"
 
-react-cosmos-playground2@^5.0.0-alpha.2:
-  version "5.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/react-cosmos-playground2/-/react-cosmos-playground2-5.0.0-alpha.2.tgz#ae27f6e0b12a248e63cc6b95556754e2cff11e33"
-  integrity sha512-uUbJ8RZy32nzf6EiMEKrIG/cc/ajYNsw0HCMqo/oOV1XqgHkhvfyTZ8YkvVVI704dU0YshXLFfFPvyfy6tHqlA==
+react-cosmos-playground2@^5.0.0-alpha.5:
+  version "5.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/react-cosmos-playground2/-/react-cosmos-playground2-5.0.0-alpha.5.tgz#fe67cc48ebfb004a4a3bda172abc450f6f17b726"
+  integrity sha512-PqDchzBvpPqCN/b9E/mWJugDyaRZxEiBNR7N/7Lt4qUnpKVRxW1tqMve3SSdkWzlgeaQbquGadVZS/SLod6g9w==
 
-react-cosmos-shared2@^5.0.0-alpha.2:
-  version "5.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/react-cosmos-shared2/-/react-cosmos-shared2-5.0.0-alpha.2.tgz#590b4d412394c90faa4502635fc4864e53448b81"
-  integrity sha512-6DHUSf0/bl1j5NQ4GPD/gNBDwqHJdUf+j+amJ4jiW4tTC8iVUFAhtkmWbvYRj7N+Ve5eQDkZPArIkQKizkVr4w==
+react-cosmos-shared2@^5.0.0-alpha.3:
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/react-cosmos-shared2/-/react-cosmos-shared2-5.0.0-alpha.3.tgz#4a68559387ad01bfdef873aa77e3f7cc6663430b"
+  integrity sha512-V4m0op2OABP1D7Rwo/gI0OEJXMu7ww7Zt5m/rH2On/SQ0WKU3Tu6wOJvu5SMfaQMKIttw9bLOjjP6gHsdn/C2A==
   dependencies:
     lodash "^4.17.11"
     react-element-to-jsx-string "^14.0.2"
     react-is "^16.8.6"
 
-react-cosmos@^5.0.0-alpha.2:
-  version "5.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/react-cosmos/-/react-cosmos-5.0.0-alpha.2.tgz#f4ccdad5b29e38ed61b443fe03a3b3f7e0c28201"
-  integrity sha512-2HjL6Fd6k0/V8V5SixmnBfWbt+PmaseQs11VtUQVJCcxw98vpDKEtYZum99NkHC94/cwQ2BWVwdlMhkR3aqLbQ==
+react-cosmos@^5.0.0-alpha.5:
+  version "5.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/react-cosmos/-/react-cosmos-5.0.0-alpha.5.tgz#c551c6000ee005d7130c80b5f2c523af70d5fd5a"
+  integrity sha512-3UF+AaztpLGMKKBhiPT7A4Q8IQIgAGmdfbHSghWuQxuA+kO4dncAAeeHae6u7EfEy0Q9ggJOdrkv8JWTqFQg2g==
   dependencies:
     chokidar "^2.1.5"
     debug "^4.1.1"
@@ -10062,9 +10018,9 @@ react-cosmos@^5.0.0-alpha.2:
     lodash "^4.17.11"
     micromatch "^4.0.2"
     query-string "^6.4.2"
-    react-cosmos-fixture "^5.0.0-alpha.2"
-    react-cosmos-playground2 "^5.0.0-alpha.2"
-    react-cosmos-shared2 "^5.0.0-alpha.2"
+    react-cosmos-fixture "^5.0.0-alpha.3"
+    react-cosmos-playground2 "^5.0.0-alpha.5"
+    react-cosmos-shared2 "^5.0.0-alpha.3"
     react-error-overlay "^5.1.5"
     resolve-from "^5.0.0"
     slash "^2.0.0"
@@ -12407,7 +12363,7 @@ upath@^1.1.0, upath@^1.1.1:
   resolved "https://registry.yarnpkg.com/upath/-/upath-1.1.2.tgz#3db658600edaeeccbe6db5e684d67ee8c2acd068"
   integrity sha512-kXpym8nmDmlCBr7nKdIx8P2jNBa+pBpIUFRnKJ4dr8htyYGJFokkr2ZvERRtUN+9SY+JqXouNgUPtv6JQva/2Q==
 
-update-notifier@^2.3.0, update-notifier@^2.5.0:
+update-notifier@^2.3.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/update-notifier/-/update-notifier-2.5.0.tgz#d0744593e13f161e406acb1d9408b72cad08aff6"
   integrity sha512-gwMdhgJHGuj/+wHJJs9e6PcCszpxR1b236igrOkUofGhqJuG+amlIKwApH1IW1WWl7ovZxsX49lMBWLxSdm5Dw==
