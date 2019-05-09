@@ -48,14 +48,11 @@ function SEO({ title, description, image, lang = 'en', children }) {
       <meta property="og:image:width" content={metaImage.width} />
       <meta property="og:image:height" content={metaImage.height} />
       <meta property="og:type" content="website" />
-      <meta property="twitter:card" content="summary" />
-      <meta
-        property="twitter:creator"
-        content={data.site.siteMetadata.author}
-      />
-      <meta property="twitter:title" content={title} />
-      <meta property="twitter:description" content={metaDescription} />
-      <meta property="twitter:image" content={metaImageAbsolutePath} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content={data.site.siteMetadata.author} />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={metaDescription} />
+      <meta name="twitter:image" content={metaImageAbsolutePath} />
       {children}
     </Helmet>
   );
