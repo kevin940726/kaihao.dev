@@ -1,5 +1,25 @@
 import React from 'react';
 import { css } from '@emotion/core';
+import {
+  CONTENT_TEXT,
+  TWITTER_LINK,
+  GITHUB_LINK,
+  LINKEDIN_LINK,
+} from '../constants';
+
+const Link = ({ children, ...props }) => (
+  <a
+    css={css`
+      margin: 0 0.5em;
+      color: ${CONTENT_TEXT};
+    `}
+    target="_blank"
+    rel="noopener noreferrer"
+    {...props}
+  >
+    {children}
+  </a>
+);
 
 const Footer = () => (
   <footer
@@ -13,7 +33,12 @@ const Footer = () => (
       text-align: center;
     `}
   >
-    © {new Date().getFullYear()}, Built with my laptop
+    © {new Date().getFullYear()}, Find me on{' '}
+    <Link href={TWITTER_LINK}>Twitter</Link>
+    {' ・ '}
+    <Link href={GITHUB_LINK}>Github</Link>
+    {' ・ '}
+    <Link href={LINKEDIN_LINK}>LinkedIn</Link>
   </footer>
 );
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
+import { TWITTER_LINK, GITHUB_LINK, LINKEDIN_LINK } from '../constants';
 // They will all get inlined so no need to use gatsby-image
 import twitterIcon from '../images/twitter-icon.svg';
 import githubIcon from '../images/github-icon.png';
@@ -56,25 +57,13 @@ const SocialLink = ({ title, icon, to, children, ...props }) => (
 );
 
 const TwitterLink = () => (
-  <SocialLink
-    title="Twitter"
-    icon={twitterIcon}
-    to="https://twitter.com/kevin940726"
-  />
+  <SocialLink title="Twitter" icon={twitterIcon} to={TWITTER_LINK} />
 );
 const GithubLink = () => (
-  <SocialLink
-    title="Github"
-    icon={githubIcon}
-    to="https://github.com/kevin940726"
-  />
+  <SocialLink title="Github" icon={githubIcon} to={GITHUB_LINK} />
 );
 const LinkedInLink = () => (
-  <SocialLink
-    title="LinkedIn"
-    icon={linkedinIcon}
-    to="https://linkedin.com/in/kai-hao"
-  />
+  <SocialLink title="LinkedIn" icon={linkedinIcon} to={LINKEDIN_LINK} />
 );
 
 const SocialLinks = () => (

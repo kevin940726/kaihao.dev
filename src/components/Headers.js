@@ -11,7 +11,7 @@ slugify.extend({
 });
 
 const Header = (RenderComponent, options = {}) => ({ children }) => {
-  const hideBorderBottom = options.hideBorderBottom;
+  const { hideBorderBottom, hideAnchor } = options;
 
   const fragment = useMemo(
     () =>
@@ -41,32 +41,35 @@ const Header = (RenderComponent, options = {}) => ({ children }) => {
         `)}
       `}
     >
-      <a
-        href={`#${fragment}`}
-        css={css`
-          position: absolute;
-          left: 0px;
-          top: 0;
-          bottom: 0;
-          color: #28232d;
-          transform: translateX(-100%);
-          opacity: 0;
-          padding-right: 10px;
+      {hideAnchor || (
+        <a
+          href={`#${fragment}`}
+          css={css`
+            position: absolute;
+            left: 0px;
+            top: 0;
+            bottom: 0;
+            color: #28232d;
+            transform: translateX(-100%);
+            opacity: 0;
+            padding-right: 10px;
 
-          &:active,
-          &:focus {
-            opacity: 1;
-          }
-        `}
-      >
-        #
-      </a>
+            &:active,
+            &:focus {
+              opacity: 1;
+            }
+          `}
+        >
+          #
+        </a>
+      )}
+
       {children}
     </RenderComponent>
   );
 };
 
-export const H1 = Header('h1');
+export const H1 = Header('h1', { hideAnchor: true });
 export const H2 = Header('h2');
 export const H3 = Header('h3');
 export const H4 = Header('h4', { hideBorderBottom: true });
