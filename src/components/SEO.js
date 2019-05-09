@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
+import { globalHistory } from '@reach/router';
 
 const detailsQuery = graphql`
   query DefaultSEOQuery {
@@ -28,6 +29,10 @@ function SEO({ title, description, image, lang = 'en', children }) {
   const metaDescription = description || data.site.siteMetadata.description;
   const metaImage = image || data.file.childImageSharp.fixed;
 
+  const metaImageAbsolutePath = `${globalHistory.location.origin}${
+    metaImage.src
+  }`;
+
   return (
     <Helmet
       htmlAttributes={{ lang }}
@@ -36,9 +41,10 @@ function SEO({ title, description, image, lang = 'en', children }) {
     >
       <title>{title}</title>
       <meta property="description" content={metaDescription} />
+      <meta property="og:url" content={globalHistory.location.href} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={metaDescription} />
-      <meta property="og:image" content={metaImage.src} />
+      <meta property="og:image" content={metaImageAbsolutePath} />
       <meta property="og:image:width" content={metaImage.width} />
       <meta property="og:image:height" content={metaImage.height} />
       <meta property="og:type" content="website" />
@@ -49,7 +55,7 @@ function SEO({ title, description, image, lang = 'en', children }) {
       />
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={metaDescription} />
-      <meta property="twitter:image" content={metaImage.src} />
+      <meta property="twitter:image" content={metaImageAbsolutePath} />
       {children}
     </Helmet>
   );
