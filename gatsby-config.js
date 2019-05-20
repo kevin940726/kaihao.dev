@@ -1,6 +1,7 @@
 const pkg = require('./package.json');
 
 const isAuditing = process.env.BUILD_ENV === 'audit';
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mapping: {
@@ -11,6 +12,7 @@ module.exports = {
     description: pkg.description,
     author: pkg.author,
     repo: pkg.repository.url,
+    origin: isProd ? 'https://kaihao.dev' : 'http://localhost:8000',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
