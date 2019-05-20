@@ -7,15 +7,21 @@
 [[redirects]]
   from = "/blog/*"
   to = "/posts/:splat"
+  status = 301
 
+# Redirect from netlify to main domain
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "https://kaihao-info.netlify.com/*"
+  from = "https://kaihao-dev.netlify.com/*"
   to = "https://kaihao.dev/:splat"
+  status = 301
+  force = true
+
+# Redirect from old kaihao.info domain to main domain
+[[redirects]]
+  from = "https://kaihao.info/*"
+  to = "https://kaihao.dev/:splat"
+  status = 301
+  force = true
 
 [[headers]]
   for = "/cosmos/*"
