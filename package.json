@@ -1,5 +1,5 @@
 {
-  "name": "kaihao.info",
+  "name": "kaihao.dev",
   "private": true,
   "title": "Kai Hao",
   "description": "I'm Kai Hao, a front-end developer in Taiwan.",
@@ -38,10 +38,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kevin940726/kaihao.info"
+    "url": "https://github.com/kevin940726/kaihao.dev"
   },
   "bugs": {
-    "url": "https://github.com/kevin940726/kaihao.info/issues"
+    "url": "https://github.com/kevin940726/kaihao.dev/issues"
   },
   "dependencies": {
     "@emotion/core": "^10.0.7",
