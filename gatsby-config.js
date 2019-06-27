@@ -56,6 +56,7 @@ module.exports = {
             variants: ['400'],
           },
         ],
+        fontDisplay: 'swap',
       },
     },
     'gatsby-plugin-emotion',

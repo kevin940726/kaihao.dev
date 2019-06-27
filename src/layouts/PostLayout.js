@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import { MDXProvider } from '@mdx-js/tag';
 import MDXRenderer from 'gatsby-mdx/mdx-renderer';
 import { Global, css } from '@emotion/core';
+import { Helmet } from 'react-helmet';
 import { mobile } from '../utils/media';
 import useFont from '../hooks/useFont';
 import Layout from './Layout';
@@ -36,6 +37,9 @@ const PostLayout = ({ data: { mdx } }) => {
         `)}
       `}
     >
+      <Helmet>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+      </Helmet>
       <Global
         styles={css`
           @import url(https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css);
