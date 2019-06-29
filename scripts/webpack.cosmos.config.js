@@ -37,7 +37,7 @@ module.exports = baseConfig => {
         enqueue: () => {},
         hovering: () => {},
       },
-      ['window.___navigate']: () => {},
+      'window.___navigate': () => {},
     })
   );
 

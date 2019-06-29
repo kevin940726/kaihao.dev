@@ -17,21 +17,6 @@
     "cosmos:export": "NODE_ENV=production GATSBY_BUILD_STAGE=build-javascript cosmos-export",
     "check-meta-images-and-commit": "./scripts/check-post-meta-image.sh"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx,css,json,md,mdx}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{mdx}": [
-      "node scripts/generate-meta-image.js",
-      "git add"
-    ]
-  },
   "keywords": [
     "gatsby"
   ],
@@ -76,16 +61,49 @@
     "slugify": "^1.3.4"
   },
   "devDependencies": {
+    "canopic": "^0.1.1",
     "gatsby-plugin-webpack-bundle-analyzer": "^1.0.4",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^2.2.0",
-    "lint-staged": "^8.1.6",
-    "prettier": "1.16.4",
     "puppeteer": "^1.15.0",
     "react-cosmos": "^5.0.0-alpha.5",
     "wait-for-localhost": "^3.2.0"
   },
   "resolutions": {
     "react-live/prismjs": "1.15.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,json,md,mdx,html}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{mdx}": [
+      "node scripts/generate-meta-image.js",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "quoteProps": "as-needed",
+    "jsxSingleQuote": false,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "arrowParens": "avoid"
   }
 }

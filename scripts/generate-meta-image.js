@@ -8,7 +8,6 @@ const waitForLocalhost = require('wait-for-localhost');
 const readFile = promisify(fs.readFile);
 
 const WIDTH = 600;
-const HEIGHT = 313;
 
 const fontfaceobserver = readFile(require.resolve('fontfaceobserver'), 'utf-8');
 

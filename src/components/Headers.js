@@ -10,7 +10,7 @@ slugify.extend({
   '>': '',
 });
 
-const Header = (RenderComponent, options = {}) => ({ children }) => {
+const createHeader = (RenderComponent, options = {}) => ({ children }) => {
   const { hideBorderBottom, hideAnchor } = options;
 
   const fragment = useMemo(
@@ -69,9 +69,9 @@ const Header = (RenderComponent, options = {}) => ({ children }) => {
   );
 };
 
-export const H1 = Header('h1', { hideAnchor: true });
-export const H2 = Header('h2');
-export const H3 = Header('h3');
-export const H4 = Header('h4', { hideBorderBottom: true });
-export const H5 = Header('h5', { hideBorderBottom: true });
-export const H6 = Header('h6', { hideBorderBottom: true });
+export const H1 = createHeader('h1', { hideAnchor: true });
+export const H2 = createHeader('h2');
+export const H3 = createHeader('h3');
+export const H4 = createHeader('h4', { hideBorderBottom: true });
+export const H5 = createHeader('h5', { hideBorderBottom: true });
+export const H6 = createHeader('h6', { hideBorderBottom: true });

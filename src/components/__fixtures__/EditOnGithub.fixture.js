@@ -1,3 +1,4 @@
+import React from 'react';
 import EditOnGithub from '../EditOnGithub';
 
 export default (
