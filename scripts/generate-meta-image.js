@@ -13,15 +13,27 @@ const fontfaceobserver = readFile(require.resolve('fontfaceobserver'), 'utf-8');
 
 async function generateMetaImage(browser, filePath, title) {
   const page = await browser.newPage();
+  const RENDERER_FRAME_URL = 'http://localhost:5000/_renderer.html';
+
+  const waitForAttached = new Promise(resolve => {
+    page.on('framenavigated', frame => {
+      if (frame.url() === RENDERER_FRAME_URL) {
+        resolve();
+      }
+    });
+  });
 
   await page.goto(
     'http://localhost:5000/?fixtureId=%7B"path"%3A"src%2Fcomponents%2F__fixtures__%2FPostMetaImage.fixture.js"%2C"name"%3Anull%7D&fullScreen=true'
   );
 
+  await waitForAttached;
+
   const iframe = page
     .frames()
-    .find(frame => frame.url() === 'http://localhost:5000/_renderer.html');
+    .find(frame => frame.url() === RENDERER_FRAME_URL);
 
+  await iframe.waitFor('h1');
   await iframe.$eval(
     'h1',
     (element, text) => {
