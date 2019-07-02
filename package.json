@@ -46,6 +46,7 @@
     "gatsby-plugin-react-helmet": "^3.0.6",
     "gatsby-plugin-remove-trailing-slashes": "^2.0.9",
     "gatsby-plugin-sharp": "^2.0.20",
+    "gatsby-remark-images": "^3.1.2",
     "gatsby-source-filesystem": "^2.0.20",
     "gatsby-transformer-sharp": "^2.1.13",
     "modern-normalize": "^0.5.0",
@@ -80,7 +81,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,json,md,mdx,html}": [
+    "*.{js,jsx,ts,tsx,css,json,md,html}": [
       "prettier --write",
       "git add"
     ],
@@ -88,7 +89,8 @@
       "eslint --fix",
       "git add"
     ],
-    "*.{mdx}": [
+    "*.mdx": [
+      "prettier --write",
       "node scripts/generate-meta-image.js",
       "git add"
     ]
