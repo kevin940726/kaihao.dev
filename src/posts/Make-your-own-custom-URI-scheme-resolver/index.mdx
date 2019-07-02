@@ -36,13 +36,13 @@ $ /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Launch
 In my case, since I have VSCode installed, there is an entry associated with `vscode` scheme.
 
 ```
-claim	id:            40744
-	name:          Visual Studio Code
-	rank:          Default
-	roles:         Viewer
-	flags:         url-type
-	icon:
-	bindings:      vscode:
+claim	id:	40744
+		name:	Visual Studio Code
+		rank:	Default
+		roles:	Viewer
+		flags:	url-type
+		icon:
+		bindings:	vscode:
 ```
 
 So the basic idea here is that we can create an app, just like VSCode, which we can register our scheme (`jira` in this case) to the app, then when we click on the link, it would simply open the app we wrote.
@@ -53,7 +53,7 @@ Creating an app with **AppleScript** might be the easiest way to get started, an
 
 Let's open **Script Editor** from _/Applications/Utilities/Script Editor.app_ (yes it's built-in). Then choose the language as `AppleScript`, then start writing code.
 
-```AppleScript {5,7}
+```AppleScript {6,8}
 on open location myURL
     set oldDelims to AppleScript's text item delimiters
     set newDelims to {"://"}
@@ -69,7 +69,7 @@ end open location
 
 Let's not ask me what do these code actually mean, because I have no idea. Most of them are copied & pasted from somewhere I googled, and that's not the point.
 
-All you have to know is that in line 5, we are extracting the `path` we mentioned above and assign it to a variable `pathname`. In line 7, we are executing shell script and calling `open` built-in command to open our url in the default browser, and the url we're opening is `https://mycompany.atlassian.com/browse/[pathname]`.
+All you have to know is that in line 6, we are extracting the `path` we mentioned above and assign it to a variable `pathname`. In line 8, we are executing shell script and calling `open` built-in command to open our url in the default browser, and the url we're opening is `https://mycompany.atlassian.com/browse/[pathname]`.
 
 That's easy, right? With only 11 LOC we can now save it as an app. Click _File: Save_ and select the **File Format** to be `Application`, give it a nice name like `jira-linker` and hit _Save_.
 
@@ -79,19 +79,18 @@ Don't rush to run your app though, there's still something we have to do to make
 
 We have our app set up, but it's not listening to the scheme we defined. Let's open the app we just created by right clicking on it and select `Show Package Contents`. Open `Contents/Info.plist` with your favorite editor, and add the followings to the end of the file before the last `</dict>`.
 
-```plist
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>Jira URL</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>jira</string>
-			</array>
-		</dict>
-	</array>
-</dict>
+```html
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLName</key>
+    <string>Jira URL</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>jira</string>
+    </array>
+  </dict>
+</array>
 ```
 
 What we are trying to do is simply setup `jira` as a scheme for the application to use. Once the app run the first time, it will register the URL scheme to the internal system, so every time when it _sees_ the link, it will know which app to open.
@@ -111,13 +110,13 @@ $ /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Launch
 You should see the something like the following.
 
 ```
-claim	id:            45020
-	name:          Jira URL
-	rank:          Default
-	roles:         Viewer
-	flags:         apple-internal  url-type
-	icon:
-	bindings:      jira:
+claim	id:	45020
+		name:	Jira URL
+		rank:	Default
+		roles:	Viewer
+		flags:	apple-internal  url-type
+		icon:
+		bindings:	jira:
 ```
 
 ## What's next?
