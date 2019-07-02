@@ -1,0 +1,125 @@
+---
+title: 'Make your own custom URI scheme resolver'
+date: '2019-07-01'
+---
+
+Sometimes, sharing urls isn't easy. Especially if we are sharing some sites like Jira tickets, which requires us to type the long domain name before we can even type in the identifiers. Otherwise we would have manually goes to the site, and then copy & paste the url, when we already knew where we're going. It's even more painful when the site is slow, wasting us a lot of time and bandwidth.
+
+![before example](./before-example.png)
+
+What if we could do better, what if we could make clicking on a url like `jira://BUG-1234` immediately takes us to the url we want? It's play time.
+
+![after example](./after-example.png)
+
+_As I'm using macOS, the following examples would also only be related to macOS, I don't and I probably won't know how other OS works._
+
+## Analyzing the url
+
+The url `jira://BUG-1234` is actually a valid url, and we can view the url roughly as follow.
+
+```
+[scheme]://[path]
+```
+
+So that with `https://google.com`, the `https` is the scheme and `google.com` is the path. For our case though, instead of the common `http`, `ftp`, or `ssh` scheme, `jira` is the scheme, and `BUG-1234` is the path. Now all we gotta do is to define specific action when the computer sees this scheme.
+
+## How it works
+
+Ever wondering how the urls works when we click on a `http://` link? How does it know which application to open? They're actually registerred in a map like structure somewhere in our computers, so whenever the user clicks on a link, it will look inside the map and find the corresponding application to open.
+
+You can view the map by entering the command in your terminal.
+
+```sh
+$ /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -dump | grep -B6 "bindings:.*:"
+```
+
+In my case, since I have VSCode installed, there is an entry associated with `vscode` scheme.
+
+```
+claim	id:            40744
+	name:          Visual Studio Code
+	rank:          Default
+	roles:         Viewer
+	flags:         url-type
+	icon:
+	bindings:      vscode:
+```
+
+So the basic idea here is that we can create an app, just like VSCode, which we can register our scheme (`jira` in this case) to the app, then when we click on the link, it would simply open the app we wrote.
+
+## Creating the app
+
+Creating an app with **AppleScript** might be the easiest way to get started, and as long as our app don't require a lot of logic, it should be fine even if you don't really understand the langauge.
+
+Let's open **Script Editor** from _/Applications/Utilities/Script Editor.app_ (yes it's built-in). Then choose the language as `AppleScript`, then start writing code.
+
+```AppleScript {5,7}
+on open location myURL
+    set oldDelims to AppleScript's text item delimiters
+    set newDelims to {"://"}
+    set AppleScript's text item delimiters to newDelims
+
+    set pathname to item 2 of the text items of myURL
+
+    do shell script "open https://mycompany.atlassian.com/browse/" & pathname
+
+    set AppleScript's text item delimiters to oldDelims
+end open location
+```
+
+Let's not ask me what do these code actually mean, because I have no idea. Most of them are copied & pasted from somewhere I googled, and that's not the point.
+
+All you have to know is that in line 5, we are extracting the `path` we mentioned above and assign it to a variable `pathname`. In line 7, we are executing shell script and calling `open` built-in command to open our url in the default browser, and the url we're opening is `https://mycompany.atlassian.com/browse/[pathname]`.
+
+That's easy, right? With only 11 LOC we can now save it as an app. Click _File: Save_ and select the **File Format** to be `Application`, give it a nice name like `jira-linker` and hit _Save_.
+
+Don't rush to run your app though, there's still something we have to do to make it work.
+
+## Registering the URI scheme
+
+We have our app set up, but it's not listening to the scheme we defined. Let's open the app we just created by right clicking on it and select `Show Package Contents`. Open `Contents/Info.plist` with your favorite editor, and add the followings to the end of the file before the last `</dict>`.
+
+```plist
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Jira URL</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>jira</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+```
+
+What we are trying to do is simply setup `jira` as a scheme for the application to use. Once the app run the first time, it will register the URL scheme to the internal system, so every time when it _sees_ the link, it will know which app to open.
+
+Save the file, and let's open the app. The application should do nothing and that's totally normal, as we aren't doing anything other than a simple AppleScript.
+
+## Profit
+
+Now we can try to click on links we defined. Here, let's try [jira://BUG-123](jira://BUG-123), I've created for you. If you see a popup to ask you to open your app `jira-linker` then Bingo! It works! You should now see that the link open a new page with url of `https://mycompany.atlassian.com/browse/BUG-123`.
+
+Let's see if our uri scheme got registerred properly, just to be sure.
+
+```sh
+$ /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -dump | grep -B6 "bindings:.*jira:"
+```
+
+You should see the something like the following.
+
+```
+claim	id:            45020
+	name:          Jira URL
+	rank:          Default
+	roles:         Viewer
+	flags:         apple-internal  url-type
+	icon:
+	bindings:      jira:
+```
+
+## What's next?
+
+Since that the whole app is just a simple AppleScript with a few lines of config, you could do anything with it. For instance, we have an internal short url resolver service at work, much like Google's `go`, we registerred an uri scheme to get to `go://` much faster. You can also perform other scripts rather than opening a boring web page, like click on a link to send a message via Slack, or open a ticket on Jira, etc. Anything, practically, let's make something fun and share with others!
