@@ -3260,10 +3260,10 @@ caniuse-lite@^1.0.30000971, caniuse-lite@^1.0.30000975:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000979.tgz#92f16d00186a6cf20d6c5711bb6e042a3d667029"
   integrity sha512-gcu45yfq3B7Y+WB05fOMfr0EiSlq+1u+m6rPHyJli/Wy3PVQNGaU7VA4bZE5qw+AU2UVOBR/N5g1bzADUqdvFw==
 
-canopic@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/canopic/-/canopic-0.1.1.tgz#9b1c4b888cb6226d09c352a8453da33a758777d5"
-  integrity sha512-PlYbfb/Y4e0ffvKwekh2Qpo+XWEQvVimEzJ/OG+080cerQbzeteyDbX+UNxsE3ZrY1mk17HaYHvU3pdO9o83+A==
+canopic@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/canopic/-/canopic-0.2.0.tgz#a52bd6637b899d40725e4effa2d32caff0ca1821"
+  integrity sha512-0H9UCQCTww0JFWg7/gGZw6EyseW7HVaqq0ahHD+2M41f+XOqi1LgaGBl+Py/R6AB0ULSWoN+K/gwtJuAnHn1uw==
   dependencies:
     babel-eslint "^10.0.2"
     eslint "^5.16.0"

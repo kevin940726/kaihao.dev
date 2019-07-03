@@ -65,7 +65,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-macros": "^2.6.1",
     "babel-preset-gatsby": "^0.2.1",
-    "canopic": "^0.1.1",
+    "canopic": "^0.2.0",
     "codegen.macro": "^3.0.0",
     "gatsby-plugin-webpack-bundle-analyzer": "^1.0.4",
     "html-webpack-plugin": "^3.2.0",
@@ -86,12 +86,17 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,json,md,mdx,html}": [
+    "*.{js,jsx,ts,tsx,css,json,md,html}": [
       "prettier --write",
       "git add"
     ],
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
+      "git add"
+    ],
+    "*.mdx": [
+      "prettier --write",
+      "node scripts/generate-meta-image.js",
       "git add"
     ]
   },
