@@ -7,6 +7,11 @@ import { mobile } from '../utils/media';
 import CopyButton from './CopyButton';
 import parseMetaString from '../utils/parseMetaString';
 
+if (typeof window !== 'undefined') {
+  // For prism's language definitions to hook
+  window.Prism = Prism;
+}
+
 const bash = { ...Prism.languages.bash };
 Prism.languages.sh = {
   prompt: {
@@ -119,6 +124,17 @@ const Highlight = ({ children, metastring, ...props }) => {
   const { highlightLines } = metaProps;
 
   const language = props.className && props.className.split('-')[1];
+
+  if (
+    language &&
+    !['html', 'sh', 'js', 'jsx', 'javascript', 'ts', 'typescript'].includes(
+      language
+    )
+  ) {
+    import(`prismjs/components/prism-${language}`).catch(() => {
+      // Do nothing when not found
+    });
+  }
 
   return (
     <PrismHighlight

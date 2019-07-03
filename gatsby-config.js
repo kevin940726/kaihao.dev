@@ -33,14 +33,13 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-mdx',
+      resolve: 'gatsby-plugin-mdx',
       options: {
         gatsbyRemarkPlugins: [
           {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 760,
-              sizeByPixelDensity: true,
             },
           },
         ],

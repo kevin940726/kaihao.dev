@@ -36,11 +36,11 @@ $ /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Launch
 In my case, since I have VSCode installed, there is an entry associated with `vscode` scheme.
 
 ```
-claim	id:	40744
-		name:	Visual Studio Code
-		rank:	Default
-		roles:	Viewer
-		flags:	url-type
+claim	id:			40744
+		name:		Visual Studio Code
+		rank:		Default
+		roles:		Viewer
+		flags:		url-type
 		icon:
 		bindings:	vscode:
 ```
@@ -53,7 +53,7 @@ Creating an app with **AppleScript** might be the easiest way to get started, an
 
 Let's open **Script Editor** from _/Applications/Utilities/Script Editor.app_ (yes it's built-in). Then choose the language as `AppleScript`, then start writing code.
 
-```AppleScript {6,8}
+```applescript {6,8}
 on open location myURL
     set oldDelims to AppleScript's text item delimiters
     set newDelims to {"://"}
@@ -110,11 +110,11 @@ $ /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Launch
 You should see the something like the following.
 
 ```
-claim	id:	45020
-		name:	Jira URL
-		rank:	Default
-		roles:	Viewer
-		flags:	apple-internal  url-type
+claim	id:			45020
+		name:		Jira URL
+		rank:		Default
+		roles:		Viewer
+		flags:		apple-internal  url-type
 		icon:
 		bindings:	jira:
 ```
@@ -122,3 +122,9 @@ claim	id:	45020
 ## What's next?
 
 Since that the whole app is just a simple AppleScript with a few lines of config, you could do anything with it. For instance, we have an internal short url resolver service at work, much like Google's `go`, we registerred an uri scheme to get to `go://` much faster. You can also perform other scripts rather than opening a boring web page, like click on a link to send a message via Slack, or open a ticket on Jira, etc. Anything, practically, let's make something fun and share with others!
+
+## References
+
+- [URL - Wikipedia](https://en.wikipedia.org/wiki/URL)
+- [Directory of URL Schemes for Mac Apps - superuser](https://superuser.com/a/499020)
+- [Creating a custom url scheme via AppleScript and Python](http://jones.kaist.edu/notebook/2012/09/creating-a-custom-url-scheme-via-applescript-and-python.html)

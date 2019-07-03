@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { graphql } from 'gatsby';
-import { MDXProvider } from '@mdx-js/tag';
-import MDXRenderer from 'gatsby-mdx/mdx-renderer';
+import { MDXProvider } from '@mdx-js/react';
+import MDXRenderer from 'gatsby-plugin-mdx/mdx-renderer';
 import { Global, css } from '@emotion/core';
 import { Helmet } from 'react-helmet';
 import { mobile } from '../utils/media';
@@ -87,7 +87,7 @@ const PostLayout = ({ data: { mdx } }) => {
           </time>
         </H1>
 
-        <MDXRenderer>{mdx.code.body}</MDXRenderer>
+        <MDXRenderer>{mdx.body}</MDXRenderer>
 
         <EditOnGithub postFileName={mdx.fields.fileName} />
       </MDXProvider>
@@ -124,9 +124,7 @@ export const pageQuery = graphql`
         title
         date
       }
-      code {
-        body
-      }
+      body
     }
   }
 `;
