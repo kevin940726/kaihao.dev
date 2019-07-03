@@ -12,6 +12,7 @@ import { H1, H2, H3, H4, H5, H6 } from '../components/Headers';
 import Paragraph from '../components/Paragraph';
 import InlineCode from '../components/InlineCode';
 import BlockQuote from '../components/BlockQuote';
+import { Ul, Ol, Li } from '../components/Lists';
 import Highlight from '../components/Highlight';
 import PostLink from '../components/PostLink';
 import BackTo from '../components/BackTo';
@@ -26,6 +27,7 @@ const PostLayout = ({ data: { mdx } }) => {
         line-height: 1.8;
         width: 760px;
         margin: 2rem auto 4em;
+        word-break: break-word;
 
         pre,
         code {
@@ -63,6 +65,9 @@ const PostLayout = ({ data: { mdx } }) => {
           code: ({ children, ...props }) => (
             <Highlight {...props}>{children}</Highlight>
           ),
+          ul: Ul,
+          ol: Ol,
+          li: Li,
         }}
       >
         <SEO
