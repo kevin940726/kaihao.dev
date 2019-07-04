@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
+import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { TWITTER_LINK, GITHUB_LINK, LINKEDIN_LINK } from '../constants';
 // They will all get inlined so no need to use gatsby-image
 import twitterIcon from '../images/twitter-icon.svg';
@@ -7,7 +8,7 @@ import githubIcon from '../images/github-icon.png';
 import linkedinIcon from '../images/linkedin-icon.svg';
 
 const SocialLink = ({ title, icon, to, children, ...props }) => (
-  <a
+  <OutboundLink
     title={title}
     aria-label={title}
     css={css`
@@ -53,7 +54,7 @@ const SocialLink = ({ title, icon, to, children, ...props }) => (
     {...props}
   >
     {title}
-  </a>
+  </OutboundLink>
 );
 
 const TwitterLink = () => (

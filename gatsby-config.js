@@ -15,6 +15,15 @@ module.exports = {
     origin: isProd ? 'https://kaihao.dev' : 'http://localhost:8000',
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-google-analytics',
+      options: {
+        trackingId: 'UA-75983216-6',
+        head: false,
+        anonymize: true,
+        respectDNT: true,
+      },
+    },
     'gatsby-plugin-react-helmet',
     // Add a collection called "posts" that looks
     // for files in content/posts/

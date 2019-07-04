@@ -1,9 +1,10 @@
 import React from 'react';
 import { css } from '@emotion/core';
+import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { MAIN_TEXT, SUB_TEXT } from '../constants';
 
 const PostLink = ({ children, ...props }) => (
-  <a
+  <OutboundLink
     css={css`
       border-bottom: 1px dashed ${MAIN_TEXT};
       color: ${SUB_TEXT};
@@ -18,7 +19,7 @@ const PostLink = ({ children, ...props }) => (
     {...props}
   >
     {children}
-  </a>
+  </OutboundLink>
 );
 
 export default PostLink;

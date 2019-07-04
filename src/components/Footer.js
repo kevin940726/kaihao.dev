@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
+import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import {
   CONTENT_TEXT,
   TWITTER_LINK,
@@ -8,7 +9,7 @@ import {
 } from '../constants';
 
 const Link = ({ children, ...props }) => (
-  <a
+  <OutboundLink
     css={css`
       margin: 0 0.5em;
       color: ${CONTENT_TEXT};
@@ -18,7 +19,7 @@ const Link = ({ children, ...props }) => (
     {...props}
   >
     {children}
-  </a>
+  </OutboundLink>
 );
 
 const Footer = () => (
