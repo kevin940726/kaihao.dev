@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import GlobalStyles from '../components/GlobalStyles';
+import ThemeProvider from '../components/ThemeProvider';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 
@@ -23,12 +24,14 @@ const Main = styled.main`
 `;
 
 const Layout = ({ children, ...props }) => (
-  <Container>
-    <GlobalStyles />
-    <Nav />
-    <Main {...props}>{children}</Main>
-    <Footer />
-  </Container>
+  <ThemeProvider>
+    <Container>
+      <GlobalStyles />
+      <Nav />
+      <Main {...props}>{children}</Main>
+      <Footer />
+    </Container>
+  </ThemeProvider>
 );
 
 export default Layout;

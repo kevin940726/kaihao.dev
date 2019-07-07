@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import { useStaticQuery, Link, graphql } from 'gatsby';
-import { MAIN_TEXT, SUB_TEXT } from '../constants';
 
 const postListQuery = graphql`
   query PostList {
@@ -30,10 +29,10 @@ const PostList = ({ shouldShowFullList, ...props }) => {
   return (
     <section {...props}>
       <h3
-        css={css`
+        css={theme => css`
           font-size: 24px;
           font-weight: bold;
-          color: ${MAIN_TEXT};
+          color: ${theme.colors.mainText};
           margin: 10px 0 25px;
         `}
       >
@@ -54,10 +53,10 @@ const PostList = ({ shouldShowFullList, ...props }) => {
           >
             <Link
               to={post.fields.slug}
-              css={css`
+              css={theme => css`
                 display: block;
                 font-size: 24px;
-                color: ${SUB_TEXT};
+                color: ${theme.colors.subText};
                 text-decoration: none;
 
                 &:hover {

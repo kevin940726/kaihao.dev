@@ -3,7 +3,6 @@ import { css } from '@emotion/core';
 import slugify from 'slugify';
 import getTextContent from '../utils/getTextContent';
 import { desktop } from '../utils/media';
-import { SUB_TEXT } from '../constants';
 
 slugify.extend({
   '<': '',
@@ -24,22 +23,24 @@ const createHeader = (RenderComponent, options = {}) => ({ children }) => {
   return (
     <RenderComponent
       id={fragment}
-      css={css`
-        position: relative;
-        line-height: 2;
-        color: ${SUB_TEXT};
-        ${!hideBorderBottom &&
-          css`
-            border-bottom: 1px solid #eeeeee;
-          `}
-        scroll-margin-top: 50px;
+      css={theme =>
+        css`
+          position: relative;
+          line-height: 2;
+          color: ${theme.colors.subText};
+          ${!hideBorderBottom &&
+            css`
+              border-bottom: 1px solid #eeeeee;
+            `}
+          scroll-margin-top: 50px;
 
-        ${desktop(css`
-          &:hover > a {
-            opacity: 1;
-          }
-        `)}
-      `}
+          ${desktop(css`
+            &:hover > a {
+              opacity: 1;
+            }
+          `)}
+        `
+      }
     >
       {hideAnchor || (
         <a

@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { mobile } from '../utils/media';
 import logo from '../images/logo.png';
-import { SUB_TEXT, CONTENT_TEXT } from '../constants';
 
 const NAV_HEIGHT = 50; // px
 const MAX_NAV_WIDTH = 760; // px
@@ -28,40 +27,44 @@ const NavContainer = styled.nav`
   `)}
 `;
 
-const Title = styled.h3`
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  font-weight: 500;
-  color: ${SUB_TEXT};
-  margin: 0;
-
-  > a {
+const Title = styled.h3(
+  props => css`
     display: flex;
     align-items: center;
-    color: inherit;
+    font-size: 20px;
+    font-weight: 500;
+    color: ${props.theme.colors.subText};
+    margin: 0;
+
+    > a {
+      display: flex;
+      align-items: center;
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.15s ease-out;
+
+      &:hover {
+        text-decoration: none;
+        opacity: 0.8;
+      }
+    }
+  `
+);
+
+const LinkItem = styled(Link)(
+  props => css`
+    display: inline-block;
+    color: ${props.theme.colors.contentText};
+    font-size: 18px;
+    margin: 0 10px;
     text-decoration: none;
     transition: opacity 0.15s ease-out;
 
     &:hover {
-      text-decoration: none;
       opacity: 0.8;
     }
-  }
-`;
-
-const LinkItem = styled(Link)`
-  display: inline-block;
-  color: ${CONTENT_TEXT};
-  font-size: 18px;
-  margin: 0 10px;
-  text-decoration: none;
-  transition: opacity 0.15s ease-out;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
+  `
+);
 
 const Nav = () => {
   const data = useStaticQuery(graphql`

@@ -1,18 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
-import {
-  CONTENT_TEXT,
-  TWITTER_LINK,
-  GITHUB_LINK,
-  LINKEDIN_LINK,
-} from '../constants';
+import { TWITTER_LINK, GITHUB_LINK, LINKEDIN_LINK } from '../constants';
 
 const Link = ({ children, ...props }) => (
   <OutboundLink
-    css={css`
+    css={theme => css`
       margin: 0 0.5em;
-      color: ${CONTENT_TEXT};
+      color: ${theme.colors.contentText};
     `}
     target="_blank"
     rel="noopener noreferrer"
