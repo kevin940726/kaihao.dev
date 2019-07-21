@@ -3,15 +3,17 @@ import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 import { lightTheme, darkTheme } from '../constants/theme';
 
 const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(lightTheme);
+  const [themeName, setThemeName] = useState('light');
 
   const themeWithToggle = useMemo(
     () => ({
-      ...theme,
-      toggleTheme: () =>
-        setTheme(theme === lightTheme ? darkTheme : lightTheme),
+      themeName,
+      ...(themeName === 'dark' ? darkTheme : lightTheme),
+      toggleDarkMode: () => {
+        setThemeName(themeName === 'dark' ? 'light' : 'dark');
+      },
     }),
-    [theme]
+    [themeName]
   );
 
   return (

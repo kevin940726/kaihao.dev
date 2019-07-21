@@ -10,6 +10,7 @@ const GlobalStyles = () => (
         body {
           height: 100%;
           color: ${theme.colors.contentText};
+          background-color: ${theme.colors.background};
           font-family: 'Open Sans', 'sans-serif';
         }
 

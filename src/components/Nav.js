@@ -4,28 +4,31 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { mobile } from '../utils/media';
 import logo from '../images/logo.png';
+import ToggleDarkMode from './ToggleDarkMode';
 
 const NAV_HEIGHT = 50; // px
 const MAX_NAV_WIDTH = 760; // px
 
-const NavContainer = styled.nav`
-  display: flex;
-  box-sizing: border-box;
-  align-items: center;
-  height: ${NAV_HEIGHT}px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  padding: 10px 20px;
-  z-index: 100;
+const NavContainer = styled.nav(
+  props => css`
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    height: ${NAV_HEIGHT}px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+    background-color: ${props.theme.colors.background};
+    padding: 10px 20px;
+    z-index: 100;
 
-  ${mobile(css`
-    padding: 10px;
-  `)}
-`;
+    ${mobile(css`
+      padding: 10px;
+    `)}
+  `
+);
 
 const Title = styled.h3(
   props => css`
@@ -105,7 +108,7 @@ const Nav = () => {
             </Link>
           </Title>
 
-          <ul
+          {/* <ul
             css={css`
               list-style: none;
             `}
@@ -113,7 +116,8 @@ const Nav = () => {
             <li>
               <LinkItem to="/posts">Blog</LinkItem>
             </li>
-          </ul>
+          </ul> */}
+          <ToggleDarkMode />
         </div>
       </NavContainer>
 

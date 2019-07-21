@@ -1,4 +1,10 @@
-import { MAIN_TEXT, SUB_TEXT, CONTENT_TEXT, BACKGROUND_WHITE } from './colors';
+import {
+  MAIN_TEXT,
+  SUB_TEXT,
+  CONTENT_TEXT,
+  BACKGROUND_WHITE,
+  DIM_WHITE,
+} from './colors';
 
 export const lightTheme = {
   colors: {
@@ -11,9 +17,9 @@ export const lightTheme = {
 
 export const darkTheme = {
   colors: {
-    mainText: MAIN_TEXT,
-    subText: SUB_TEXT,
-    contentText: BACKGROUND_WHITE,
+    mainText: SUB_TEXT,
+    subText: MAIN_TEXT,
+    contentText: DIM_WHITE,
     background: CONTENT_TEXT,
   },
 };

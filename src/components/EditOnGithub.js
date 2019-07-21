@@ -25,14 +25,14 @@ const EditOnGithub = ({ postFileName }) => {
   return (
     <PostLink
       href={getEditURL(repo, postFileName)}
-      css={css`
+      css={theme => css`
         display: inline-flex;
         align-items: center;
         align-self: flex-end;
         font-size: 14px;
         line-height: 1.8;
-        color: #000000;
-        border-color: #000000;
+        color: ${theme.themeName === 'dark' ? '#ffffff' : '#000000'};
+        border-color: currentColor;
         padding-right: 0.2em;
       `}
     >
