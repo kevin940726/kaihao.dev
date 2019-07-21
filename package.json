@@ -72,7 +72,7 @@
     "html-webpack-plugin": "^3.2.0",
     "preval.macro": "^3.0.0",
     "puppeteer": "^1.15.0",
-    "react-cosmos": "^5.0.0-alpha.13",
+    "react-cosmos": "^5.0.0-alpha.15",
     "wait-for-localhost": "^3.2.0"
   },
   "resolutions": {
