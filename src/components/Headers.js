@@ -33,6 +33,7 @@ const createHeader = (RenderComponent, options = {}) => ({ children }) => {
               border-bottom: 1px solid #eeeeee;
             `}
           scroll-margin-top: 50px;
+          margin-bottom: 1em;
 
           ${desktop(css`
             &:hover > a {
