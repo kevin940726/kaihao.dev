@@ -15,7 +15,11 @@ function parseMetaString(metaString = '') {
           // range of lines
           const [startLine, endLine] = tokenLine.split('-');
 
-          for (let line = startLine; line <= endLine; line += 1) {
+          for (
+            let line = parseInt(startLine, 10);
+            line <= parseInt(endLine, 10);
+            line += 1
+          ) {
             lines.add(line);
           }
         } else {
