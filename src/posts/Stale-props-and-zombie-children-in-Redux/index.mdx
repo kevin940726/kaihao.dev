@@ -52,7 +52,9 @@ The `<Provider>` API is relatively straightforward, we just have to pass down th
 const Context = React.createContext();
 
 const Provider = ({ children, store }) => (
-  <Context.Provider value={store}>{children}</Context.Provider>
+  <Context.Provider value={store}>
+    {children}
+  </Context.Provider>
 );
 ```
 
@@ -91,7 +93,9 @@ const reducer = (state, action) => {
     case 'DELETE': {
       return {
         ...state,
-        todos: state.todos.filter(todo => todo.id !== action.payload),
+        todos: state.todos.filter(
+          todo => todo.id !== action.payload
+        ),
       };
     }
     default:
@@ -118,7 +122,8 @@ const Todo = ({ id, content, dispatch }) => (
 );
 
 const TodoContainer = connect((state, ownProps) => ({
-  content: state.todos.find(todo => todo.id === ownProps.id).content,
+  content: state.todos.find(todo => todo.id === ownProps.id)
+    .content,
 }))(Todo);
 
 const TodoList = ({ todos }) => (
@@ -164,11 +169,19 @@ const connect = mapStateToProps => WrappedComponent => props => {
 
   React.useEffect(() => {
     return store.subscribe(() => {
-      setState(mapStateToProps(store.getState(), propsRef.current));
+      setState(
+        mapStateToProps(store.getState(), propsRef.current)
+      );
     });
   }, [store, setState, propsRef]);
 
-  return <WrappedComponent {...props} {...state} dispatch={store.dispatch} />;
+  return (
+    <WrappedComponent
+      {...props}
+      {...state}
+      dispatch={store.dispatch}
+    />
+  );
 };
 ```
 
@@ -201,7 +214,13 @@ const connect = mapStateToProps => WrappedComponent => props => {
     });
   }, [store, forceUpdate]);
 
-  return <WrappedComponent {...props} {...state} dispatch={store.dispatch} />;
+  return (
+    <WrappedComponent
+      {...props}
+      {...state}
+      dispatch={store.dispatch}
+    />
+  );
 };
 ```
 
@@ -334,7 +353,7 @@ You might notice that this is simply just a function to create an _event emitter
 
 The next step is to write our new `connect` HOC and put our `mapStateToProps` inside the listener callbacks to bail out updates early.
 
-```jsx {4-10,17,23-32,36-41,44,46}
+```jsx {4-10,17,26-35,39-44,47,53}
 const connect = mapStateToProps => WrappedComponent => props => {
   const store = React.useContext(Context);
 
@@ -355,7 +374,10 @@ const connect = mapStateToProps => WrappedComponent => props => {
 
   React.useEffect(() => {
     return store.subscribe(() => {
-      const nextState = mapStateToProps(store.getState(), propsRef.current);
+      const nextState = mapStateToProps(
+        store.getState(),
+        propsRef.current
+      );
 
       setState(currentState => {
         if (shallowEqual(currentState, nextState)) {
@@ -379,7 +401,11 @@ const connect = mapStateToProps => WrappedComponent => props => {
 
   return (
     <Provider store={subStore}>
-      <WrappedComponent {...props} {...state} dispatch={store.dispatch} />
+      <WrappedComponent
+        {...props}
+        {...state}
+        dispatch={store.dispatch}
+      />
     </Provider>
   );
 };
@@ -413,7 +439,9 @@ There is a more straightforward way to fix this, by using _React context_. We're
 ```js
 // Again, there're lack of many optimizations and error handlings in this implementation for demonstration purpose.
 const Provider = ({ children, store }) => {
-  const [state, setState] = React.useState(() => store.getState());
+  const [state, setState] = React.useState(() =>
+    store.getState()
+  );
 
   React.useEffect(() => {
     return store.subscribe(() => {
@@ -429,7 +457,11 @@ const Provider = ({ children, store }) => {
     [store, state]
   );
 
-  return <Context.Provider value={context}>{children}</Context.Provider>;
+  return (
+    <Context.Provider value={context}>
+      {children}
+    </Context.Provider>
+  );
 };
 
 const connect = mapStateToProps => WrappedComponent => props => {
@@ -437,7 +469,13 @@ const connect = mapStateToProps => WrappedComponent => props => {
 
   const mappedState = mapStateToProps(state, props);
 
-  return <WrappedComponent {...props} {...mappedState} dispatch={dispatch} />;
+  return (
+    <WrappedComponent
+      {...props}
+      {...mappedState}
+      dispatch={dispatch}
+    />
+  );
 };
 ```
 
@@ -454,7 +492,8 @@ But first, we're going to rewrite our Todo app to use the hooks. More specifical
 ```js
 const Todo = ({ id }) => {
   const content = useSelector(
-    state => state.todos.find(todo => todo.id === id).content
+    state =>
+      state.todos.find(todo => todo.id === id).content
   );
   const dispatch = useDispatch();
 
@@ -487,7 +526,8 @@ We don't need those HOC containers anymore, with hooks, we can just call `useSel
 The `useDispatch` hook implementation is also pretty straightforward.
 
 ```js
-const useDispatch = () => React.useContext(Content).dispatch;
+const useDispatch = () =>
+  React.useContext(Content).dispatch;
 ```
 
 We can create our `useSelector` hook pretty easily too.
@@ -513,7 +553,9 @@ However, it's not even close to being ready to use. Every time the state updated
 ```js
 const useSelector = selector => {
   const store = React.useContext(Context);
-  const [state, setState] = React.useState(() => selector(store.getState()));
+  const [state, setState] = React.useState(() =>
+    selector(store.getState())
+  );
 
   React.useEffect(() => {
     return store.subscribe(() => {
