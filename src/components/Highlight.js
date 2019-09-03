@@ -72,6 +72,10 @@ const Line = styled.div`
   min-height: 1.6em;
   background-color: ${props => (props.highlight ? '#414458' : 'transparent')};
 
+  ${mobile(css`
+    padding: 0 6px;
+  `)}
+
   &:before {
     counter-increment: lines-number;
     content: counter(lines-number);
@@ -81,6 +85,10 @@ const Line = styled.div`
     text-align: right;
     width: 2em;
     color: #666666;
+
+    ${mobile(css`
+      margin-right: 10px;
+    `)}
   }
 
   &::selection {
@@ -112,10 +120,6 @@ const Line = styled.div`
       border-bottom: 7px solid transparent;
     }
   }
-
-  ${mobile(css`
-    padding: 0 10px;
-  `)}
 `;
 
 const Highlight = ({ children, metastring, ...props }) => {
