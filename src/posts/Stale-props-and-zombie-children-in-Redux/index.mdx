@@ -5,6 +5,8 @@ date: '2019-08-11'
 
 If you have read the `react-redux` v7 release documentation, you might have come across the section where it mentioned the [stale props and "zombie children"](https://react-redux.js.org/api/hooks#stale-props-and-zombie-children) problem. Even though it's very well written and clear, it might seem a little bit vague for someone who's not familiar with the problem. This post is about deep diving into the problem and understanding how `react-redux` solved it.
 
+_**Disclaimer**: I'm not an expert on this topic but just being curious to study it online, I could be wrong, keep open-minded. This post is for someone who has already been familiar with React, Redux, and `react-redux`. We won't cover the details of the API design here, so be sure to check out the official documentation if you haven't already. You don't have to understand all of this post to be productive with Redux, however, it's fun to have a deeper knowledge on how the well-known library works under the hood._
+
 ## Understanding `react-redux`
 
 To understand the problem, we have to first understand Redux, or more specifically, `react-redux`. We're going to do that by re-implementing the core features of Redux and `react-redux` together. Note that it's only for demonstration purpose, so we're not going to re-build every feature and optimization of them but just enough to get us to understand the problem we're going to solve.
@@ -42,7 +44,7 @@ const createStore = (reducer, initialState = {}) => {
 
 Above is a bare minimum implementation of the Redux's `createStore` API. The store we use it to create can get the state with `getState()`, subscribe to listeners via `subscribe(listener)`, and dispatch actions with `dispatch(action)`, just like the official API we're used to.
 
-The next step is to figure out how to integrate it with React. We're going to build a [`<Provider>`](https://react-redux.js.org/api/provider) component to pass down `store` via context, a [`connect`](https://react-redux.js.org/api/connect) HOC to wrap presentational components, and most recently, a[`useSelector`](https://react-redux.js.org/api/hooks#useselector) [hook](https://reactjs.org/docs/hooks-intro.html) to replace `connect` in most cases. We're not going to discuss the APIs, so be sure to read the documentation first if you haven't already yet.
+The next step is to figure out how to integrate it with React. We're going to build a [`<Provider>`](https://react-redux.js.org/api/provider) component to pass down `store` via context, a [`connect`](https://react-redux.js.org/api/connect) HOC to wrap presentational components, and most recently, a[`useSelector`](https://react-redux.js.org/api/hooks#useselector) [hook](https://reactjs.org/docs/hooks-intro.html) to replace `connect` in most cases.
 
 The `<Provider>` API is relatively straightforward, we just have to pass down the `store` created by `createStore` via React's context.
 
@@ -332,7 +334,7 @@ You might notice that this is simply just a function to create an _event emitter
 
 The next step is to write our new `connect` HOC and put our `mapStateToProps` inside the listener callbacks to bail out updates early.
 
-```jsx {4-10,17,23-32,36-41,45,46}
+```jsx {4-10,17,23-32,36-41,44,46}
 const connect = mapStateToProps => WrappedComponent => props => {
   const store = React.useContext(Context);
 
@@ -591,9 +593,9 @@ In this approach, we assume that the `selector` function provided by the user ha
 
 In short, the `selector` must be a **pure function**. We could potentially be running the `selector` multiple times during updates. As long as the `selector` is pure, then running them multiple times shouldn't be an issue. Furthermore, `React.StrictMode` has kind of already enforced the rules for rendering for quite some time, it should be a better practice to do so in `selector` too.
 
-We can do many more optimizations to enhance the performance, like only forcing it to call the `selector` in render phase when it needs to (when it has stale props or the selector has changed). However, it's the basic idea of how `useSelector` work under the hood and why we have to keep our selectors _pure_.
-
 We can also decide to deal with the problem ourselves as the users. Carefully guard the `selector` function and gracefully handle the errors is a bit much, but is still a good solution.
+
+We can do many more optimizations to enhance the performance, like only forcing it to call the `selector` in render phase when it needs to (when it has stale props or the selector has changed). However, it's the basic idea of how `useSelector` work under the hood and why we have to keep our selectors _pure_.
 
 ## Takeaways
 
