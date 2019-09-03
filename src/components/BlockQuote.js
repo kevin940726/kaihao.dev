@@ -24,13 +24,15 @@ const BlockQuote = styled.blockquote(
       padding: 1rem;
     `)}
 
-    p {
-      &:first-of-type {
-        margin-top: 0;
-      }
-      &:last-of-type {
-        margin-bottom: 0;
-      }
+    /**
+     * This line will throw the below error in development mode, since we're not using SSR, we can safely ignore it.
+     * 'The pseudo class ":first-child" is potentially unsafe when doing server-side rendering. Try changing it to ":first-of-type".'
+     */
+    > :first-child {
+      margin-top: 0;
+    }
+    > :last-child {
+      margin-bottom: 0;
     }
   `
 );
