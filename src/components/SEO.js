@@ -42,7 +42,7 @@ function SEO({ title, description, image, lang = 'en', children }) {
           defaultTitle={data.site.siteMetadata.title}
         >
           <title>{title}</title>
-          <meta property="description" content={metaDescription} />
+          <meta name="description" content={metaDescription} />
           <meta property="og:url" content={`${origin}${location.pathname}`} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={metaDescription} />
