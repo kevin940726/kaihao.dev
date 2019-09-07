@@ -44,7 +44,7 @@ const createStore = (reducer, initialState = {}) => {
 
 Above is a bare minimum implementation of the Redux's `createStore` API. The store we use it to create can get the state with `getState()`, subscribe to listeners via `subscribe(listener)`, and dispatch actions with `dispatch(action)`, just like the official API we're used to.
 
-The next step is to figure out how to integrate it with React. We're going to build a [`<Provider>`](https://react-redux.js.org/api/provider) component to pass down `store` via context, a [`connect`](https://react-redux.js.org/api/connect) HOC to wrap presentational components, and most recently, a[`useSelector`](https://react-redux.js.org/api/hooks#useselector) [hook](https://reactjs.org/docs/hooks-intro.html) to replace `connect` in most cases.
+The next step is to figure out how to integrate it with React. We're going to build a [`<Provider>`](https://react-redux.js.org/api/provider) component to pass down `store` via context, a [`connect`](https://react-redux.js.org/api/connect) HOC to wrap presentational components, and most recently, a[`useSelector`](https://react-redux.js.org/api/hooks#useselector) hook to replace `connect` in most cases.
 
 The `<Provider>` API is relatively straightforward, we just have to pass down the `store` created by `createStore` via React's context.
 
@@ -108,7 +108,7 @@ const store = createStore(reducer, {
 });
 ```
 
-Then, let's create the todo component, and wrap it with `connect` _(We are building the API using `connect` HOC only here. We'll talk about `useSelector` later)._
+Then, let's create a todo component, and wrap it with `connect` _(We are building the API using `connect` HOC only here. We'll talk about `useSelector` later)._
 
 ```jsx
 const Todo = ({ id, content, dispatch }) => (
@@ -250,7 +250,7 @@ We were so confident that it would work, we saved it, committed, and released it
 
 ## `unstable_batchedUpdates`
 
-Why does adding a simple `setTimeout` cause the whole app to crash? To examine this issue, we have to go back and follow each step again. The first 4 steps are the same as before, so we can start from the 5th.
+Why does adding a simple `setTimeout` cause the whole app to crash? To examine this issue, we have to go back and follow each step again. We can do this by adding a bunch of `console.log` in the code and verify the output, but we're going to save some time here and just provide the result. The first 4 steps are the same as before, so we can start from the 5th.
 
 **Before adding `setTimeout`:**
 
@@ -272,7 +272,7 @@ Note that between these 2 cases, the 6th step is different. The former is callin
 
 In our example above, React batches both `<Todo>`'s `forceUpdate()` and `<TodoList>`'s `forceUpdate()` together and then finally render them all at once. **Another important note here is that during the re-render, React will ensure to perform it from top to bottom.** That's why the parent (`<TodoList>`) will re-render first, and then skip rendering `<Todo>`.
 
-Fortunately, sometime in the future, [React probably will make sure all `setState` is asynchronous](https://twitter.com/dan_abramov/status/959557687158689792), so we don't have to deal with this problem anymore.
+Fortunately, sometime in the future, [React probably will make sure all `setState` is asynchronous](https://twitter.com/dan_abramov/status/959557687158689792), which means that even if we put our `setState` inside `setTimeout`, the updates would still batch together.
 
 So we're just going to wait? Of course not. There's another way to fix this now.
 
@@ -350,9 +350,7 @@ const createSubscription = () => {
 
 We create a `createSubscription` function, which is much like `createStore`, it also has the listeners and `subscribe` function. The differences are that it doesn't keep any states, and also have a `notifyUpdates()` method. The `notifyUpdates()` method is used to notify all of the children below to trigger their listener callbacks, we'll discuss more on that later.
 
-You might notice that this is simply just a function to create an _event emitter_, which is exactly right. Also, note that we don't even have to use `unstable_batchedUpdates` in the notify function, it should just work.
-
-The next step is to write our new `connect` HOC and put our `mapStateToProps` inside the listener callbacks to bail out updates early.
+You might notice that this is simply just a function to create an _event emitter_, which is exactly right and it's just as simple as that. The next step is to write our new `connect` HOC and put our `mapStateToProps` inside the listener callbacks to bail out updates early.
 
 ```jsx {4-10,17,26-35,39-44,47,53}
 const connect = mapStateToProps => WrappedComponent => props => {
@@ -383,7 +381,7 @@ const connect = mapStateToProps => WrappedComponent => props => {
       setState(currentState => {
         if (shallowEqual(currentState, nextState)) {
           // Bail out updates
-          return null;
+          return currentState;
         }
 
         hasChanged.current = true;
@@ -398,7 +396,7 @@ const connect = mapStateToProps => WrappedComponent => props => {
       hasChanged.current = false;
       subStore.notifyUpdates();
     }
-  }, [hasChanged, subStore]);
+  }); // Don't pass dependencies so that it will run after every re-render
 
   return (
     <Provider store={subStore}>
@@ -416,7 +414,7 @@ There're a lot of things going around here, let's break them down one by one. Th
 
 We create ref `hasChanged` to record whether the state has changed, much like `componentDidUpdate`. In our listener callback, we can see that we're using `mapStateToProps` directly inside it and doing a shallow comparing to determine if we can bail out updates if the mapped state does not change.
 
-In the return statement, we wrap our component again with the `<Provider>` component, and explicitly overriding the store context with our newly created `subStore`. So that every component below the tree will get our `subStore` rather than the global `store`.
+In the return statement, we wrap our component again with the `<Provider>` component, and explicitly overriding the store context with our newly created `subStore`. So that every component below the tree will get our `subStore` rather than the top-most `store`.
 
 Lastly, we create another effect to call `subStore.notifyUpdates()` to all the children below the tree if the state has changed **after the render**. **The children's callbacks won't get called until the latest props have already passed down to them in the next render**, thus eliminating the **stale props** problem.
 
@@ -428,8 +426,13 @@ Click the item again, the item will now successfully be deleted without throwing
 4. The store receives the action, run it through the _reducer_, and change the `todos` state to an empty array `{ todos: [] }`.
 5. The `store` then calls subscribed listeners. Since there's only one listener subscribed to `store`, only `<TodoList>`'s listener will be called, `<Todo>` won't.
 6. `<TodoList>` calls the listener callback, calls `mapStateToProps` with the latest state (`store.getState()`) and the latest props (`propsRef.current`).
-7. The mapped state is not shallowly equal, so we call `setState` to re-render the component with the latest mapped state. `<TodoList>` then renders nothing since there're no items in the list anymore.
-8. In other cases when `<TodoList>` still renders `<Todo>`, it will then calls `subStore.notifyUpdates()` after the render. `<Todo>`'s listener callback fires and repeat the steps from the 6th.
+7. The mapped state is not shallowly equal, so we return the new state in `setState` function callback to re-render the component with the latest mapped state. `<TodoList>` then renders an empty `<ul>` since there're no items in the list anymore.
+8. `<Todo>` un-mounts, calls the unsubscribe function in the effect, remove it's listener callback from the listeners array in the `subStore`.
+9. `<TodoList>` calls `subStore.notifyUpdates()` after the render, since we don't have any listeners in `subStore` left to call, the whole process completed successfully.
+
+For cases where there are still some children left, Each children will then call their listener callbacks. Because they will be called after the render, they will have the latest props passed from their parents available.
+
+Note that we don't even have to use `unstable_batchedUpdates` in the `notifyUpdates` function. The updates in the same hierarchy call are _split_ into different `subStore`, the children component will only call the listener callback when the parent has finished re-rendered, so there's no need to batch them together.
 
 This is the basic idea of how the nested subscriptions model is implemented in `react-redux` v5 (of course lack of tons of optimizations). [The result is gaining significant performance boost when we can bail out updates early and don't have to invoke React whenever possible](https://github.com/reduxjs/react-redux/pull/416). Also, we can get rid of `unstable_batchedUpdates`, which is tricky to be included in `react-redux` (it's from `react-dom` but `react-redux` can be used in other renderers as well). It's a huge win!
 
