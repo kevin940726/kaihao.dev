@@ -406,7 +406,7 @@ const connectV5 = mapStateToProps => WrappedComponent => props => {
 
 There're a lot of things going around here, let's break them down one by one. The basic implementation is somewhat similar to our first approach. We create a new `subStore` by creating a `subscription` we just implemented and merge it with our original `store`. As a result, the `subscribe` method will override the original `subscribe` method in `store`, and also add a new method called `notifyUpdates`.
 
-There are 2 places where we run our `mapStateToProps` selector. We run our `mapStateToProps` in the render phase, so that they will always get the latest props after we call `forceUpdate()` in the callback. In our listener callback, we can see that we're also using `mapStateToProps` directly inside it and doing a shallow comparing to determine if we can bail out updates if the mapped state does not change.
+There are 2 places where we run our `mapStateToProps` selector. We run our `mapStateToProps` in the render phase so that they will always get the latest props after we call `forceUpdate()` in the callback. In our listener callback, we can see that we're also using `mapStateToProps` directly inside it and doing a shallow comparing to determine if we can bail out updates if the mapped state does not change.
 
 In the return statement, we wrap our component again with the `<Provider>` component, and explicitly overriding the store context with our newly created `subStore`. So that every component below the tree will get our `subStore` rather than the top-most `store`.
 
@@ -421,12 +421,12 @@ Click the item again, the item will now successfully be deleted without throwing
 5. The `store` then calls subscribed listeners. Since there's only one listener subscribed to `store`, only `<TodoList>`'s listener will be called, `<Todo>` won't.
 6. `<TodoList>` calls the listener callback, calls `mapStateToProps` with the latest state (`store.getState()`) and the latest props (`propsRef.current`).
 7. The mapped state is not shallowly equal, so we schedule an update with `forceUpdate()`. `<TodoList>` then calls `mapStateToProps` again in the render phase and return an empty `<ul>` since there're no items in the list anymore.
-8. `<Todo>` will unmount, so it calls the unsubscribe function in the effect, remove it's listener callback from the listeners array in the `subStore`.
+8. `<Todo>` will unmount, so it calls the unsubscribe function in the effect, remove its listener callback from the `listeners` array in the `subStore`.
 9. `<TodoList>` calls the effect and run `subStore.notifyUpdates()` after the render, since we don't have any listeners in `subStore` left to call, the whole process completed successfully.
 
-For cases where there are still some children left, Each children will then call their listener callbacks. Because they will be called after the render, they will have the latest props passed from their parents available.
+For cases where there are still some children left, Each child will then call their listener callbacks. Because they will be called after the render, they will have the latest props passed from their parents available.
 
-Interesting that we are running `mapStateToProps` potentially 2 times in the children component, one is inside the listener callback and the other is triggered by parent's re-rendering. The latter should happens before the former, but both the state and the props should be up-to-date and the same between each run. For further optimizing performance, we can memoize the `mapStateToProps` function so that it won't have to call itself twice in such cases.
+Interesting that we are running `mapStateToProps` potentially 2 times in the children component, one is inside the listener callback and the other is triggered by parent's re-rendering. The latter should happen before the former, but both the state and the props should be up-to-date and the same between each run. For further optimizing performance, we can memoize the `mapStateToProps` function so that it won't have to call itself twice in such cases.
 
 Note that we don't even have to use `unstable_batchedUpdates` in the `notifyUpdates` function. The updates in the same hierarchy call are _split_ into different `subStore`, the children component will only call the listener callback when the parent has finished re-rendered, so there's no need to batch them together.
 
@@ -480,7 +480,7 @@ const connect = mapStateToProps => WrappedComponent => props => {
 };
 ```
 
-It all seems so perfect, the implementation looks straightforward, we can still do the same optimizations as in our first approach (`react-redux` v4), we don't have to deal with stale props and zombie children problem anymore. This is essentially how we normally do in user land and how some popular libraries like [`unstated-next`](https://github.com/jamiebuilds/unstated-next) do it for us. Still, it might be a perfect solution for multiple smaller stores, `Redux` has only one global store. The cost of performance is significant enough to force us to iterate from it again.
+It all seems so perfect, the implementation looks straightforward, we can still do the same optimizations as in our first approach (`react-redux` v4), we don't have to deal with stale props and zombie children problem anymore. This is essentially how we normally do in userland and how some popular libraries like [`unstated-next`](https://github.com/jamiebuilds/unstated-next) do it for us. Still, it might be a perfect solution for multiple smaller stores, `Redux` has only one global store. The cost of performance is significant enough to force us to iterate from it again.
 
 Remember why we iterate from the first approach to the nested subscriptions model? It's so that we can bail out updates early even before we call `setState` and re-render the component. In this approach, since we can only get the whole state in render phase, **it means that we have to always call `setState` first and re-render the component to get the latest state later**. Only until then we can call `mapStateToProps` to get our mapped state the component cares about. In fact, there are several [performance regression incidents](https://github.com/reduxjs/react-redux/issues/1164) when `react-redux` v6 first released. Additionally, [the React team even mentioned that they don't recommend to use React context for flux-like state propagation at the time](https://github.com/facebook/react/issues/14110#issuecomment-448074060).
 
