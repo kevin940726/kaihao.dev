@@ -424,7 +424,7 @@ Click the item again, the item will now successfully be deleted without throwing
 8. `<Todo>` will unmount, so it calls the unsubscribe function in the effect, remove its listener callback from the `listeners` array in the `subStore`.
 9. `<TodoList>` calls the effect and run `subStore.notifyUpdates()` after the render, since we don't have any listeners in `subStore` left to call, the whole process completed successfully.
 
-For cases where there are still some children left, Each child will then call their listener callbacks. Because they will be called after the render, they will have the latest props passed from their parents available.
+For cases where there are still some children left, each child will then call their listener callbacks. Because they will be called after the render, they will have the latest props passed from their parents available.
 
 Interesting that we are running `mapStateToProps` potentially 2 times in the children component, one is inside the listener callback and the other is triggered by parent's re-rendering. The latter should happen before the former, but both the state and the props should be up-to-date and the same between each run. For further optimizing performance, we can memoize the `mapStateToProps` function so that it won't have to call itself twice in such cases.
 
