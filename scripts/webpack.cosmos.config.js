@@ -8,6 +8,7 @@ module.exports = baseConfig => {
   const jsRule = baseConfig.module.rules.find(rule => rule.test.test('.js'));
   jsRule.exclude = /node_modules\/(?!gatsby)/;
   jsRule.use.loader = require.resolve('gatsby/dist/utils/babel-loader.js');
+  jsRule.use.options.stage = process.env.GATSBY_BUILD_STAGE;
 
   // Remove JSON rule since webpack4 already handles it
   const jsonRuleIndex = baseConfig.module.rules.findIndex(rule =>
