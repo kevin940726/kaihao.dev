@@ -352,8 +352,8 @@ We create a `createSubscription` function, which is much like `createStore`, it 
 
 You might notice that this is simply just a function to create an _event emitter_, which is exactly right and it's just as simple as that. The next step is to write our new `connect` HOC and put our `mapStateToProps` inside the listener callbacks to bail out updates early.
 
-```jsx {4-10,14,22-24,30-32,35,41}
-const connectV5 = mapStateToProps => WrappedComponent => props => {
+```jsx {4-10,14-17,28-30,36-38,41,47}
+const connect = mapStateToProps => WrappedComponent => props => {
   const store = React.useContext(Context);
 
   const subStore = React.useMemo(
