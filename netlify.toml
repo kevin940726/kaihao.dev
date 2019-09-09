@@ -23,6 +23,18 @@
   status = 301
   force = true
 
+# Redirect from some popular old sites to their new url
+[[redirects]]
+  from = "https://kaihao.dev/BeanfunLogin"
+  to = "https://kevin940726.github.io/BeanfunLogin"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://kaihao.dev/minesweeper"
+  to = "https://kevin940726.github.io/minesweeper"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/cosmos/*"
 
