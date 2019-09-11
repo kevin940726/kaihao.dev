@@ -352,7 +352,7 @@ We create a `createSubscription` function, which is much like `createStore`, it 
 
 You might notice that this is simply just a function to create an _event emitter_, which is exactly right and it's just as simple as that. The next step is to write our new `connect` HOC and put our `mapStateToProps` inside the listener callbacks to bail out updates early.
 
-```jsx {4-10,14-17,28-30,36-38,41,47}
+```jsx {4-10,14-17,28-32,38-40,43,49}
 const connect = mapStateToProps => WrappedComponent => props => {
   const store = React.useContext(Context);
 
@@ -381,12 +381,14 @@ const connect = mapStateToProps => WrappedComponent => props => {
       );
 
       if (shallowEqual(stateRef.current, nextState)) {
+        // Bail out updates early, immediately notify updates to children
+        subStore.notifyUpdates();
         return;
       }
 
       forceUpdate();
     });
-  }, [store, propsRef, stateRef, forceUpdate]);
+  }, [store, propsRef, stateRef, forceUpdate, subStore]);
 
   React.useEffect(() => {
     subStore.notifyUpdates();
