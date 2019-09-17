@@ -41,6 +41,8 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
@@ -52,10 +54,11 @@ module.exports = {
             },
           },
         ],
+        // FIXME: To fix a weird bug in plugin-mdx and remark-images where images got "stacked"
+        // See: https://github.com/gatsbyjs/gatsby/issues/15486#issuecomment-510153237
+        plugins: ['gatsby-remark-images'],
       },
     },
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
