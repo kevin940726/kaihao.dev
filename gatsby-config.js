@@ -83,13 +83,6 @@ module.exports = {
     'gatsby-plugin-emotion',
     'gatsby-plugin-netlify',
     'gatsby-plugin-remove-trailing-slashes',
-    {
-      resolve: 'gatsby-plugin-google-analytics',
-      options: {
-        trackingId: 'UA-75983216-5',
-        respectDNT: true,
-      },
-    },
     isAuditing && {
       resolve: 'gatsby-plugin-webpack-bundle-analyzer',
       options: {
