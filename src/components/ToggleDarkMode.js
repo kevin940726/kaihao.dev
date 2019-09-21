@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { css, ThemeContext } from '@emotion/core';
+import { CONTENT_TEXT } from '../constants';
 import SVG from './SVG';
 import sun from '../images/sun.svg';
 import moon from '../images/moon.svg';
@@ -57,7 +58,6 @@ const ToggleDarkMode = () => {
           height: 30px;
           width: 60px;
           border-radius: 40px;
-          box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
           background-color: ${theme.colors.reverseBackground};
           transition: background-color 0.2s ease-out;
           user-select: none;
@@ -71,7 +71,7 @@ const ToggleDarkMode = () => {
             height: 30px;
             width: 30px;
             border-radius: 50%;
-            box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
+            border: 1px solid ${CONTENT_TEXT};
             background-color: #ffffff;
             transition: transform 0.2s ease-out, background-color 0.2s ease-out;
           }

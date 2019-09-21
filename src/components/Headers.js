@@ -30,7 +30,7 @@ const createHeader = (RenderComponent, options = {}) => ({ children }) => {
           color: ${theme.colors.subText};
           ${!hideBorderBottom &&
             css`
-              border-bottom: 1px solid #eeeeee;
+              border-bottom: 1px solid ${theme.colors.horizontal};
             `}
           scroll-margin-top: 50px;
           margin-bottom: 1em;

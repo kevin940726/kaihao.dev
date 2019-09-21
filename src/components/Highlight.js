@@ -47,7 +47,8 @@ const Container = styled.div(
 
     ${mobile(css`
       border-radius: 0;
-      border: none;
+      border-left: none;
+      border-right: none;
     `)}
   `
 );
