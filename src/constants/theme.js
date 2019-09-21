@@ -1,14 +1,12 @@
 import {
   MAIN_TEXT,
-  DARKER_MAIN_COLOR,
   SUB_TEXT,
-  DARKER_SUB_COLOR,
   CONTENT_TEXT,
   BACKGROUND_WHITE,
   DIM_WHITE,
   BACKGROUND_BLACK,
   DARKER_WHITE,
-  PURE_BLACK,
+  GREY,
 } from './colors';
 
 export const lightTheme = {
@@ -33,6 +31,6 @@ export const darkTheme = {
     reverseBackground: DIM_WHITE,
     contentBackground: CONTENT_TEXT,
     border: BACKGROUND_BLACK,
-    horizontal: PURE_BLACK,
+    horizontal: GREY,
   },
 };
