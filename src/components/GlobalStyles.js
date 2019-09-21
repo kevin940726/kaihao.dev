@@ -1,6 +1,7 @@
 import React from 'react';
 import 'modern-normalize';
 import { Global, css } from '@emotion/core';
+import 'focus-visible';
 
 const GlobalStyles = () => (
   <Global
@@ -10,7 +11,7 @@ const GlobalStyles = () => (
         body {
           height: 100%;
           color: ${theme.colors.contentText};
-          background-color: ${theme.colors.background};
+          background-color: ${theme.colors.contentBackground};
           font-family: 'Open Sans', 'sans-serif';
         }
 
@@ -28,6 +29,7 @@ const GlobalStyles = () => (
 
           & > div[role='group'] {
             height: 100%;
+            min-height: 100%;
           }
         }
       `

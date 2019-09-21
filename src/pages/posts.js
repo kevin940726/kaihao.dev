@@ -8,15 +8,14 @@ const PostsPage = () => (
   <Layout>
     <SEO title="Posts" />
 
-    <PostList
-      shouldShowFullList
-      css={css`
-        width: 760px;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 40px 20px;
-      `}
-    />
+    <Layout.Main>
+      <PostList
+        shouldShowFullList
+        css={css`
+          padding: 40px 0;
+        `}
+      />
+    </Layout.Main>
   </Layout>
 );
 

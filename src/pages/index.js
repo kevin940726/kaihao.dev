@@ -12,23 +12,17 @@ const IndexPage = () => (
 
     <Hero />
 
-    <PostList
-      css={theme => css`
-        width: 760px;
-        max-width: 100%;
-        margin: -40px auto 150px;
-        background-color: ${theme.colors.background};
-        border-radius: 4px;
-        padding: 20px;
-        box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.25);
+    <Layout.Main>
+      <PostList
+        css={theme => css`
+          margin: -40px auto 150px;
 
-        ${mobile(css`
-          margin-top: 0;
-          border-radius: 0;
-          box-shadow: none;
-        `)}
-      `}
-    />
+          ${mobile(css`
+            margin-top: 0;
+          `)}
+        `}
+      />
+    </Layout.Main>
   </Layout>
 );
 
