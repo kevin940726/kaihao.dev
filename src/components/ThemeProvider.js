@@ -8,11 +8,13 @@ import React, {
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 import { lightTheme, darkTheme } from '../constants/theme';
 
-const matchDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+const matchDarkMedia =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-color-scheme: dark)');
 
 const ThemeProvider = ({ children }) => {
   const [themeName, setThemeName] = useState(() =>
-    matchDarkMedia.matches ? 'dark' : 'light'
+    matchDarkMedia && matchDarkMedia.matches ? 'dark' : 'light'
   );
   const hasSetTheme = useRef(false);
 
