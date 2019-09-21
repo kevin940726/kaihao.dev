@@ -7,6 +7,8 @@ import {
   BACKGROUND_WHITE,
   DIM_WHITE,
   BACKGROUND_BLACK,
+  DARKER_WHITE,
+  PURE_BLACK,
 } from './colors';
 
 export const lightTheme = {
@@ -18,17 +20,19 @@ export const lightTheme = {
     reverseBackground: CONTENT_TEXT,
     contentBackground: BACKGROUND_WHITE,
     border: 'transparent',
+    horizontal: DARKER_WHITE,
   },
 };
 
 export const darkTheme = {
   colors: {
-    mainText: DARKER_MAIN_COLOR,
-    subText: DARKER_SUB_COLOR,
+    mainText: MAIN_TEXT,
+    subText: SUB_TEXT,
     contentText: BACKGROUND_WHITE,
     background: BACKGROUND_BLACK,
     reverseBackground: DIM_WHITE,
     contentBackground: CONTENT_TEXT,
     border: BACKGROUND_BLACK,
+    horizontal: PURE_BLACK,
   },
 };

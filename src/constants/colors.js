@@ -6,3 +6,5 @@ export const CONTENT_TEXT = '#28232d';
 export const BACKGROUND_WHITE = '#ffffff';
 export const BACKGROUND_BLACK = '#121212';
 export const DIM_WHITE = '#f5f5f5';
+export const DARKER_WHITE = '#eeeeee';
+export const PURE_BLACK = '#000000';
