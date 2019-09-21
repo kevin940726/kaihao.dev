@@ -5,25 +5,21 @@ import { graphql, useStaticQuery } from 'gatsby';
 import Img from 'gatsby-image';
 import SocialLinks from './SocialLinks';
 
-const HeroSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  height: 350px;
-  background: linear-gradient(
-    105.18deg,
-    rgba(242, 153, 74, 0.97) 0%,
-    rgba(242, 153, 74, 0.76) 78.72%
-  );
-  padding: 30px 20px;
+const HeroSection = styled.section(
+  props => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 350px;
+    padding: 30px 20px;
 
-  p {
-    color: #ffffff;
-    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
-    margin-top: 0;
-  }
-`;
+    p {
+      color: ${props.theme.colors.subText};
+      margin-top: 0;
+    }
+  `
+);
 
 const Hero = () => {
   const data = useStaticQuery(graphql`
@@ -55,6 +51,7 @@ const Hero = () => {
       <p
         css={css`
           font-size: 36px;
+          font-weight: bold;
           margin-bottom: 10px;
         `}
       >

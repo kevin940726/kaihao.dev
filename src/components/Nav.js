@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, graphql, useStaticQuery } from 'gatsby';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import { rgba } from 'polished';
+import { BACKGROUND_BLACK } from '../constants';
 import { mobile } from '../utils/media';
 import logo from '../images/logo.png';
 import ToggleDarkMode from './ToggleDarkMode';
@@ -19,8 +21,9 @@ const NavContainer = styled.nav(
     position: fixed;
     top: 0;
     left: 0;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
-    background-color: ${props.theme.colors.background};
+    box-shadow: 0 2px 1px ${rgba(BACKGROUND_BLACK, 0.1)};
+    border-bottom: 1px solid ${props.theme.colors.border};
+    background-color: ${props.theme.colors.contentBackground};
     padding: 10px 20px;
     z-index: 100;
 
@@ -50,21 +53,6 @@ const Title = styled.h3(
         text-decoration: none;
         opacity: 0.8;
       }
-    }
-  `
-);
-
-const LinkItem = styled(Link)(
-  props => css`
-    display: inline-block;
-    color: ${props.theme.colors.contentText};
-    font-size: 18px;
-    margin: 0 10px;
-    text-decoration: none;
-    transition: opacity 0.15s ease-out;
-
-    &:hover {
-      opacity: 0.8;
     }
   `
 );
@@ -108,15 +96,6 @@ const Nav = () => {
             </Link>
           </Title>
 
-          {/* <ul
-            css={css`
-              list-style: none;
-            `}
-          >
-            <li>
-              <LinkItem to="/posts">Blog</LinkItem>
-            </li>
-          </ul> */}
           <ToggleDarkMode />
         </div>
       </NavContainer>

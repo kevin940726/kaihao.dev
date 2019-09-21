@@ -30,23 +30,27 @@ Prism.languages.sh = {
   punctuation: bash.punctuation,
 };
 
-const Container = styled.div`
-  position: relative;
-  overflow: hidden;
-  margin: 0 -20px 2rem;
-  border-radius: 4px;
-  /* Create a new stacking context to correctly show the border-radius */
-  perspective: 1px;
+const Container = styled.div(
+  props => css`
+    position: relative;
+    overflow: hidden;
+    margin: 0 -20px 2rem;
+    border-radius: 4px;
+    border: 1px solid ${props.theme.colors.border};
+    /* Create a new stacking context to correctly show the border-radius */
+    perspective: 1px;
 
-  &:hover ${CopyButton} {
-    transform: translateY(0%);
-    opacity: 1;
-  }
+    &:hover ${CopyButton} {
+      transform: translateY(0%);
+      opacity: 1;
+    }
 
-  ${mobile(css`
-    border-radius: 0;
-  `)}
-`;
+    ${mobile(css`
+      border-radius: 0;
+      border: none;
+    `)}
+  `
+);
 
 const Pre = styled.pre`
   && {

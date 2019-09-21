@@ -9,14 +9,13 @@ const Icon = ({ src, alt, ...props }) => (
     src={src}
     aria-label={alt}
     css={theme => css`
-      width: 20px;
-      height: 20px;
-      margin: 0 5px;
-      color: ${theme.colors.contentText};
+      width: 18px;
+      height: 18px;
+      color: ${theme.colors.contentBackground};
 
       svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
       }
     `}
     {...props}
@@ -40,6 +39,10 @@ const ToggleDarkMode = () => {
           &:checked + label:after {
             transform: translateX(100%);
           }
+
+          &.focus-visible:focus + label:after {
+            outline: -webkit-focus-ring-color auto 5px;
+          }
         `}
         checked={theme.themeName === 'dark'}
         onChange={theme.toggleDarkMode}
@@ -55,7 +58,7 @@ const ToggleDarkMode = () => {
           width: 60px;
           border-radius: 40px;
           box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
-          background-color: ${theme.colors.background};
+          background-color: ${theme.colors.reverseBackground};
           transition: background-color 0.2s ease-out;
           user-select: none;
 
@@ -74,8 +77,20 @@ const ToggleDarkMode = () => {
           }
         `}
       >
-        <Icon src={moon} alt="dark-theme" />
-        <Icon src={sun} alt="light-theme" />
+        <Icon
+          src={sun}
+          alt="light-theme"
+          css={css`
+            margin-left: 8px;
+          `}
+        />
+        <Icon
+          src={moon}
+          alt="dark-theme"
+          css={css`
+            margin-right: 8px;
+          `}
+        />
       </label>
     </>
   );
