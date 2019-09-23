@@ -37,7 +37,7 @@ const EditOnGithub = ({ postFileName }) => {
         padding-right: 0.2em;
 
         ${darkMode(css`
-          color: '#ffffff';
+          color: #ffffff;
         `)}
       `}
     >
