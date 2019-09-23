@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { getThemeMode, addListener } from '../utils/themeMode';
 
 const useThemeMode = () => {
-  const [themeMode, setThemeMode] = useState(() => getThemeMode());
+  const [themeMode, setThemeMode] = useState(null);
 
   useEffect(() => {
-    return addListener(setThemeMode);
+    setThemeMode(window.__THEME_MODE_HOOK.getThemeMode());
+
+    return window.__THEME_MODE_HOOK.addListener(setThemeMode);
   }, [setThemeMode]);
 
   return themeMode;

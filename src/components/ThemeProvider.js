@@ -1,7 +1,6 @@
 import React from 'react';
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 import themeVariables from '../constants/theme';
-import { toggleDarkMode } from '../utils/themeMode';
 
 const themeValues = { colors: {} };
 for (let color of Object.keys(themeVariables.colors)) {
@@ -10,7 +9,7 @@ for (let color of Object.keys(themeVariables.colors)) {
 
 const themeWithToggle = {
   ...themeValues,
-  toggleDarkMode,
+  toggleDarkMode: () => window.__THEME_MODE_HOOK.toggleDarkMode(),
 };
 
 const ThemeProvider = ({ children }) => {
