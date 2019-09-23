@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { rgba } from 'polished';
 import { mobile } from '../utils/media';
 
 const BlockQuote = styled.blockquote(
@@ -8,7 +7,7 @@ const BlockQuote = styled.blockquote(
     position: relative;
     margin: 1rem 0 2rem;
     padding: 1rem 2rem;
-    background-color: ${rgba(props.theme.colors.mainText, 0.1)};
+    background-color: ${props.theme.colors.blockQuoteBackground};
 
     &:before {
       content: '';

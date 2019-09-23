@@ -2,6 +2,7 @@ import React from 'react';
 import 'modern-normalize';
 import { Global, css } from '@emotion/core';
 import 'focus-visible';
+import themeVariables, { lightTheme, darkTheme } from '../constants/theme';
 
 const GlobalStyles = () => (
   <Global
@@ -31,6 +32,24 @@ const GlobalStyles = () => (
             height: 100%;
             min-height: 100%;
           }
+        }
+
+        body {
+          ${Object.entries(themeVariables.colors)
+            .map(
+              ([key, variableName]) =>
+                `${variableName}: ${lightTheme.colors[key]};`
+            )
+            .join('\n')}
+        }
+
+        body[data-theme-mode='dark'] {
+          ${Object.entries(themeVariables.colors)
+            .map(
+              ([key, variableName]) =>
+                `${variableName}: ${darkTheme.colors[key]};`
+            )
+            .join('\n')}
         }
       `
     }

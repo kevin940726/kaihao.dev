@@ -1,3 +1,4 @@
+import { rgba } from 'polished';
 import {
   MAIN_TEXT,
   SUB_TEXT,
@@ -19,6 +20,8 @@ export const lightTheme = {
     contentBackground: BACKGROUND_WHITE,
     border: 'transparent',
     horizontal: DARKER_WHITE,
+    blockQuoteBackground: rgba(MAIN_TEXT, 0.1),
+    inlineCodeBackground: rgba(SUB_TEXT, 0.1),
   },
 };
 
@@ -32,5 +35,22 @@ export const darkTheme = {
     contentBackground: CONTENT_TEXT,
     border: BACKGROUND_BLACK,
     horizontal: GREY,
+    blockQuoteBackground: rgba(MAIN_TEXT, 0.3),
+    inlineCodeBackground: rgba(SUB_TEXT, 0.3),
+  },
+};
+
+export default {
+  colors: {
+    mainText: '--main-text',
+    subText: '--sub-text',
+    contentText: '--content-text',
+    background: '--background',
+    reverseBackground: '--reverse-background',
+    contentBackground: '--content-background',
+    border: '--border',
+    horizontal: '--horizontal',
+    blockQuoteBackground: '--blockquote-background',
+    inlineCodeBackground: '--inline-code-background',
   },
 };

@@ -14,5 +14,8 @@ export const desktop = style => css`
   }
 `;
 
-export const darkMode = theme => style =>
-  theme.themeName === 'dark' ? style : '';
+export const darkMode = style => css`
+  body[data-theme-mode='dark'] & {
+    ${style}
+  }
+`;
