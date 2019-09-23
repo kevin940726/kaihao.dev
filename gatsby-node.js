@@ -107,3 +107,12 @@ exports.createPages = ({ graphql, actions }) => {
     );
   });
 };
+
+exports.onCreateWebpackConfig = ({ entry, actions }) => {
+  actions.setWebpackConfig({
+    entry: {
+      ...entry,
+      'theme-mode': path.resolve(__dirname, './src/utils/themeMode.js'),
+    },
+  });
+};
