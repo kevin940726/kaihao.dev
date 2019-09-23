@@ -35,7 +35,7 @@ export const darkTheme = {
     contentBackground: CONTENT_TEXT,
     border: BACKGROUND_BLACK,
     horizontal: GREY,
-    blockQuoteBackground: rgba(MAIN_TEXT, 0.3),
+    blockQuoteBackground: rgba(MAIN_TEXT, 0.2),
     inlineCodeBackground: rgba(SUB_TEXT, 0.3),
   },
 };
