@@ -30,7 +30,7 @@ const SocialLink = ({ title, icon, to, children, ...props }) => (
       cursor: pointer;
       transition: transform 0.15s ease-out;
 
-      ${darkMode(theme)(css`
+      ${darkMode(css`
         border: 1px solid ${DIM_WHITE};
       `)}
 

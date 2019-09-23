@@ -1,51 +1,19 @@
-import React, {
-  useState,
-  useMemo,
-  useRef,
-  useCallback,
-  useEffect,
-} from 'react';
+import React from 'react';
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
-import { lightTheme, darkTheme } from '../constants/theme';
+import themeVariables from '../constants/theme';
+import { toggleDarkMode } from '../utils/themeMode';
 
-const matchDarkMedia =
-  typeof window !== 'undefined' &&
-  window.matchMedia('(prefers-color-scheme: dark)');
+const themeValues = { colors: {} };
+for (let color of Object.keys(themeVariables.colors)) {
+  themeValues.colors[color] = `var(${themeVariables.colors[color]})`;
+}
+
+const themeWithToggle = {
+  ...themeValues,
+  toggleDarkMode,
+};
 
 const ThemeProvider = ({ children }) => {
-  const [themeName, setThemeName] = useState(() =>
-    matchDarkMedia && matchDarkMedia.matches ? 'dark' : 'light'
-  );
-  const hasSetTheme = useRef(false);
-
-  const toggleDarkMode = useCallback(() => {
-    setThemeName(themeName => (themeName === 'dark' ? 'light' : 'dark'));
-    hasSetTheme.current = true;
-  }, [setThemeName, hasSetTheme]);
-
-  useEffect(() => {
-    function handleMediaMatch(e) {
-      if (!hasSetTheme.current) {
-        setThemeName(e.matches ? 'dark' : 'light');
-      }
-    }
-
-    matchDarkMedia.addListener(handleMediaMatch);
-
-    return () => {
-      matchDarkMedia.removeListener(handleMediaMatch);
-    };
-  }, [setThemeName, hasSetTheme]);
-
-  const themeWithToggle = useMemo(
-    () => ({
-      themeName,
-      ...(themeName === 'dark' ? darkTheme : lightTheme),
-      toggleDarkMode,
-    }),
-    [themeName, toggleDarkMode]
-  );
-
   return (
     <EmotionThemeProvider theme={themeWithToggle}>
       {children}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import { useStaticQuery, graphql } from 'gatsby';
+import { darkMode } from '../utils/media';
 import githubIcon from '../images/github-icon.png';
 import PostLink from './PostLink';
 
@@ -31,9 +32,13 @@ const EditOnGithub = ({ postFileName }) => {
         align-self: flex-end;
         font-size: 14px;
         line-height: 1.8;
-        color: ${theme.themeName === 'dark' ? '#ffffff' : '#000000'};
+        color: #000000;
         border-color: currentColor;
         padding-right: 0.2em;
+
+        ${darkMode(css`
+          color: '#ffffff';
+        `)}
       `}
     >
       <img
