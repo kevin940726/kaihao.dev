@@ -1,7 +1,7 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { css } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
-import { isDarkMode } from '../utils/themeMode';
+import useThemeMode from '../hooks/useThemeMode';
 import { CONTENT_TEXT } from '../constants';
 import SVG from './SVG';
 import sun from '../images/sun.svg';
@@ -26,8 +26,12 @@ const Icon = ({ src, alt, ...props }) => (
 );
 
 const ToggleDarkMode = () => {
-  const [, forceUpdate] = useReducer(c => c + 1, 0);
+  const themeMode = useThemeMode();
   const theme = useTheme();
+
+  if (!themeMode) {
+    return null;
+  }
 
   return (
     <>
@@ -48,11 +52,8 @@ const ToggleDarkMode = () => {
             outline: -webkit-focus-ring-color auto 5px;
           }
         `}
-        checked={isDarkMode()}
-        onChange={() => {
-          theme.toggleDarkMode();
-          forceUpdate();
-        }}
+        checked={themeMode === 'dark'}
+        onChange={theme.toggleDarkMode}
       />
       <label
         htmlFor="dark-mode"
