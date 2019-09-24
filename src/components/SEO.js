@@ -27,6 +27,9 @@ const detailsQuery = graphql`
 
 function SEO({ title, description, image, lang = 'en', children }) {
   const data = useStaticQuery(detailsQuery);
+  const metaTitle = title
+    ? `${title} | ${data.site.siteMetadata.title}`
+    : data.site.siteMetadata.title;
   const metaDescription = description || data.site.siteMetadata.description;
   const metaImage = image || data.file.childImageSharp.fixed;
   const { origin } = data.site.siteMetadata;
@@ -36,15 +39,11 @@ function SEO({ title, description, image, lang = 'en', children }) {
   return (
     <Location>
       {({ location }) => (
-        <Helmet
-          htmlAttributes={{ lang }}
-          titleTemplate={`%s | ${data.site.siteMetadata.title}`}
-          defaultTitle={data.site.siteMetadata.title}
-        >
-          <title>{title}</title>
+        <Helmet htmlAttributes={{ lang }}>
+          <title>{metaTitle}</title>
           <meta name="description" content={metaDescription} />
           <meta property="og:url" content={`${origin}${location.pathname}`} />
-          <meta property="og:title" content={title} />
+          <meta property="og:title" content={metaTitle} />
           <meta property="og:description" content={metaDescription} />
           <meta property="og:image" content={metaImageAbsolutePath} />
           <meta property="og:image:width" content={metaImage.width} />
@@ -55,7 +54,7 @@ function SEO({ title, description, image, lang = 'en', children }) {
             name="twitter:creator"
             content={data.site.siteMetadata.author}
           />
-          <meta name="twitter:title" content={title} />
+          <meta name="twitter:title" content={metaTitle} />
           <meta name="twitter:description" content={metaDescription} />
           <meta name="twitter:image" content={metaImageAbsolutePath} />
           {children}
