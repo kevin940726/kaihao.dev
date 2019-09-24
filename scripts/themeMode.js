@@ -50,7 +50,8 @@
   var initialThemeMode = matchDarkMedia.matches ? 'dark' : 'light';
 
   try {
-    initialThemeMode = window.sessionStorage.getItem(STORAGE_KEY);
+    initialThemeMode =
+      window.sessionStorage.getItem(STORAGE_KEY) || initialThemeMode;
   } catch (err) {}
 
   __THEME_MODE_HOOK.setThemeMode(initialThemeMode);
