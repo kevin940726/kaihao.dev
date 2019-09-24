@@ -11,6 +11,7 @@ export const onRenderBody = ({ setPreBodyComponents }) => {
 var hasSetTheme = false;
 var cacheThemeMode = 'light';
 var listeners = [];
+var STORAGE_KEY = 'kaihao.dev/themeMode';
 
 var __THEME_MODE_HOOK = {
   setThemeMode: function(themeMode) {
@@ -27,12 +28,15 @@ var __THEME_MODE_HOOK = {
     return cacheThemeMode;
   },
   toggleDarkMode: function() {
-    __THEME_MODE_HOOK.setThemeMode(
-      cacheThemeMode === 'dark' ? 'light' : 'dark'
-    );
+    var themeMode = cacheThemeMode === 'dark' ? 'light' : 'dark';
+    __THEME_MODE_HOOK.setThemeMode(themeMode);
     hasSetTheme = true;
+
+    try {
+      window.sessionStorage.setItem(STORAGE_KEY, themeMode);
+    } catch (err) {}
   },
-  addListener(listener) {
+  addListener: function(listener) {
     listeners.push(listener);
 
     return function() {
@@ -52,8 +56,13 @@ function handleMediaMatch(matchMediaEvent) {
 window.__THEME_MODE_HOOK = __THEME_MODE_HOOK;
 
 var matchDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+var initialThemeMode = matchDarkMedia.matches ? 'dark' : 'light';
 
-__THEME_MODE_HOOK.setThemeMode(matchDarkMedia.matches ? 'dark' : 'light');
+try {
+  initialThemeMode = window.sessionStorage.getItem(STORAGE_KEY);
+} catch (err) {}
+
+__THEME_MODE_HOOK.setThemeMode(initialThemeMode);
 
 matchDarkMedia.addListener(handleMediaMatch);
 })();`,
