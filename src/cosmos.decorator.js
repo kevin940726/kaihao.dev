@@ -1,10 +1,11 @@
 import React from 'react';
 import { Global, css } from '@emotion/core';
-import ThemeProvider from './components/ThemeProvider';
+import Root from './components/Root';
 import GlobalStyles from './components/GlobalStyles';
+import '../scripts/themeMode';
 
 export default ({ children }) => (
-  <ThemeProvider>
+  <Root>
     <Global
       styles={css`
         @import url('https://fonts.googleapis.com/css?family=Open+Sans');
@@ -12,5 +13,5 @@ export default ({ children }) => (
     />
     <GlobalStyles />
     {children}
-  </ThemeProvider>
+  </Root>
 );
