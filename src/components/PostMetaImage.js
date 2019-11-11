@@ -22,6 +22,10 @@ const PostMetaImage = ({ children }) => (
         ul {
           display: none;
         }
+
+        input[type='checkbox'] + label {
+          display: none;
+        }
       }
     `}
   >
