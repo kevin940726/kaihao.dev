@@ -53,9 +53,11 @@ function extractSignedDataFromDER(derBuffer) {
     let index = 0;
 
     while (index < buffer.length) {
+      // Type
       const type = buffer[index];
       index += 1;
 
+      // Length
       let length;
       if (buffer[index] < 128) {
         length = buffer[index];
@@ -72,6 +74,7 @@ function extractSignedDataFromDER(derBuffer) {
         index += lengthOfLength;
       }
 
+      // Value
       let value = buffer.slice(index, index + length);
       index += length;
 
@@ -135,10 +138,10 @@ The first 3 types are like parent tags, they can have children and therefore for
 
 ### Length
 
-`length` is a little bit complicated, it represents how long the value is so that we can start parsing another block. The length of the value is not definitive, it’s usually one byte representing the length of the value, but when the length of the value is bigger than or equal to 128, then a single byte won’t be enough. In such cases, the first byte of the length will be the length of the length + 128. Let’s see some examples.
+`length` is a little bit complicated, it represents how long the value is so that we can start parsing another block. The length of the value is not definitive, it’s usually one byte representing the length of the value, but when the length of the value is bigger than or equal to 128, then a single byte might won’t be enough. In such cases, the first byte of the length will be the length of the length + 128. Let’s see some examples.
 
 1. If the first byte is `00000001`, since it’s less than 128, so the length of the value will be 1 byte.
-2. If the first byte is `10000002`, since it’s bigger than 128, the length of the length will be `10000002` - 128 (`10000000`) === `2` bytes. So we the next 2 bytes is the actual length of our `length`. If the next 2 bytes are `00000001 00000001`, then the length of the value is `257` bytes.
+2. If the first byte is `10000002`, since it’s bigger than 128, the length of the length will be `10000002` - 128 (`10000000`) === `2` bytes. Therefore, the next 2 bytes is the actual length of our `length`. If the next 2 bytes are `00000001 00000001`, then the length of the value is `257` bytes.
 
 ### Value
 
