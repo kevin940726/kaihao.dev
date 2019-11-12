@@ -1,9 +1,9 @@
 ---
-title: 'Extract pkcs7 singed data from apple-app-site-association file'
+title: 'Extract pkcs7 signed data from apple-app-site-association file'
 date: '2019-11-11'
 ---
 
-I was building [`sharing-validator`](https://sharing-validator.now.sh/) and I faced a problem with `pkcs7` singed `apple-app-site-association` file. I feel like to take notes on how I parsed the `apple-app-site-association` file served by `content-type` of `application/pkcs7-mime` and extracted the signed JSON data.
+I was building [`sharing-validator`](https://sharing-validator.now.sh/) and I faced a problem with `pkcs7` signed `apple-app-site-association` file. I feel like to take notes on how I parsed the `apple-app-site-association` file served by `content-type` of `application/pkcs7-mime` and extracted the signed JSON data.
 
 > Note: I still don’t understand how most of these work, and I didn’t have time to dive deeper either. The post below could be partially or even fully wrong. Maybe I’ll update the post when I’ve gained enough knowledge, maybe I won’t.
 
@@ -145,7 +145,7 @@ The first 3 types are like parent tags, they can have children and therefore for
 
 ### Value
 
-It’s way simpler than the others, we just have to remember to treat the values of those first 3 types as children array. Since all we want is the value following `pkcs7` OID singed data, we only have to parse it and ignore everything else. Judging from the decoder tool, we can see that the data is located in a `OCTET STRING` type.
+It’s way simpler than the others, we just have to remember to treat the values of those first 3 types as children array. Since all we want is the value following `pkcs7` OID signed data, we only have to parse it and ignore everything else. Judging from the decoder tool, we can see that the data is located in a `OCTET STRING` type.
 
 ```
 SEQUENCE (2 elem)
@@ -154,8 +154,8 @@ SEQUENCE (2 elem)
     OCTET STRING (51866 byte) 7B0D0A2020226163746976697479636F6E74696E756174696F6E223A207B0D0A202…
 ```
 
-Whenever we encounter the `pkcs7` singed data OID, we just have to get the first value of the next block (context-specific tag), and then again extract the data of the child block (`OCTET STRING`). The value here is UTF-8 encoded so we just perform a simple ` toString(``'``utf8``'``) ` to get the singed data.
+Whenever we encounter the `pkcs7` signed data OID, we just have to get the first value of the next block (context-specific tag), and then again extract the data of the child block (`OCTET STRING`). The value here is UTF-8 encoded so we just perform a simple ` toString(``'``utf8``'``) ` to get the signed data.
 
 ## Profit
 
-And…, that’s it. We’ve successfully extract the JSON content from a `pkcs7` singed data. It seems like an overkill and maybe all I have to do is to actually understand how to use the library. But still, learning how to parse a binary byte code data is kind of fun to be honest. Especially when the solution is ad-hoc and we don’t have to think about all the edge cases and follow strictly to the spec 😂.
+And…, that’s it. We’ve successfully extract the JSON content from a `pkcs7` signed data. It seems like an overkill and maybe all I have to do is to actually understand how to use the library. But still, learning how to parse a binary byte code data is kind of fun to be honest. Especially when the solution is ad-hoc and we don’t have to think about all the edge cases and follow strictly to the spec 😂.
