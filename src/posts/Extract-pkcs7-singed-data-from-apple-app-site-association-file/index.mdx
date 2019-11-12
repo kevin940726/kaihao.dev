@@ -1,0 +1,161 @@
+---
+title: 'Extract pkcs7 singed data from apple-app-site-association file'
+date: '2019-11-11'
+---
+
+I was building [`sharing-validator`](https://sharing-validator.now.sh/) and I faced a problem with `pkcs7` singed `apple-app-site-association` file. I feel like to take notes on how I parsed the `apple-app-site-association` file served by `content-type` of `application/pkcs7-mime` and extracted the signed JSON data.
+
+> Note: I still don’t understand how most of these work, and I didn’t have time to dive deeper either. The post below could be partially or even fully wrong. Maybe I’ll update the post when I’ve gained enough knowledge, maybe I won’t.
+
+## `apple-app-site-association`
+
+The `apple-app-site-association` (or `AASA`) file is required to be served from web servers when integrating with [Apple Universal Links](https://developer.apple.com/documentation/security/password_autofill/setting_up_an_app_s_associated_domains). For most sites, we just have to serve the file with `content-type` of `application/json` and content of plain JSON format. For apps still running in iOS 8 though, we have to serve it with `content-type` of `application/pkcs7-mime`.
+
+> If your app runs in iOS 8, the file must have the MIME type `application/pkcs7-mime` and it must be CMS signed by a valid TLS certificate.
+
+`pkcs7` is basically a encryption format, the provider signed the JSON content with some keys and generate the encrypted file and serve it with the appropriate `content-type`.
+
+For instance, [Twitter](https://twitter.com/apple-app-site-association) uses this format to serve their `AASA` file, so does [Airbnb](http://airbnb.com/apple-app-site-association). [Quora](http://quora.com/apple-app-site-association) does it too, but it’s weird that they are serving plain JSON format with `application/pkcs7-mime` content type, so no extracting JSON content needed. I’m not sure that wether it’s normal, but seems like it works.
+
+## Extracting the JSON content
+
+I was trying to verify the JSON content of the `AASA` file by validating the structure of the value, but I couldn’t extract the content part without decrypting it. Actually, only the JSON content part is stored in plain text, but the header and footer is encrypted. I only need the JSON content part, so all I have to do is to cut off the header and footer.
+
+Basically, what we’re trying to do is to do the following command in pure JavaScript.
+
+```bash
+openssl smime -verify -inform DER -noverify -in apple-app-site-association.p7m
+```
+
+Again, I have no idea how the encryption work, and I don’t have time to read through the [RFC](https://tools.ietf.org/html/rfc4134) spec. There’s seems to be no exiting library to help me do that either, they’re mostly well-featured but too powerful and too complicated in my case (maybe there is such library I didn’t know of, or maybe I’m just too stupid to know how to use them).
+
+Looks like Branch’s [universal link validator](https://branch.io/resources/universal-links) is using [regex search](https://github.com/BranchMetrics/universal-link-validator/blob/b268b7cbe7/checkDomain.js#L188-L239) to validate the JSON content. It seems to work fine, but I feel like it’s a little bit hacky and maybe we could do it better?
+
+## The code
+
+So I decided to write a ad-hoc parser and extractor to do so myself.
+
+“[ASN.1 for dummys](https://medium.com/@coolaj86/asn-1-for-dummies-fbde5696e19b)” is the post which helped me a lot to quickly understand the basic of how to parse the raw byte code. I’m going to skip the terms since I rarely know any of them, but from my understanding that we’re trying to decode DER binary format which describes the ASN.1 data. Never mind…
+
+“[ASN.1 Decoder](https://lapo.it/asn1js/)” is a site to help visualize the content of the ASN.1 in a form much like an AST. Basically it does exactly what I want, just that I don’t need most of the features. Still, it serves as a perfect tool to help me develop and debug.
+
+Here is the sample code I used to extract the signed data using pure JavaScript. _(Please don't actually read it, just take it as a reference, I haven't got time to refactor it lol.)_
+
+```js
+const DATA_PKCS7 = '2a864886f70d010701';
+
+function extractSignedDataFromDER(derBuffer) {
+  let signedData;
+
+  function parseDER(buffer) {
+    const json = [];
+
+    let index = 0;
+
+    while (index < buffer.length) {
+      // Type
+      const type = buffer[index];
+      index += 1;
+
+      // Length
+      let length;
+      if (buffer[index] < 128) {
+        length = buffer[index];
+        index += 1;
+      } else {
+        const lengthOfLength = buffer[index] & 0x7f;
+        index += 1;
+        length = parseInt(
+          buffer
+            .slice(index, index + lengthOfLength)
+            .toString('hex'),
+          16
+        );
+        index += lengthOfLength;
+      }
+
+      // Value
+      let value = buffer.slice(index, index + length);
+      index += length;
+
+      if (
+        // SEQUENCE, SEQUENCE OF
+        type === 0x30 ||
+        // SET, SET OF
+        type === 0x31 ||
+        // context-specific tag
+        (type & 0xc0) === 0x80
+      ) {
+        const children = parseDER(value);
+        value = [].concat(children);
+      }
+
+      if (
+        type === 0x06 &&
+        value.toString('hex') === DATA_PKCS7
+      ) {
+        const signedDataBuffer = parseDER(
+          buffer.slice(index)
+        ).value[0].value;
+        signedData = signedDataBuffer.toString('utf8');
+        break;
+      }
+
+      json.push({
+        type,
+        length,
+        value,
+      });
+    }
+
+    return json.length === 1 ? json[0] : json;
+  }
+
+  parseDER(derBuffer);
+
+  return signedData;
+}
+```
+
+The DER binary format is basically a repeated patterns with the following format.
+
+```
+[type] [length] [value] [type] [length] [value] ...
+```
+
+Each “block” has three fields: `type`, `length`, and `value`.
+
+### Type
+
+`type` is always one byte, the values we care about are:
+
+1. `0x30`: `SEQEUNCE` or `SEQUENCE OF`
+2. `0x31`: `SET` or `SET OF`
+3. first 2 bits starts with `10`: context-specific tag
+4. `0x06`: Object Identifier (OID)
+
+The first 3 types are like parent tags, they can have children and therefore form a tree structure. The last one is basically an id type, which the value is a unique identifier. In our case, the OID of `pkcs7` signed data is `2a864886f70d010701` in hex.
+
+### Length
+
+`length` is a little bit complicated, it represents how long the value is so that we can start parsing another block. The length of the value is not definitive, it’s usually one byte representing the length of the value, but when the length of the value is bigger than or equal to 128, then a single byte might won’t be enough. In such cases, the first byte of the length will be the length of the length + 128. Let’s see some examples.
+
+1. If the first byte is `00000001`, since it’s less than 128, so the length of the value will be 1 byte.
+2. If the first byte is `10000002`, since it’s bigger than 128, the length of the length will be `10000002` - 128 (`10000000`) === `2` bytes. Therefore, the next 2 bytes is the actual length of our `length`. If the next 2 bytes are `00000001 00000001`, then the length of the value is `257` bytes.
+
+### Value
+
+It’s way simpler than the others, we just have to remember to treat the values of those first 3 types as children array. Since all we want is the value following `pkcs7` OID singed data, we only have to parse it and ignore everything else. Judging from the decoder tool, we can see that the data is located in a `OCTET STRING` type.
+
+```
+SEQUENCE (2 elem)
+  OBJECT IDENTIFIER 1.2.840.113549.1.7.1 data (PKCS #7)
+  [0] (1 elem)
+    OCTET STRING (51866 byte) 7B0D0A2020226163746976697479636F6E74696E756174696F6E223A207B0D0A202…
+```
+
+Whenever we encounter the `pkcs7` singed data OID, we just have to get the first value of the next block (context-specific tag), and then again extract the data of the child block (`OCTET STRING`). The value here is UTF-8 encoded so we just perform a simple ` toString(``'``utf8``'``) ` to get the singed data.
+
+## Profit
+
+And…, that’s it. We’ve successfully extract the JSON content from a `pkcs7` singed data. It seems like an overkill and maybe all I have to do is to actually understand how to use the library. But still, learning how to parse a binary byte code data is kind of fun to be honest. Especially when the solution is ad-hoc and we don’t have to think about all the edge cases and follow strictly to the spec 😂.
