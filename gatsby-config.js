@@ -67,6 +67,7 @@ module.exports = {
                   entry: 'src/index.js',
                 },
               },
+              autoDeploy: isProd,
             },
           },
         ],
