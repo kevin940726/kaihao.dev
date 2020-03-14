@@ -1,3 +1,4 @@
+const path = require('path');
 const pkg = require('./package.json');
 
 const isAuditing = process.env.BUILD_ENV === 'audit';
@@ -51,6 +52,22 @@ module.exports = {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 760,
+            },
+          },
+          {
+            resolve: 'gatsby-remark-inline-codesandbox',
+            options: {
+              mode: 'meta',
+              customTemplates: {
+                'observe-selector': {
+                  extends: `file:${path.resolve(
+                    __dirname,
+                    'src/posts/One-fun-trick-to-observe-elements-in-realtime-without-MutationObserver/observe-selector'
+                  )}`,
+                  entry: 'src/index.js',
+                },
+              },
+              autoDeploy: isProd,
             },
           },
         ],

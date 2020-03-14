@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      One fun trick to observe elements in realtime without MutationObserver
+    </title>
+    <meta charset="UTF-8" />
+
+    <style>
+      section {
+        padding: 20px;
+        font-size: 18px;
+      }
+
+      ul {
+        padding: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <section data-target>ON</section>
+
+      <section>
+        <button id="switcher">
+          OFF
+        </button>
+      </section>
+
+      <section>
+        <ol id="list">
+          <li>OFF</li>
+          <li data-target>ON</li>
+          <li>OFF</li>
+        </ol>
+      </section>
+    </main>
+
+    <script>
+      // DEMO
+
+      const switcher = document.getElementById('switcher');
+
+      switcher.addEventListener('click', () => {
+        switcher.dataset.target = '';
+        switcher.textContent = 'ON';
+      });
+
+      const list = document.getElementById('list');
+
+      setInterval(() => {
+        const li = document.createElement('li');
+
+        if (list.childNodes.length % 2 === 0) {
+          li.textContent = 'OFF';
+        } else {
+          li.dataset.target = '';
+          li.textContent = 'ON';
+        }
+
+        list.appendChild(li);
+      }, 3000);
+    </script>
+
+    <script src="src/index.js"></script>
+  </body>
+</html>

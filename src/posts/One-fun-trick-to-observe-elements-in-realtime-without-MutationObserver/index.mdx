@@ -1,0 +1,134 @@
+---
+title: 'One fun trick to observe elements in realtime without MutationObserver'
+date: '2020-03-14'
+---
+
+Querying elements with selectors is quite intuitive in JavaScript. `querySelector` and `querySelectorAll` are fast and reliable.
+
+```js codesandbox=observe-selector
+function queryElements(selector, callback) {
+  const elements = document.querySelectorAll(selector);
+  elements.forEach(element => callback(element));
+}
+
+// Use it
+queryElements('[data-target]', element => {
+  element.style.outline = '2px solid red';
+});
+```
+
+What if we want to be notified when there's a new element appears on the page? Both `querySelector` and `querySelectorAll` are one-off imperative commands that won't catch elements added afterward. We have to come up with another method.
+
+Give it a minute and think about how you would do it.
+
+Got it? Don't stop it there, how many methods can you come up with? What if we want to support legacy browsers like IE 9?
+
+## `MutationObserver`
+
+The first solution that comes to our minds might be this shiny API: `MutationObserver`.
+
+Using `MutationObserver` to create an observer to listen to new elements added to the page is quite straightforward.
+
+```js codesandbox=observe-selector
+function queryElements(selector, callback) {
+  const elements = document.querySelectorAll(selector);
+  elements.forEach(element => callback(element));
+}
+
+function observe(selector, callback) {
+  // Call it once to get all the elements already on the page
+  queryElements(selector, callback);
+
+  const observer = new MutationObserver(() => {
+    queryElements(selector, callback);
+  });
+
+  observer.observe(document.documentElement, {
+    // Listen to any kind of changes that might match the selector
+    attributes: true,
+    childList: true,
+    characterData: true,
+    // Listen to every changes inside <html>
+    subtree: true,
+  });
+}
+
+// Use it
+observe('[data-target]', element => {
+  element.style.outline = '2px solid red';
+});
+```
+
+> Note that this naive solution is not highly performant, and would potentially cause the callback to be fired on the same element more than once. However, it's performant enough in our case.
+
+According to [Can I Use](https://caniuse.com/#feat=mutationobserver), `MutationObserver` is supported since IE 11, which is enough in most cases. In fact, in practice, we should just stop here, it's good enough, work's done. But what if? What if, just for fun, we want to support IE 9? One solution would be to use a polyfill for `MutationObserver`. That's perfect, but is there any other solution?
+
+## Animation
+
+Animation? Really? Hell yeah, really!
+
+I'll pause 3 seconds here to let you think why any of this is related to animation. 3... 2... 1, time's up!
+
+If you really think about it, you might find that `animation` runs as soon as the elements being inserted into the DOM. If we can assign an animation to every element matching the selector, and listen to the event when the animation starts, then we can get ourselves an `observe` function without using `MutationObserver`.
+
+```css
+@keyframes observer-animation {
+  /* We don't actually have to run any animation here, can just leave it blank */
+}
+
+[data-target] {
+  /* We just need minimal time for it to run */
+  animation: observer-animation 1ms;
+}
+```
+
+That seems perfect, all we need now is to listen to the event when the animation starts. Luckily, there's an [`animationstart`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/animationstart_event) event we can listen to. What's better is that this event bubbles up, so that we can just attach our listener to `document`.
+
+```js
+document.addEventListener('animationstart', event => {
+  if (event.animationName === 'observer-animation') {
+    callback(event.target);
+  }
+});
+```
+
+Let's put them all together and inject the style with JavaScript.
+
+```js codesandbox=observe-selector
+let id = 0;
+
+function observe(selector, callback) {
+  const style = document.createElement('style');
+  // Assign the animation to an unique id to support observing multiple selectors
+  const animationName = `observer-animation-${id}`;
+  id += 1;
+
+  style.innerHTML = `
+    @keyframes ${animationName} {}
+
+     ${selector} {
+       animation: ${animationName} 1ms;
+     }
+  `;
+  document.head.appendChild(style);
+
+  document.addEventListener('animationstart', event => {
+    if (event.animationName === animationName) {
+      callback(event.target);
+    }
+  });
+}
+
+// Use it
+observe('[data-target]', element => {
+  element.style.outline = '2px solid red';
+});
+```
+
+Alright, this is fun! Right?
+
+Note that this solution is not necessarily the same as our `MutationObserver` approach. For instance, animations will only start when the element is visible, so elements that have `display: none` will not fire the event. On the other hand, `MutationObserver` will call the callback no matter the element is visible or not. This might be either perfect or painful depends on what you're trying to do.
+
+You probably won't have to use the tricky animation approach ever, but it also doesn't hurt to learn this simple little trick.
+
+I want to be clear that I'm not the first one to come up with this approach, but I don't remember where I learned from either. There are already [several](https://github.com/josh/selector-observer) [npm](https://github.com/rkusa/selector-observer) [libraries](https://github.com/csuwildcat/SelectorListener) using both of these approaches. Take a look at them to learn more about how to further optimize the performance.
