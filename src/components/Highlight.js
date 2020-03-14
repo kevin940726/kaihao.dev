@@ -5,6 +5,8 @@ import PrismHighlight, { defaultProps, Prism } from 'prism-react-renderer';
 import dracula from 'prism-react-renderer/themes/dracula';
 import { mobile } from '../utils/media';
 import CopyButton from './CopyButton';
+import CodeSandboxButton from './CodeSandboxButton';
+import Actions from './Actions';
 import parseMetaString from '../utils/parseMetaString';
 
 if (typeof window !== 'undefined') {
@@ -127,7 +129,12 @@ const Line = styled.div`
   }
 `;
 
-const Highlight = ({ children, metastring, ...props }) => {
+const Highlight = ({
+  children,
+  metastring,
+  'data-codesandbox-url': codesandboxURL,
+  ...props
+}) => {
   const metaProps = useMemo(() => parseMetaString(metastring), [metastring]);
 
   const { highlightLines } = metaProps;
@@ -173,7 +180,14 @@ const Highlight = ({ children, metastring, ...props }) => {
               ))}
             </Pre>
           </div>
+
           <CopyButton code={children} />
+
+          <Actions>
+            {codesandboxURL && (
+              <Actions.Item as={CodeSandboxButton} href={codesandboxURL} />
+            )}
+          </Actions>
         </Container>
       )}
     </PrismHighlight>
