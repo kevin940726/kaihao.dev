@@ -27,13 +27,13 @@ Basically, what we’re trying to do is to do the following command in pure Java
 openssl smime -verify -inform DER -noverify -in apple-app-site-association.p7m
 ```
 
-Again, I have no idea how the encryption work, and I don’t have time to read through the [RFC](https://tools.ietf.org/html/rfc4134) spec. There’s seems to be no exiting library to help me do that either, they’re mostly well-featured but too powerful and too complicated in my case (maybe there is such library I didn’t know of, or maybe I’m just too stupid to know how to use them).
+Again, I have no idea how the encryption work, and I don’t have time to read through the [RFC](https://tools.ietf.org/html/rfc4134) spec. There’s seems to be no existing libraries to help me do that either, they’re mostly well-featured but too heavy and too complicated in my case (maybe there is such library I didn’t know of, or maybe I’m just too stupid to know how to use them).
 
 Looks like Branch’s [universal link validator](https://branch.io/resources/universal-links) is using [regex search](https://github.com/BranchMetrics/universal-link-validator/blob/b268b7cbe7/checkDomain.js#L188-L239) to validate the JSON content. It seems to work fine, but I feel like it’s a little bit hacky and maybe we could do it better?
 
 ## The code
 
-So I decided to write a ad-hoc parser and extractor to do so myself.
+So I decided to write an ad-hoc parser and extractor to do so myself.
 
 “[ASN.1 for dummys](https://medium.com/@coolaj86/asn-1-for-dummies-fbde5696e19b)” is the post which helped me a lot to quickly understand the basic of how to parse the raw byte code. I’m going to skip the terms since I rarely know any of them, but from my understanding that we’re trying to decode DER binary format which describes the ASN.1 data. Never mind…
 
@@ -154,7 +154,7 @@ SEQUENCE (2 elem)
     OCTET STRING (51866 byte) 7B0D0A2020226163746976697479636F6E74696E756174696F6E223A207B0D0A202…
 ```
 
-Whenever we encounter the `pkcs7` signed data OID, we just have to get the first value of the next block (context-specific tag), and then again extract the data of the child block (`OCTET STRING`). The value here is UTF-8 encoded so we just perform a simple ` toString(``'``utf8``'``) ` to get the signed data.
+Whenever we encounter the `pkcs7` signed data OID, we just have to get the first value of the next block (context-specific tag), and then again extract the data of the child block (`OCTET STRING`). The value here is UTF-8 encoded so we just perform a simple `toString('utf8')` to get the signed data.
 
 ## Profit
 
