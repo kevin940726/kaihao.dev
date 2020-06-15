@@ -14,6 +14,7 @@ module.exports = {
     author: pkg.author,
     repo: pkg.repository.url,
     origin: isProd ? 'https://kaihao.dev' : 'http://localhost:8000',
+    siteUrl: 'https://kaihao.dev',
   },
   plugins: [
     {
@@ -74,6 +75,57 @@ module.exports = {
         // FIXME: To fix a weird bug in plugin-mdx and remark-images where images got "stacked"
         // See: https://github.com/gatsbyjs/gatsby/issues/15486#issuecomment-510153237
         plugins: ['gatsby-remark-images'],
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMdx } }) =>
+              allMdx.edges.map(edge =>
+                Object.assign({}, edge.node.frontmatter, {
+                  description: edge.node.excerpt,
+                  date: edge.node.frontmatter.date,
+                  url: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                  guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                })
+              ),
+            query: `
+              {
+                allMdx(
+                  sort: { order: DESC, fields: [frontmatter___date] },
+                ) {
+                  edges {
+                    node {
+                      excerpt
+                      html
+                      fields { slug }
+                      frontmatter {
+                        title
+                        date
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: "Kai Hao's RSS Feed",
+          },
+        ],
       },
     },
     {
