@@ -1,70 +1,40 @@
-const fs = require('fs');
-const { promisify } = require('util');
+const fs = require('fs').promises;
 const { exec } = require('child_process');
 const path = require('path');
-const puppeteer = require('puppeteer');
 const waitForLocalhost = require('wait-for-localhost');
+const isPortReachable = require('is-port-reachable');
+const captureWebsite = require('capture-website');
 
-const readFile = promisify(fs.readFile);
+async function generateMetaImage(filePath, title) {
+  const POST_META_URL = `http://localhost:8000/___post-meta?title=${title}`;
 
-const WIDTH = 600;
+  const directionFilePath = path.join(path.dirname(filePath), 'meta-image.png');
 
-const fontfaceobserver = readFile(require.resolve('fontfaceobserver'), 'utf-8');
-
-async function generateMetaImage(browser, filePath, title) {
-  const page = await browser.newPage();
-  const RENDERER_FRAME_URL = 'http://localhost:5000/_renderer.html';
-
-  const waitForAttached = new Promise(resolve => {
-    page.on('framenavigated', frame => {
-      if (frame.url() === RENDERER_FRAME_URL) {
-        resolve();
-      }
-    });
-  });
-
-  await page.goto(
-    'http://localhost:5000/?fixtureId=%7B"path"%3A"src%2Fcomponents%2F__fixtures__%2FPostMetaImage.fixture.js"%2C"name"%3Anull%7D&fullScreen=true'
-  );
-
-  await waitForAttached;
-
-  const iframe = page
-    .frames()
-    .find(frame => frame.url() === RENDERER_FRAME_URL);
-
-  await iframe.waitFor('h1');
-  await iframe.$eval(
-    'h1',
-    (element, text) => {
-      element.innerText = text;
+  await captureWebsite.file(POST_META_URL, directionFilePath, {
+    width: 1200,
+    height: 626,
+    launchOptions: {
+      args: [
+        '--disable-gpu',
+        '--renderer',
+        '--no-sandbox',
+        '--no-service-autorun',
+        '--no-experiments',
+        '--no-default-browser-check',
+        '--disable-dev-shm-usage',
+        '--disable-setuid-sandbox',
+        '--no-first-run',
+        '--no-zygote',
+        '--single-process',
+        '--disable-extensions',
+      ],
     },
-    title
-  );
-
-  const fontfaceobserverSource = await fontfaceobserver;
-
-  await iframe.addScriptTag({
-    content: fontfaceobserverSource,
+    overwrite: true,
   });
-
-  await iframe.evaluate(() => {
-    const font = new window.FontFaceObserver('Open Sans');
-
-    return font.load();
-  });
-
-  const node = await iframe.$('#root > div');
-
-  await node.screenshot({
-    path: path.join(path.dirname(filePath), 'meta-image.png'),
-  });
-
-  await page.close();
 }
 
 async function findPostTitle(postPath) {
-  const postData = await readFile(postPath);
+  const postData = await fs.readFile(postPath);
 
   const group = /^title:(.*)/m.exec(postData);
 
@@ -90,27 +60,24 @@ async function main() {
       files.map(file => ' - ' + file).join('\n')
   );
 
-  const serverProcess = exec('yarn run cosmos');
+  let serverProcess;
+  if (!(await isPortReachable(8000))) {
+    console.info("The development server hasn't started. Starting now...");
 
-  await waitForLocalhost({ port: 5000 });
+    serverProcess = exec('yarn start');
 
-  const browser = await puppeteer.launch({
-    defaultViewport: {
-      deviceScaleFactor: 2,
-      width: WIDTH * 2,
-      height: 313,
-    },
-  });
+    await waitForLocalhost({ port: 8000 });
+  }
 
   for (let file of files) {
     const title = await findPostTitle(file);
 
-    await generateMetaImage(browser, file, title);
+    await generateMetaImage(file, title);
   }
 
-  await browser.close();
-
-  serverProcess.kill('SIGTERM');
+  if (serverProcess) {
+    serverProcess.kill('SIGTERM');
+  }
 }
 
 main();
