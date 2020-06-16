@@ -67,6 +67,15 @@ exports.sourceNodes = ({ actions, getNode, getNodesByType, getNodes }) => {
 exports.createPages = ({ graphql, actions }) => {
   // Destructure the createPage function from the actions object
   const { createPage } = actions;
+
+  // Create a post meta page only in development mode to capture screenshots
+  if (process.env.NODE_ENV === 'development') {
+    createPage({
+      path: '/___post-meta',
+      component: path.resolve(`./src/layouts/PostMetaLayout.js`),
+    });
+  }
+
   return new Promise((resolve, reject) => {
     resolve(
       graphql(

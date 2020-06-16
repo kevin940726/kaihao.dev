@@ -1,8 +1,0 @@
-{
-  "exportPath": "cosmos",
-  "fixturesDir": "__fixtures__",
-  "fixtureFileSuffix": "fixture",
-  "webpack": {
-    "overridePath": "./scripts/webpack.cosmos.config.js"
-  }
-}

@@ -13,9 +13,7 @@
     "serve": "gatsby serve",
     "analyze": "BUILD_ENV=audit yarn run build",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
-    "cosmos": "NODE_ENV=test cosmos",
-    "cosmos:export": "NODE_ENV=production GATSBY_BUILD_STAGE=build-javascript cosmos-export",
-    "check-meta-images-and-commit": "./scripts/check-post-meta-image.sh"
+    "generate-post-meta-image": "node scripts/generate-meta-image.js"
   },
   "keywords": [
     "gatsby"
@@ -69,13 +67,13 @@
     "babel-plugin-macros": "^2.6.1",
     "babel-preset-gatsby": "^0.2.1",
     "canopic": "^0.2.1",
+    "capture-website": "^1.0.0",
     "codegen.macro": "^3.0.0",
     "gatsby-plugin-webpack-bundle-analyzer": "^1.0.4",
     "gatsby-remark-inline-codesandbox": "^0.5.2",
     "html-webpack-plugin": "^3.2.0",
+    "is-port-reachable": "^3.0.0",
     "preval.macro": "^3.0.0",
-    "puppeteer": "^1.15.0",
-    "react-cosmos": "^5.0.0-alpha.15",
     "wait-for-localhost": "^3.2.0"
   },
   "resolutions": {
@@ -101,7 +99,6 @@
     ],
     "*.mdx": [
       "prettier --write",
-      "node scripts/generate-meta-image.js",
       "git add"
     ]
   },
