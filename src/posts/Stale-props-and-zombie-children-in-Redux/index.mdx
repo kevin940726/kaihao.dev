@@ -530,7 +530,7 @@ The `useDispatch` hook implementation is also pretty straightforward.
 
 ```js
 const useDispatch = () =>
-  React.useContext(Content).dispatch;
+  React.useContext(Context).dispatch;
 ```
 
 We can create our `useSelector` hook pretty easily too.
@@ -570,7 +570,7 @@ const useSelector = selector => {
 };
 ```
 
-This version simply just break. We suffer from the _stale props and zombie children_ problem again we mentioned throughout the whole post. As always, we'll go through each step to see where and why it went wrong.
+This version just simply breaks. We suffer again from the same _stale props and zombie children_ problem we mentioned throughout the whole post. As always, we'll go through each step to see where and why it went wrong.
 
 1. After the first render, Both `<TodoList>` and `<Todo>` subscribe to the store in `useEffect`. Since `useEffect` fires from bottom to top, `<Todo>` subscribes first, then `<TodoList>`.
 2. The user clicks `<Todo>`, dispatches a `DELETE` action to store, expects the item to be deleted.
