@@ -142,15 +142,10 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-prefetch-google-fonts',
+      resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [
-          {
-            family: 'Open Sans',
-            variants: ['400', '700'],
-          },
-        ],
-        fontDisplay: 'swap',
+        fonts: ['Open Sans:400,700'],
+        display: 'swap',
       },
     },
     'gatsby-plugin-emotion',
