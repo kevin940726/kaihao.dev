@@ -72,7 +72,7 @@ const PostLayout = ({ data: { mdx } }) => {
           <SEO
             title={mdx.frontmatter.title}
             description={mdx.excerpt}
-            image={mdx.fields.image.fixed}
+            image={mdx.fields.image?.fixed}
           />
 
           <H1>

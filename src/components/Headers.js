@@ -29,9 +29,9 @@ const createHeader = (RenderComponent, options = {}) => ({ children }) => {
           line-height: 2;
           color: ${theme.colors.subText};
           ${!hideBorderBottom &&
-            css`
-              border-bottom: 1px solid ${theme.colors.horizontal};
-            `}
+          css`
+            border-bottom: 1px solid ${theme.colors.horizontal};
+          `}
           scroll-margin-top: 50px;
           margin-bottom: 1em;
 
@@ -46,12 +46,12 @@ const createHeader = (RenderComponent, options = {}) => ({ children }) => {
       {hideAnchor || (
         <a
           href={`#${fragment}`}
-          css={css`
+          css={theme => css`
             position: absolute;
             left: 0px;
             top: 0;
             bottom: 0;
-            color: #28232d;
+            color: ${theme.colors.contentText};
             transform: translateX(-100%);
             opacity: 0;
             padding-right: 10px;

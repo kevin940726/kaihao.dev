@@ -1,7 +1,7 @@
 [Settings]
 [build]
   publish = "public/"
-  command = "yarn run build:netlify"
+  command = "yarn run build"
 
 # Redirect from old blog path to new posts path
 [[redirects]]

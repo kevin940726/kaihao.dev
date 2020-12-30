@@ -26,7 +26,7 @@ const EditOnGithub = ({ postFileName }) => {
   return (
     <PostLink
       href={getEditURL(repo, postFileName)}
-      css={theme => css`
+      css={css`
         display: inline-flex;
         align-items: center;
         align-self: flex-end;
