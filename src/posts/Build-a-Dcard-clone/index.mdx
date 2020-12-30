@@ -1,6 +1,6 @@
 ---
 title: 'Build a Dcard clone'
-date: '2020-12-29'
+date: '2020-12-30'
 ---
 
 ![Dcard clone screenshot](./meta-image.png)
@@ -123,11 +123,41 @@ Dcard 不知道是因為什麼特殊的考量決定用客製化捲軸，可能�
 
 這邊就直接列出一些我有發現的問題，大部分在 Dcard clone 中都有修正，但其實也有很多地方還不夠完整。
 
-- 某些元素被 focus 時沒有任何介面上的效果。通常可能會為了介面好看而把預設的 outline 藏起來，但這其實對於鍵盤使用者來說會很困惑現在究竟是停在哪一個元素上，Dcard clone 使用 [`:focus-visible`](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible) 來只對滑鼠使用者隱藏 outline，雖然還沒有太好的瀏覽器支援度，但也有 [polyfill](https://github.com/WICG/focus-visible) 可以使用（clone 中沒有載入 polyfill）。
-- 無法跳至主要內容。現在很多網站都會特別為了鍵盤使用者或螢幕閱讀器的使用者提供一個特別的一般使用者看不到的按鈕來快速跳至主要內容，使用者就不必連續按 Tab 好多次遍歷一次左邊所有的討論區列表的連結才有辦法跳至主要內容，Dcard clone 將此按鈕隱藏在左上角的 logo 上。
-- Modal 的 focus 沒有形成封閉的迴圈。Modal （或 Dialog）算是一種特別的介面，因為在 modal 開啟時不預期使用者可以對外面的元素互動，通常會將 focus 封閉在 modal 內，意即對最後一個 focusable 的元素按 Tab 會跳回 modal 的第一個 focusable 元素，直到關閉 modal 為止。Dcard clone 中直接使用 Reakit 的 Dialog component 來實作這項功能。
-- 關閉 Modal 時返回 focus。用鍵盤瀏覽文章列表頁時，關閉 modal 後就必須重新找尋一次上次點擊的連結，Dcard clone 中在關閉 modal 後會將 focus 返回到該 modal 的連結上，同樣的也適用於點擊 modal 的下一篇／下一篇後。
-- Layout Shift。Dcard 的 API 雖然有回傳圖片的長寬，但似乎讀取時仍然沒有寫死長寬比例，這導致圖片讀取較慢時會將文章向下推移一段距離，造成閱讀時的不適，或甚至可能會造成要點擊的目標突然移動而沒點到或點錯等情況。Dcard clone 使用 `next/image` 來優化圖片的載入速度和固定它們的長寬比例，這讓圖片在讀取中時仍然可以顯示正確的長寬比例，避免跳動。
+#### No focus style
+
+通常可能會為了介面好看而把預設的 outline 藏起來，但這其實對於鍵盤使用者來說會很困惑現在究竟是停在哪一個元素上，Dcard clone 使用 [`:focus-visible`](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible) 來只對滑鼠使用者隱藏 outline，雖然還沒有太好的瀏覽器支援度，但也有 [polyfill](https://github.com/WICG/focus-visible) 可以使用（clone 中沒有載入 polyfill）。
+
+#### Skip to main content
+
+現在很多網站都會特別為了鍵盤使用者或螢幕閱讀器的使用者提供一個特別的一般使用者看不到的按鈕來快速跳至主要內容，使用者就不必連續按 Tab 好多次遍歷一次左邊所有的討論區列表的連結才有辦法跳至主要內容，Dcard clone 將此按鈕隱藏在左上角的 logo 上。
+
+#### Modal focus not trapped
+
+Modal （或 Dialog）算是一種特別的介面，因為在 modal 開啟時不預期使用者可以對外面的元素互動，通常會將 focus 封閉在 modal 內，意即對最後一個 focusable 的元素按 Tab 會跳回 modal 的第一個 focusable 元素，直到關閉 modal 為止。Dcard clone 中直接使用 Reakit 的 Dialog component 來實作這項功能。
+
+#### Return focus after closing the modal
+
+用鍵盤瀏覽文章列表頁時，關閉 modal 後就必須重新找尋一次上次點擊的連結，Dcard clone 中在關閉 modal 後會將 focus 返回到該 modal 的連結上，同樣的也適用於點擊 modal 的下一篇／下一篇後。
+
+#### Layout Shift
+
+Dcard 的 API 雖然有回傳圖片的長寬，但似乎讀取時仍然沒有寫死長寬比例，這導致圖片讀取較慢時會將文章向下推移一段距離，造成閱讀時的不適，或甚至可能會造成要點擊的目標突然移動而沒點到或點錯等情況。Dcard clone 使用 `next/image` 來優化圖片的載入速度和固定它們的長寬比例，這讓圖片在讀取中時仍然可以顯示正確的長寬比例，避免跳動。
+
+## Performance
+
+Dcard clone 並沒有對效能做太多的優化，相比於官方頁面而言並沒有快上太多，在某些情況下甚至是較慢的。先看看 lighthouse 分數吧。
+
+**Dcard**
+![Dcard lighthouse score](./dcard-lighthouse.png)
+
+**Dcard clone**
+![Dcard clone lighthouse score](./dcard-clone-lighthouse.png)
+
+_（皆是跑在無痕模式下 MacBook Pro 13" 2020, 2.3 GHz i7, Network 40 ms TCP RTT, 10,240 Kbps throughput (Simulated), CPU 1x slowdown (Simulated)）_
+
+雖然數字看起來好看，但要記得 Dcard clone 可是省略了非常多功能沒有實作，沒有廣告、沒有贊助、沒有第三方服務和分析等，能有這樣的分數也是剛好而已。而且 Dcard clone 還有些致命的缺點。
+
+Dcard clone 的 Time to First Byte (TTFB) 非常的高，超過一秒，這對於 Dcard 這種高瀏覽的網站來說是無法接受的，而這相當高的 TTFB 可能來自於不同因素，例如 Vercel host 伺服器可能在台灣就有先天性的劣勢，另外由於我們都是直接打真實的 API 而不是打自己本地的資料庫，在伺服器端的 Round trip time (RTT) 就也相當可觀，再加上我們的伺服器或 API 也沒有實作任何的 cache 機制，這種種原因使得 Dcard clone 的 TTFB 相比於 Dcard 的 350ms 來說非常非常的高。
 
 ## Conclusion
 
