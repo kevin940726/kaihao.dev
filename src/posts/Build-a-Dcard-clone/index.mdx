@@ -31,7 +31,7 @@ date: '2020-12-30'
 - Testing (你懂我意思了)
 - 錯誤處理和例外處理
 
-另外值得一提的是，這個網站所用的所有 API 都是官方的真實 API，所以看到的資料理論上會與官方的討論區相同，但也因為如此，任何官方的 API 更新或是做的任何封鎖都可能會讓這個網站直接壞掉。（如果官方對此有疑慮，歡迎隨時聯絡我下架整個網站）。
+另外值得一提的是，這個網站所用的所有 API 都是官方的真實 API，所以看到的資料理論上會與官方的討論區相同，但也因為如此，任何官方的 API 更新或是做的任何封鎖都可能會讓整個網站直接壞掉。（如果官方對此有疑慮，歡迎隨時聯絡我下架整個網站）。
 
 既然這個 side project 的出發點是為了修正一些 Dcard 的 bug，所以有些地方的 UI 並不會完全一樣，其中也有些地方參雜了一些我主觀認為比較好的優化，這會在文章後半段再一一列舉。
 
@@ -48,9 +48,9 @@ date: '2020-12-30'
 
 不考慮使用 `getStaticProps` 因為 Dcard 的討論區列表非常動態，也是為了模擬當有會員的客製化資料時也不太適合，而 `getServerSideProps` 則是 page-level 的，意即每次切換頁面時都會重新打一次這個 API，這在一般的 app 中可能較為簡單直覺，但是在 Dcard 的架構中就顯得不太理想。在進入討論區後會需要呼叫一支 `forums` 的 API，一次性地拿取全部 4xx 多筆的討論區資料，而幾乎每一頁的介面左邊都會有「即時熱門看板」和「Dcard 精選看板」會需要這支 API 的資料。如果直接使用 `getServerSideProps` 的話就會變成每次切換頁面都會把 4xx 多筆的資料重新餵給 client，而這些資料其實短時間內不太會變動，是可以被 cache 的。經過優化後的 `getServerSideProps` 可以只傳必要的資料給前端，但一樣每次切換頁面時都會重新拉一次資料，而就我所知目前似乎 Next.js 還沒有辦法可以指定這些資源的 cache，也沒有辦法在同一頁中同時使用 `getServerSideProps` 和 `getStaticProps`，於是只好另外找尋其他方法。
 
-最後的解法是透過在 [`_app.js`](https://github.com/kevin940726/dcard-clone/blob/main/src/pages/_app.js) 中定義 `App.getInitialProps` 來統一做 data-fetching 的處理。這個 method 只會在每次進入 app 中執行一次，對於 Dcard 這類型的 SPA 來說就是當使用者第一次進入網頁的時候，而後所有的 client side navigation 都是透過 client side 的 data-fetching 處理。這麼做的好處是每次切換頁面時都有類似 `shallow` 的效果，會先馬上看到下一頁的讀取狀態後再去打需要的 API，這樣所有的 API 結果都可以被我們 cache 起來，切換頁面時如果需要重複的資料就不需要再重新呼叫一次 API。
+最後的解法是透過在 [`_app.js`](https://github.com/kevin940726/dcard-clone/blob/main/src/pages/_app.js) 中定義 `App.getInitialProps` 來統一做 data-fetching 的處理。這個 method 只會在每次進入 app 中執行一次，對於 Dcard 這類型的 SPA 來說就是當使用者第一次進入網頁的時候，而後所有的 client side navigation 都是透過 client side 的 data-fetching 處理。這麼做的好處是每次切換頁面時都有類似 [`shallow`](https://nextjs.org/docs/routing/shallow-routing) 的效果，會先馬上看到下一頁的讀取狀態後再去打需要的 API，這樣所有的 API 結果都可以被我們 cache 起來，切換頁面時如果需要重複的資料就不需要再重新呼叫一次 API。
 
-接下來我們只要在每一頁定義我們想要預先在 server side 載入的 API，就一樣可以享有 SSR 的優點。這部分我實作了一個客製的 API 叫 `prefetchQueries`，它只會在 server side 執行，所做的也就只是去打需要的 API 並把結果 cache 起來後交給前端 dehydrate。這邊算是比較特殊的地方，但是個人目前使用起來也滿方便的，雖然說也不是完全沒有缺點，例如 TTFB 會相當高（詳見底下[效能](#performance)的段落），也許之後有比較多的經驗之後可以再多研究有沒有更好的方法。
+接下來我們只要在每一頁定義我們想要預先在 server side 載入的 API，就一樣可以享有 SSR 的優點。這部分我實作了一個客製的 API 叫 `prefetchQueries`，它只會在 server side 執行，所做的也就只是去打需要的 API 並把結果 cache 起來後交給前端 hydrate。這邊算是比較特殊的地方，但是個人目前使用起來也滿方便的，雖然說也不是完全沒有缺點，例如 TTFB 會相當高（詳見底下[效能](#performance)的段落），也許之後有比較多的經驗之後可以再多研究有沒有更好的方法。
 
 ## Bugs and Features implemenation
 
@@ -138,7 +138,7 @@ Modal （或 Dialog）算是一種特別的介面，因為在 modal 開啟時不
 
 #### Return focus after closing the modal
 
-用鍵盤瀏覽文章列表頁時，關閉 modal 後就必須重新找尋一次上次點擊的連結，Dcard clone 中在關閉 modal 後會將 focus 返回到該 modal 的連結上，同樣的也適用於點擊 modal 的下一篇／下一篇後。
+用鍵盤瀏覽文章列表頁時，關閉 modal 後就必須重新找尋一次上次點擊的連結，Dcard clone 中在關閉 modal 後會將 focus 返回到該 modal 的連結上，同樣的也適用於點擊 modal 的上一篇／下一篇後。
 
 #### Layout Shift
 
@@ -164,6 +164,6 @@ Dcard clone 的 Time to First Byte (TTFB) 非常的高，超過一秒，這對�
 
 重新放一次連結：[Dcard clone](https://dcard-clone.vercel.app) 和 [GitHub repository](https://github.com/kevin940726/dcard-clone)，歡迎提交 issues 或 PRs，但我不保證我會繼續更新 😅。
 
-這次實作從頭到尾大概花了我兩個禮拜的下班和假日的空閒時間，說實話我認為完成度大概只有不到 30%，但當作很久沒寫 UI 的我的練習來說還算是非常有趣的。其中最花時間的反而是再研究 Next.js 的 data-fetching 和 route modal 的最佳解決方案，雖然現在還是對於目前的解法沒有到很滿意，但也算是可以運作了啦。
+這次實作從頭到尾大概花了我兩個禮拜的下班和假日的空閒時間，說實話我認為完成度大概只有不到 30%，但當作很久沒寫 UI 的我的練習來說還算是非常有趣的。其中最花時間的反而是在研究 Next.js 的 data-fetching 和 route modal 的最佳解決方案，雖然現在還是對於目前的解法沒有到很滿意，但也算是可以運作了啦。
 
 最後還是要對 Dcard 的官方開發團隊表達最大的尊重，同樣是前端工程師都知道要做出這些複雜的 UI 是沒有想像中簡單的，加上官方還有更多複雜的業務邏輯是我沒有處理也不會處理的，只想說辛苦了！
