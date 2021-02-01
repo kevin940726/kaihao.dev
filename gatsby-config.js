@@ -18,12 +18,19 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: 'gatsby-plugin-google-analytics',
+      resolve: 'gatsby-plugin-google-gtag',
       options: {
-        trackingId: 'UA-75983216-6',
-        head: false,
-        anonymize: true,
-        respectDNT: true,
+        trackingIds: [
+          'G-STCST6DDF7', // GA 4
+          'UA-75983216-6', // GA
+        ],
+        gtagConfig: {
+          anonymize_ip: true,
+        },
+        pluginConfig: {
+          head: false,
+          respectDNT: true,
+        },
       },
     },
     'gatsby-plugin-react-helmet',

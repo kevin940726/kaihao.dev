@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { OutboundLink } from 'gatsby-plugin-google-analytics';
+import { OutboundLink } from 'gatsby-plugin-google-gtag';
 import { TWITTER_LINK, GITHUB_LINK, LINKEDIN_LINK } from '../constants';
 
 const Link = ({ children, ...props }) => (
