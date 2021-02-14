@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
 import { Location } from '@reach/router';
+import { GITHUB_LINK, TWITTER_LINK } from '../constants';
 
 const detailsQuery = graphql`
   query DefaultSEOQuery {
@@ -57,6 +58,8 @@ function SEO({ title, description, image, lang = 'en', children }) {
           <meta name="twitter:title" content={metaTitle} />
           <meta name="twitter:description" content={metaDescription} />
           <meta name="twitter:image" content={metaImageAbsolutePath} />
+          <link href={GITHUB_LINK} rel="me" />
+          <link href={TWITTER_LINK} rel="me" />
           {children}
         </Helmet>
       )}
