@@ -436,7 +436,7 @@ This is the basic idea of how the nested subscriptions model is implemented both
 
 ## React Context
 
-There is a more straightforward way to fix this, by using _React context_. We're already using it to pass down our `store` instance, why not make it react to state changes as well? `react-context` v6 takes this approach when the stable version of React context first came up. The approach seems much easier and since the state rendering propagation is handled by React, we get the top-down updates for free. No more `unstable_batchedUpdates`, no more nested subscriptions model. The event listeners count also decrease down to only a single one, we don't have to subscribe in each `connect` HOC anymore.
+There is a more straightforward way to fix this, by using _React context_. We're already using it to pass down our `store` instance, why not make it react to state changes as well? `react-redux` v6 takes this approach when the stable version of React context first came up. The approach seems much easier and since the state rendering propagation is handled by React, we get the top-down updates for free. No more `unstable_batchedUpdates`, no more nested subscriptions model. The event listeners count also decrease down to only a single one, we don't have to subscribe in each `connect` HOC anymore.
 
 ```jsx
 // Again, there're lack of many optimizations and error handlings
