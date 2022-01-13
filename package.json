@@ -1,139 +1,56 @@
 {
-  "name": "kaihao.dev",
+  "name": "next-kaihao.dev",
   "private": true,
-  "title": "Kai Hao",
-  "description": "I'm Kai Hao, a front-end developer in Taiwan.",
-  "version": "0.1.0",
-  "author": "@kevin940726",
+  "engines": {
+    "node": ">=14",
+    "pnpm": ">=3"
+  },
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "start": "yarn run develop",
-    "serve": "gatsby serve",
-    "analyze": "BUILD_ENV=audit yarn run build",
-    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
-    "generate-post-meta-image": "node scripts/generate-meta-image.js"
-  },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kevin940726/kaihao.dev"
-  },
-  "bugs": {
-    "url": "https://github.com/kevin940726/kaihao.dev/issues"
+    "dev": "next dev",
+    "build": "next build && pnpm generate-rss",
+    "export": "next export",
+    "start": "next start",
+    "lint": "next lint",
+    "generate-rss": "NODE_ENV=production node --loader ts-node/esm --experimental-specifier-resolution=node src/internals/generateRSS.ts"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.7",
-    "@emotion/styled": "^10.0.7",
-    "@mdx-js/mdx": "^1.0.21",
-    "@mdx-js/react": "^1.0.21",
-    "emotion-theming": "^10.0.19",
-    "focus-visible": "^5.0.2",
-    "fontfaceobserver": "^2.1.0",
-    "gatsby": "^2.23.3",
-    "gatsby-image": "^2.0.41",
-    "gatsby-plugin-emotion": "^4.0.3",
-    "gatsby-plugin-feed": "^2.5.5",
-    "gatsby-plugin-google-fonts": "^1.0.1",
-    "gatsby-plugin-google-gtag": "^2.5.0",
-    "gatsby-plugin-manifest": "^2.4.11",
-    "gatsby-plugin-mdx": "^1.0.6",
-    "gatsby-plugin-netlify": "^2.0.10",
-    "gatsby-plugin-offline": "^2.0.23",
-    "gatsby-plugin-prefetch-google-fonts": "^1.4.2",
-    "gatsby-plugin-react-helmet": "^3.0.6",
-    "gatsby-plugin-remove-trailing-slashes": "^2.0.9",
-    "gatsby-plugin-sharp": "^2.6.11",
-    "gatsby-remark-images": "^3.1.2",
-    "gatsby-source-filesystem": "^2.0.20",
-    "gatsby-transformer-sharp": "^2.5.5",
-    "modern-normalize": "^0.5.0",
-    "polished": "^3.2.0",
-    "prism-react-renderer": "^0.1.5",
-    "prismjs": "^1.15.0",
-    "prop-types": "^15.6.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-helmet": "^6.0.0-beta",
-    "react-inlinesvg": "^0.8.4",
-    "react-live": "^1.12.0",
-    "slugify": "^1.3.4"
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "esbuild": "^0.14.11",
+    "focus-visible": "^5.2.0",
+    "modern-normalize": "^1.1.0",
+    "next": "12.0.7",
+    "polished": "^4.1.3",
+    "prism-themes": "^1.9.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "sharp": "^0.29.3",
+    "slugify": "^1.6.5"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
-    "@typescript-eslint/parser": "^4.0.0",
-    "babel-eslint": "^10.0.0",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-macros": "^2.6.1",
-    "babel-preset-gatsby": "^0.2.1",
-    "codegen.macro": "^3.0.0",
-    "eslint": "^7.16.0",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.3",
-    "eslint-plugin-react-hooks": "^4.0.8",
-    "gatsby-plugin-webpack-bundle-analyzer": "^1.0.4",
-    "gatsby-remark-inline-codesandbox": "^0.5.2",
-    "html-webpack-plugin": "^3.2.0",
-    "husky": "^4.3.6",
-    "is-port-reachable": "^3.0.0",
-    "lint-staged": "^10.5.3",
-    "preval.macro": "^3.0.0",
-    "wait-for-localhost": "^3.2.0"
-  },
-  "optionalDependencies": {
-    "capture-website": "^1.0.0"
-  },
-  "resolutions": {
-    "react-live/prismjs": "1.15.0",
-    "**/lodash": "^4.17.12"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,json,md,html}": [
-      "prettier --write"
-    ],
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
-    ],
-    "*.mdx": [
-      "prettier --write"
-    ]
+    "@types/hast": "^2.3.4",
+    "@types/loader-utils": "^2.0.3",
+    "@types/lodash.truncate": "^4.4.6",
+    "@types/node": "17.0.8",
+    "@types/prismjs": "^1.16.6",
+    "@types/react": "17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@types/rss": "^0.0.29",
+    "eslint": "8.6.0",
+    "eslint-config-next": "12.0.7",
+    "loader-utils": "^3.2.0",
+    "lodash.truncate": "^4.4.2",
+    "mdx-bundler": "^8.0.1",
+    "prettier": "2.5.1",
+    "prismjs": "^1.26.0",
+    "remark-codesandbox": "^0.10.0",
+    "remark-mdx-images": "^1.0.3",
+    "rss": "^1.2.2",
+    "ts-node": "^10.4.0",
+    "typescript": "4.5.4",
+    "unist-util-visit": "4.0.0"
   },
   "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "quoteProps": "as-needed",
-    "jsxSingleQuote": false,
-    "trailingComma": "es5",
-    "bracketSpacing": true,
-    "jsxBracketSameLine": false,
-    "arrowParens": "avoid",
-    "overrides": [
-      {
-        "files": [
-          "*.md",
-          "*.mdx"
-        ],
-        "options": {
-          "printWidth": 60
-        }
-      }
-    ]
+    "singleQuote": true
   }
 }

@@ -1,1 +1,1 @@
-# Kai Hao's Blog
+# [Kai Hao's Blog](https://kaihao.dev)

@@ -1,15 +1,54 @@
 {
-  "include": ["./src/**/*"],
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
-    "lib": ["dom", "es2017"],
-    "jsx": "react",
+    "rootDir": "src",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    },
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
     "strict": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "skipLibCheck": true
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "importsNotUsedAsValues": "error",
+    "preserveValueImports": true,
+    "jsx": "preserve",
+    "jsxImportSource": "@emotion/react",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "incremental": true,
+    "typeRoots": [
+      "./src/@types",
+      "./node_modules/@types"
+    ],
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext"
+    },
+    "include": ["src/internals/**/*.ts", "src/@types/**/*.ts"]
   }
 }
