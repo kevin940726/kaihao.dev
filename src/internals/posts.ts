@@ -4,6 +4,8 @@ import fsSync from 'fs';
 import path from 'path';
 import { bundleMDX } from 'mdx-bundler';
 import { getMDXExport } from 'mdx-bundler/client';
+import remarkGFM from 'remark-gfm';
+import { remarkMdxFrontmatter } from 'remark-mdx-frontmatter';
 import { remarkMdxImages } from 'remark-mdx-images';
 import remarkCodeSandbox from 'remark-codesandbox';
 import rehypeHighlight from './rehypeHighlight';
@@ -71,6 +73,8 @@ export async function getPost(slug: string): Promise<Post> {
     xdmOptions: (options) => {
       options.remarkPlugins = options.remarkPlugins ?? [];
       options.remarkPlugins.push(
+        remarkGFM,
+        remarkMdxFrontmatter,
         // @ts-ignore: The type seems to be wrong
         remarkMdxImages,
         remarkMdxExcerpt,
