@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { rgba } from 'polished';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import siteMetadata from '@/siteMetadata.json';
 import { BACKGROUND_BLACK } from './colors';
 import { mobile } from './media';
@@ -73,18 +73,16 @@ const Nav = () => {
           `}
         >
           <Title>
-            <Link href="/" passHref>
-              <a>
-                <span
-                  css={css`
-                    display: inline-flex;
-                    margin-right: 10px;
-                  `}
-                >
-                  <Image src={logo} alt="logo" width={40} height={40} />
-                </span>
-                {siteMetadata.title}
-              </a>
+            <Link href="/">
+              <span
+                css={css`
+                  display: inline-flex;
+                  margin-right: 10px;
+                `}
+              >
+                <Image src={logo} alt="logo" width={40} height={40} />
+              </span>
+              {siteMetadata.title}
             </Link>
           </Title>
 

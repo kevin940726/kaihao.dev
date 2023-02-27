@@ -5,8 +5,8 @@ import path from 'path';
 import { bundleMDX } from 'mdx-bundler';
 import { getMDXExport } from 'mdx-bundler/client';
 import remarkGFM from 'remark-gfm';
-import { remarkMdxFrontmatter } from 'remark-mdx-frontmatter';
-import { remarkMdxImages } from 'remark-mdx-images';
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
+import remarkMdxImages from 'remark-mdx-images';
 import remarkCodeSandbox from 'remark-codesandbox';
 import rehypeHighlight from './rehypeHighlight';
 import remarkMdxExcerpt from './remarkMdxExcerpt';
@@ -70,12 +70,12 @@ export async function getPost(slug: string): Promise<Post> {
   }>({
     file: path.join(postDirectory, 'index.mdx'),
     cwd: postDirectory,
-    xdmOptions: (options) => {
+    mdxOptions: (options) => {
       options.remarkPlugins = options.remarkPlugins ?? [];
       options.remarkPlugins.push(
+        // @ts-ignore
         remarkGFM,
         remarkMdxFrontmatter,
-        // @ts-ignore: The type seems to be wrong
         remarkMdxImages,
         remarkMdxExcerpt,
         [
@@ -103,7 +103,7 @@ export async function getPost(slug: string): Promise<Post> {
       // Add the default meta image to entry points for esbuild to load the image
       if (fsSync.existsSync(defaultMetaImagePath)) {
         if (Array.isArray(options.entryPoints)) {
-          options.entryPoints.push(defaultMetaImagePath);
+          (options.entryPoints as string[]).push(defaultMetaImagePath);
         }
       }
 

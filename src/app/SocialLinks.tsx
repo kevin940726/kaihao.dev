@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from 'react';
 import { css } from '@emotion/react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { TWITTER_LINK, GITHUB_LINK, LINKEDIN_LINK } from './links';
 import { DIM_WHITE } from './colors';
 import { darkMode } from './media';

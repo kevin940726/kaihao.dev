@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { darkMode } from './media';
 import githubIcon from './github-icon.png';
 import PostLink from './PostLink';

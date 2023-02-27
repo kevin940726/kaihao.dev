@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { resizeImage, getImageSize } from 'next/dist/server/image-optimizer';
+import { optimizeImage, getImageSize } from 'next/dist/server/image-optimizer';
 import { getHashDigest } from 'loader-utils';
 import type { Plugin } from 'esbuild';
 
@@ -79,15 +79,14 @@ const esbuildImageLoaderPlugin = (): ImageLoader => {
               image.height = height;
 
               // Shrink the image's largest dimension
-              const dimension = width >= height ? 'width' : 'height';
+              // const dimension = width >= height ? 'width' : 'height';
 
-              const resizedImage = await resizeImage(
+              const resizedImage = await optimizeImage({
                 buffer,
-                dimension,
-                BLUR_IMG_SIZE,
-                extension as typeof VALID_BLUR_EXT[number],
-                BLUR_QUALITY
-              );
+                contentType: extension,
+                width: BLUR_IMG_SIZE,
+                quality: BLUR_QUALITY,
+              });
 
               image.blurDataURL = `data:image/${extension};base64,${resizedImage.toString(
                 'base64'

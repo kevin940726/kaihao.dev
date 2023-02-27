@@ -20,31 +20,31 @@ const BackArrow = (props: ComponentPropsWithRef<'svg'>) => (
 );
 
 const BackTo = ({ href, children, ...props }: BackToProps) => (
-  <Link href={href} passHref>
-    <FlatButton
+  <FlatButton
+    as={Link}
+    href={href}
+    css={css`
+      font-size: 1rem;
+      margin: 1em 0;
+    `}
+    {...props}
+  >
+    <BackArrow
       css={css`
-        font-size: 1rem;
-        margin: 1em 0;
-      `}
-      {...props}
-    >
-      <BackArrow
-        css={css`
-          &,
-          svg {
-            display: inline-flex;
-            height: 1rem;
-            width: 1rem;
+        &,
+        svg {
+          display: inline-flex;
+          height: 1rem;
+          width: 1rem;
 
-            path {
-              fill: currentColor;
-            }
+          path {
+            fill: currentColor;
           }
-        `}
-      />
-      {children}
-    </FlatButton>
-  </Link>
+        }
+      `}
+    />
+    {children}
+  </FlatButton>
 );
 
 export default BackTo;

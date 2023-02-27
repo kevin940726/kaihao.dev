@@ -53,44 +53,43 @@ const PostList = ({ posts, ...props }: PostListProps) => {
       >
         {posts.map((post) => (
           <PostListItem key={post.slug}>
-            <Link href={`/posts/${post.slug}`} passHref>
-              <a
-                css={(theme) => css`
-                  display: block;
-                  color: ${theme.colors.contentText};
+            <Link
+              href={`/posts/${post.slug}`}
+              css={(theme) => css`
+                display: block;
+                color: ${theme.colors.contentText};
+                text-decoration: none;
+
+                &:hover {
                   text-decoration: none;
 
-                  &:hover {
-                    text-decoration: none;
-
-                    > [data-post-item-header] {
-                      text-decoration: underline;
-                    }
+                  > [data-post-item-header] {
+                    text-decoration: underline;
                   }
+                }
+              `}
+            >
+              <PostItemHeader data-post-item-header>
+                {post.frontmatter.title}
+              </PostItemHeader>
+
+              <time
+                dateTime={post.frontmatter.date}
+                title={post.frontmatter.date}
+                css={css`
+                  color: #aaaaaa;
+                  font-size: 12px;
                 `}
               >
-                <PostItemHeader data-post-item-header>
-                  {post.frontmatter.title}
-                </PostItemHeader>
-
-                <time
-                  dateTime={post.frontmatter.date}
-                  title={post.frontmatter.date}
-                  css={css`
-                    color: #aaaaaa;
-                    font-size: 12px;
-                  `}
-                >
-                  {post.frontmatter.date}
-                </time>
-                <p
-                  css={css`
-                    margin: 10px 0 0;
-                  `}
-                >
-                  {post.excerpt}
-                </p>
-              </a>
+                {post.frontmatter.date}
+              </time>
+              <p
+                css={css`
+                  margin: 10px 0 0;
+                `}
+              >
+                {post.excerpt}
+              </p>
             </Link>
           </PostListItem>
         ))}
