@@ -7,14 +7,14 @@ import type {
   Link,
   Delete,
 } from 'mdast';
+import type { Node } from 'unist';
 import { visit, EXIT } from 'unist-util-visit';
-import type { Node } from 'unist-util-visit';
 import type {
-  MDXFlowExpression,
-  MDXJSEsm,
-  MDXTextExpression,
-  MDXJsxFlowElement,
-  MDXJsxTextElement,
+  MdxFlowExpression,
+  MdxjsEsm,
+  MdxTextExpression,
+  MdxJsxFlowElement,
+  MdxJsxTextElement,
 } from 'mdast-util-mdx';
 import stringWidth from 'string-width';
 import GraphemeSplitter from 'grapheme-splitter';
@@ -23,11 +23,11 @@ const splitter = new GraphemeSplitter();
 
 type ContentNode =
   | Node
-  | MDXFlowExpression
-  | MDXJSEsm
-  | MDXTextExpression
-  | MDXJsxFlowElement
-  | MDXJsxTextElement;
+  | MdxFlowExpression
+  | MdxjsEsm
+  | MdxTextExpression
+  | MdxJsxFlowElement
+  | MdxJsxTextElement;
 
 export interface RemarkMdxExcerptOptions {
   exportName?: string;
@@ -37,7 +37,7 @@ export interface RemarkMdxExcerptOptions {
         node: ContentNode,
         index: number | null,
         parent: ContentNode | null
-      ) => void)
+      ) => boolean)
     | null;
   maxWidth?: number;
   ellipsis?: string;
@@ -56,11 +56,11 @@ function isInlineNode(
   ].includes(node.type);
 }
 
-function isMdxEsm(node: ContentNode): node is MDXJSEsm {
+function isMdxEsm(node: ContentNode): node is MdxjsEsm {
   return node.type === 'mdxjsEsm';
 }
 
-function isMdxFlowExpression(node: ContentNode): node is MDXFlowExpression {
+function isMdxFlowExpression(node: ContentNode): node is MdxFlowExpression {
   return node.type === 'mdxFlowExpression';
 }
 
@@ -186,6 +186,6 @@ export default function remarkMdxExcerpt({
           ],
         },
       },
-    } as MDXJSEsm);
+    } as MdxjsEsm);
   };
 }

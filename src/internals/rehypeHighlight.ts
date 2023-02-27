@@ -20,7 +20,6 @@ function getLanguage(node: Element) {
 
 export default function rehypeHighlight() {
   Prism.languages['sh'] = Prism.languages.extend('bash', {
-    // @ts-expect-error: Not sure why yet
     prompt: {
       pattern: /^\$(?=\s).*/m,
       inside: {

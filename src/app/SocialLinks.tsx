@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef } from 'react';
+import type { ImageProps } from 'next/legacy/image';
 import { css } from '@emotion/react';
 import Image from 'next/legacy/image';
 import { TWITTER_LINK, GITHUB_LINK, LINKEDIN_LINK } from './links';
@@ -15,7 +16,7 @@ const SocialLink = ({
   children,
   ...props
 }: ComponentPropsWithRef<'a'> & {
-  icon: StaticImageData;
+  icon: ImageProps['src'];
 }) => (
   <a
     title={title}

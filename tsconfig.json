@@ -3,16 +3,10 @@
     "rootDir": "src",
     "baseUrl": "src",
     "paths": {
-      "@/*": [
-        "*"
-      ]
+      "@/*": ["*"]
     },
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -30,28 +24,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "incremental": true,
-    "typeRoots": [
-      "./src/@types",
-      "./node_modules/@types"
-    ]
+    "typeRoots": ["./src/@types", "./node_modules/@types"]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "ts-node": {
-    "transpileOnly": true,
-    "compilerOptions": {
-      "target": "ESNext",
-      "module": "ESNext"
-    },
-    "include": [
-      "src/internals/**/*.ts",
-      "src/@types/**/*.ts"
-    ]
-  }
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

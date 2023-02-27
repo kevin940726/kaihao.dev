@@ -73,7 +73,6 @@ export async function getPost(slug: string): Promise<Post> {
     mdxOptions: (options) => {
       options.remarkPlugins = options.remarkPlugins ?? [];
       options.remarkPlugins.push(
-        // @ts-ignore
         remarkGFM,
         remarkMdxFrontmatter,
         remarkMdxImages,
