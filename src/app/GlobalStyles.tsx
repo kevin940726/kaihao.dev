@@ -1,7 +1,15 @@
 import 'modern-normalize';
 import { Global, css } from '@emotion/react';
+import { Open_Sans } from 'next/font/google';
 import 'focus-visible';
 import themeVariables, { lightTheme, darkTheme } from './theme';
+
+const openSans = Open_Sans({
+  display: 'swap',
+  subsets: ['latin'],
+  preload: true,
+  weight: ['400', '700'],
+});
 
 const GlobalStyles = () => (
   <Global
@@ -12,7 +20,7 @@ const GlobalStyles = () => (
           height: 100%;
           color: ${theme.colors.contentText};
           background-color: ${theme.colors.contentBackground};
-          font-family: 'Open Sans', 'sans-serif';
+          font-family: ${openSans.style.fontFamily}, 'sans-serif';
         }
 
         #__next {

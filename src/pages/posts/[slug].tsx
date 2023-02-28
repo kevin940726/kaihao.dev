@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
+import { Fira_Code } from 'next/font/google';
 import { css } from '@emotion/react';
 import { getMDXComponent } from 'mdx-bundler/client';
 import Layout from '@/app/Layout';
@@ -17,6 +17,13 @@ import BlockQuote from '@/app/BlockQuote';
 import { Ul, Ol, Li } from '@/app/Lists';
 import Highlight from '@/app/Highlight';
 import PostImage from '@/app/PostImage';
+
+const firaCode = Fira_Code({
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  weight: ['300', '400', '500', '700'],
+});
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const postSlugs = await getPostSlugs();
@@ -49,14 +56,6 @@ export default function PostPage({
 
   return (
     <Layout isContent>
-      <Head>
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
       <Layout.Main
         css={css`
           line-height: 1.8;
@@ -65,7 +64,8 @@ export default function PostPage({
 
           pre,
           code {
-            font-family: 'Fira Code', 'Menlo', 'Courier', 'monospace';
+            font-family: ${firaCode.style.fontFamily}, 'Menlo', 'Courier',
+              'monospace';
           }
 
           ${mobile(css`
