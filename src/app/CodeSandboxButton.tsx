@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import type { ComponentPropsWithRef } from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 const CodeSandboxButton = (props: ComponentPropsWithRef<'a'>) => (
   <a

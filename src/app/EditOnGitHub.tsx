@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import { darkMode } from './media';
 import githubIcon from './github-icon.png';
 import PostLink from './PostLink';
@@ -37,7 +37,7 @@ const EditOnGithub = ({ slug }: { slug: string }) => {
           src={githubIcon}
           height={21}
           width={21}
-          alt="github"
+          alt=""
           css={css`
             border-radius: 50%;
           `}

@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef } from 'react';
-import type { ImageProps } from 'next/legacy/image';
+import type { ImageProps } from 'next/image';
 import { css } from '@emotion/react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import { TWITTER_LINK, GITHUB_LINK, LINKEDIN_LINK } from './links';
 import { DIM_WHITE } from './colors';
 import { darkMode } from './media';
@@ -16,6 +16,7 @@ const SocialLink = ({
   children,
   ...props
 }: ComponentPropsWithRef<'a'> & {
+  title: string;
   icon: ImageProps['src'];
 }) => (
   <a
@@ -66,15 +67,7 @@ const SocialLink = ({
     rel="noopener noreferrer nofollower"
     {...props}
   >
-    <Image
-      src={icon}
-      width={35}
-      height={35}
-      alt={title}
-      layout="fixed"
-      objectFit="fill"
-      priority
-    />
+    <Image src={icon} width={35} height={35} alt={title} priority />
   </a>
 );
 
