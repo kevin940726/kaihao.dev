@@ -22,7 +22,9 @@ function SEO({ title, description, image, children }: SEOProps) {
     : siteMetadata.title;
   const metaDescription = description || siteMetadata.description;
   const metaImage = image || {
-    src: '/default-meta-image.jpeg',
+    src: `/api/og${
+      title ? `?${new URLSearchParams({ title }).toString()}` : ''
+    }`,
     width: 1200,
     height: 626,
   };
