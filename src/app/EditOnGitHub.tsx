@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { darkMode } from './media';
 import githubIcon from './github-icon.png';
 import PostLink from './PostLink';
-import siteMetadata from '@/siteMetadata.json';
+import siteMetadata from '@/siteMetadata';
 
 const getEditURL = (slug: string) =>
   `${siteMetadata.repo}/edit/main/src/posts/${slug}/index.mdx`;

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import siteMetadata from '@/siteMetadata.json';
+import siteMetadata from '@/siteMetadata';
 import { GITHUB_LINK, TWITTER_LINK } from './links';
 
 interface SEOProps {

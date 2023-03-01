@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { rgba } from 'polished';
 import Image from 'next/image';
-import siteMetadata from '@/siteMetadata.json';
+import siteMetadata from '@/siteMetadata';
 import { BACKGROUND_BLACK } from './colors';
 import { mobile } from './media';
 import logo from './logo.png';

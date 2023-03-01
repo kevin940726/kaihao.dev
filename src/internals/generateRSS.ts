@@ -5,7 +5,7 @@ import { getMDXComponent } from 'mdx-bundler/client';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { getPosts } from './posts';
-import siteMetadata from '../siteMetadata.json';
+import siteMetadata from '../siteMetadata';
 
 const OUTPUT_FILE_PATH = path.join(process.cwd(), 'public/rss.xml');
 
