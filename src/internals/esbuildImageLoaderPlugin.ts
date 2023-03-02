@@ -1,12 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { optimizeImage, getImageSize } from 'next/dist/server/image-optimizer';
+import sharp from 'sharp';
+import sizeOf from 'image-size';
 import { getHashDigest } from 'loader-utils';
 import type { Plugin } from 'esbuild';
 
 const BLUR_IMG_SIZE = 8;
 const BLUR_QUALITY = 70;
-const VALID_BLUR_EXT = ['jpeg', 'png', 'webp', 'avif'] as const;
 
 const OUTPUT_DIRECTORY = path.join(process.cwd(), 'public/images');
 const OUTPUT_PUBLIC_URL_PREFIX = '/images';
@@ -21,6 +21,40 @@ interface Image {
 interface ImageLoader {
   imagesMap: Map<string, Image>;
   plugin: Plugin;
+}
+
+// @see https://github.com/vercel/next.js/blob/d2cbf8c4e0fd23dbe4edc495f9f8ddc9140a3304/packages/next/src/server/image-optimizer.ts#L410-L451
+async function getImageSize(input: Buffer, extension: string) {
+  if (extension === 'avif') {
+    const transformer = sharp(input);
+    const { width, height } = await transformer.metadata();
+    return { width, height };
+  }
+
+  const { width, height } = sizeOf(input);
+  return { width, height };
+}
+
+async function getBlurImage(buffer: Buffer, extension: string) {
+  const transformer = sharp(buffer, { sequentialRead: true });
+  transformer.rotate();
+  transformer.resize(BLUR_IMG_SIZE, undefined, {
+    withoutEnlargement: true,
+  });
+  if (extension === 'avif') {
+    transformer.avif({
+      quality: BLUR_QUALITY - 15,
+      chromaSubsampling: '4:2:0',
+    });
+  } else if (extension === 'webp') {
+    transformer.webp({ quality: BLUR_QUALITY });
+  } else if (extension === 'png') {
+    transformer.png({ quality: BLUR_QUALITY });
+  } else if (extension === 'jpeg') {
+    transformer.jpeg({ quality: BLUR_QUALITY });
+  }
+  const resizedImage = await transformer.toBuffer();
+  return resizedImage;
 }
 
 const esbuildImageLoaderPlugin = (): ImageLoader => {
@@ -65,10 +99,7 @@ const esbuildImageLoaderPlugin = (): ImageLoader => {
               extension = 'jpeg';
             }
 
-            const { width, height } = await getImageSize(
-              buffer,
-              extension as typeof VALID_BLUR_EXT[number]
-            );
+            const { width, height } = await getImageSize(buffer, extension);
 
             const image: Image = {
               src: path.join(OUTPUT_PUBLIC_URL_PREFIX, outputFilename),
@@ -78,15 +109,7 @@ const esbuildImageLoaderPlugin = (): ImageLoader => {
               image.width = width;
               image.height = height;
 
-              // Shrink the image's largest dimension
-              // const dimension = width >= height ? 'width' : 'height';
-
-              const resizedImage = await optimizeImage({
-                buffer,
-                contentType: extension,
-                width: BLUR_IMG_SIZE,
-                quality: BLUR_QUALITY,
-              });
+              const resizedImage = await getBlurImage(buffer, extension);
 
               image.blurDataURL = `data:image/${extension};base64,${resizedImage.toString(
                 'base64'

@@ -12,6 +12,7 @@ specifiers:
   '@types/react': 18.0.28
   '@types/react-dom': ^18.0.11
   '@types/rss': ^0.0.30
+  '@types/sharp': ^0.31.1
   '@types/unist': ^2.0.6
   '@vercel/og': ^0.2.0
   esbuild: ^0.17.10
@@ -19,6 +20,7 @@ specifiers:
   eslint-config-next: 13.2.1
   focus-visible: ^5.2.0
   grapheme-splitter: ^1.0.4
+  image-size: ^1.0.2
   loader-utils: ^3.2.1
   lodash.truncate: ^4.4.2
   mdast-util-mdx: ^2.0.1
@@ -49,6 +51,7 @@ dependencies:
   '@vercel/og': 0.2.0
   esbuild: 0.17.10
   focus-visible: 5.2.0
+  image-size: 1.0.2
   modern-normalize: 1.1.0
   next: 13.2.1_biqbaboplfbrettd7655fr4n2y
   polished: 4.2.2
@@ -68,6 +71,7 @@ devDependencies:
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
   '@types/rss': 0.0.30
+  '@types/sharp': 0.31.1
   '@types/unist': 2.0.6
   eslint: 8.35.0
   eslint-config-next: 13.2.1_ycpbpc6yetojsgtrx3mwntkhsu
@@ -845,6 +849,12 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+
+  /@types/sharp/0.31.1:
+    resolution: {integrity: sha512-5nWwamN9ZFHXaYEincMSuza8nNfOof8nmO+mcI+Agx1uMUk4/pQnNIcix+9rLPXzKrm1pS34+6WRDbDV0Jn7ag==}
+    dependencies:
+      '@types/node': 18.14.2
+    dev: true
 
   /@types/source-list-map/0.1.2:
     resolution: {integrity: sha512-K5K+yml8LTo9bWJI/rECfIPrGgxdpeNbj+d53lwN4QjW1MCwlkhUms+gtdzigTeUyBr09+u8BwOIY3MXvHdcsA==}
@@ -2921,6 +2931,14 @@ packages:
       queue: 6.0.1
     dev: true
 
+  /image-size/1.0.2:
+    resolution: {integrity: sha512-xfOoWjceHntRb3qFCrh5ZFORYH8XCdYpASltMhZ/Q0KZiOwjdE/Yl2QCiWdwD+lygV5bMCvauzgu5PxBX/Yerg==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      queue: 6.0.2
+    dev: false
+
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -4785,6 +4803,12 @@ packages:
     dependencies:
       inherits: 2.0.4
     dev: true
+
+  /queue/6.0.2:
+    resolution: {integrity: sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==}
+    dependencies:
+      inherits: 2.0.4
+    dev: false
 
   /rc/1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
