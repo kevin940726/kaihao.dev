@@ -1,15 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 
-type ThemeMode = 'dark' | 'light';
+const themeModeHook =
+  typeof window !== 'undefined'
+    ? window.__THEME_MODE_HOOK
+    : {
+        subscribe: (_listener: () => void) => () => {},
+        getSnapshot: () => 'dark',
+      };
 
 const useThemeMode = () => {
-  const [themeMode, setThemeMode] = useState<ThemeMode | null>(null);
-
-  useEffect(() => {
-    setThemeMode(window.__THEME_MODE_HOOK.getThemeMode());
-
-    return window.__THEME_MODE_HOOK.addListener(setThemeMode);
-  }, [setThemeMode]);
+  const themeMode = useSyncExternalStore(
+    themeModeHook.subscribe,
+    themeModeHook.getSnapshot,
+    themeModeHook.getSnapshot
+  );
 
   return themeMode;
 };

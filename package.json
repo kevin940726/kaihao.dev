@@ -7,11 +7,13 @@
     "pnpm": ">=3"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "HOST=http://localhost:3000 next dev",
     "build": "next build && pnpm generate-rss",
     "export": "next export",
     "start": "next start",
     "lint": "next lint",
+    "test": "playwright test -c src/tests/playwright.config.ts",
+    "test:docker": "docker run --rm -e HOST=http://host.docker.internal:3000 -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.31.1-focal npm test",
     "generate-rss": "NODE_ENV=production tsx src/internals/generateRSS.ts"
   },
   "dependencies": {
@@ -31,6 +33,7 @@
     "slugify": "^1.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.31.1",
     "@types/hast": "^2.3.4",
     "@types/loader-utils": "^2.0.3",
     "@types/lodash.truncate": "^4.4.7",

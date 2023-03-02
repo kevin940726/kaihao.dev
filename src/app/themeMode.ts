@@ -1,68 +1,74 @@
 type ThemeMode = 'light' | 'dark';
-type Listener = (themeMode: ThemeMode) => void;
+type Listener = () => void;
 
-let hasSetTheme = false;
-let cacheThemeMode: ThemeMode = 'light';
-const listeners: Listener[] = [];
 const STORAGE_KEY = 'kaihao.dev/themeMode' as const;
+const matchLightMedia = window.matchMedia('(prefers-color-scheme: light)');
 
-const __THEME_MODE_HOOK = {
-  setThemeMode(themeMode: ThemeMode) {
-    if (themeMode !== cacheThemeMode) {
-      cacheThemeMode = themeMode;
-      document.body.dataset.themeMode = themeMode;
+class ThemeModeHook {
+  #themeMode: ThemeMode;
+  #userPreference: boolean = false;
+  #listeners = new Set<Listener>();
 
-      listeners.forEach((listener) => {
-        listener(themeMode);
+  constructor() {
+    try {
+      this.#themeMode = window.sessionStorage.getItem(STORAGE_KEY) as ThemeMode;
+      if (this.#themeMode) {
+        this.#userPreference = true;
+      }
+    } finally {
+      this.#themeMode ||= matchLightMedia.matches ? 'light' : 'dark';
+    }
+
+    document.body.dataset.themeMode = this.#themeMode;
+
+    if (!this.#userPreference) {
+      matchLightMedia.addEventListener('change', () => {
+        if (!this.#userPreference) {
+          const themeMode = matchLightMedia.matches ? 'light' : 'dark';
+          if (themeMode !== this.#themeMode) {
+            this.#themeMode = themeMode;
+            this.#listeners.forEach((listener) => {
+              listener();
+            });
+          }
+        }
       });
     }
-  },
-  getThemeMode() {
-    return cacheThemeMode;
-  },
-  toggleDarkMode() {
-    const themeMode = cacheThemeMode === 'dark' ? 'light' : 'dark';
-    __THEME_MODE_HOOK.setThemeMode(themeMode);
-    hasSetTheme = true;
+  }
+
+  getSnapshot = () => this.#themeMode;
+
+  subscribe = (listener: Listener) => {
+    this.#listeners.add(listener);
+
+    return () => {
+      this.#listeners.delete(listener);
+    };
+  };
+
+  toggle = () => {
+    const themeMode = this.#themeMode === 'dark' ? 'light' : 'dark';
+    this.#themeMode = themeMode;
+    this.#userPreference = true;
 
     try {
       window.sessionStorage.setItem(STORAGE_KEY, themeMode);
-    } catch (err) {}
-  },
-  addListener(listener: Listener) {
-    listeners.push(listener);
+    } catch {}
 
-    return () => {
-      listeners.splice(listeners.indexOf(listener), 1);
-    };
-  },
-};
+    document.body.dataset.themeMode = this.#themeMode;
 
-function handleMediaMatch(matchMediaEvent: MediaQueryListEvent) {
-  if (!hasSetTheme) {
-    __THEME_MODE_HOOK.setThemeMode(matchMediaEvent.matches ? 'dark' : 'light');
-  }
+    this.#listeners.forEach((listener) => {
+      listener();
+    });
+  };
 }
 
 declare global {
   interface Window {
-    __THEME_MODE_HOOK: typeof __THEME_MODE_HOOK;
+    __THEME_MODE_HOOK: ThemeModeHook;
   }
 }
 
-window.__THEME_MODE_HOOK = __THEME_MODE_HOOK;
+window.__THEME_MODE_HOOK = new ThemeModeHook();
 
-const matchDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
-let initialThemeMode: ThemeMode = matchDarkMedia.matches ? 'dark' : 'light';
-
-try {
-  initialThemeMode =
-    (window.sessionStorage.getItem(STORAGE_KEY) as ThemeMode) ||
-    initialThemeMode;
-} catch (err) {}
-
-__THEME_MODE_HOOK.setThemeMode(initialThemeMode);
-
-matchDarkMedia.addEventListener('change', handleMediaMatch);
-
-export { __THEME_MODE_HOOK };
+export {};

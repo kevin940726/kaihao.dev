@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@emotion/react': ^11.10.6
   '@emotion/styled': ^11.10.6
+  '@playwright/test': ^1.31.1
   '@types/hast': ^2.3.4
   '@types/loader-utils': ^2.0.3
   '@types/lodash.truncate': ^4.4.7
@@ -62,6 +63,7 @@ dependencies:
   slugify: 1.6.5
 
 devDependencies:
+  '@playwright/test': 1.31.1
   '@types/hast': 2.3.4
   '@types/loader-utils': 2.0.3
   '@types/lodash.truncate': 4.4.7
@@ -710,6 +712,17 @@ packages:
       picocolors: 1.0.0
       tiny-glob: 0.2.9
       tslib: 2.5.0
+    dev: true
+
+  /@playwright/test/1.31.1:
+    resolution: {integrity: sha512-IsytVZ+0QLDh1Hj83XatGp/GsI1CDJWbyDaBGbainsh0p2zC7F4toUocqowmjS6sQff2NGT3D9WbDj/3K2CJiA==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      '@types/node': 18.14.2
+      playwright-core: 1.31.1
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /@resvg/resvg-wasm/2.4.1:
@@ -4649,6 +4662,12 @@ packages:
   /pify/3.0.0:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
+    dev: true
+
+  /playwright-core/1.31.1:
+    resolution: {integrity: sha512-JTyX4kV3/LXsvpHkLzL2I36aCdml4zeE35x+G5aPc4bkLsiRiQshU5lWeVpHFAuC8xAcbI6FDcw/8z3q2xtJSQ==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /polished/4.2.2:

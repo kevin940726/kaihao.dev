@@ -11,7 +11,7 @@ for (let color of Object.keys(themeVariables.colors)) {
 
 const themeWithToggle = {
   ...(themeValues as typeof themeVariables),
-  toggleDarkMode: () => window.__THEME_MODE_HOOK.toggleDarkMode(),
+  toggleDarkMode: () => window.__THEME_MODE_HOOK.toggle(),
 };
 
 const ThemeProvider = ({ children }: { children: JSX.Element }) => {

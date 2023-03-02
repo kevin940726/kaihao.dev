@@ -41,3 +41,7 @@ yarn-error.log*
 
 # RSS
 /public/rss.xml
+
+# Tests
+/playwright-report
+/test-results

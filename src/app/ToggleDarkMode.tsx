@@ -76,77 +76,73 @@ const ToggleDarkMode = () => {
   const themeMode = useThemeMode();
   const theme = useTheme();
 
-  if (!themeMode) {
-    return null;
-  }
-
   return (
-    <>
-      <input
-        type="checkbox"
-        id="dark-mode"
-        name="dark-mode"
-        css={css`
+    <button
+      type="button"
+      role="switch"
+      aria-label="Toggle dark mode"
+      aria-checked={themeMode === 'dark' ? 'true' : 'false'}
+      onClick={theme.toggleDarkMode}
+      css={(theme) => css`
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: space-between;
+        height: 30px;
+        width: 60px;
+        padding: 0;
+        border: none;
+        border-radius: 40px;
+        background-color: ${theme.colors.reverseBackground};
+        /* transition: background-color 0.2s ease-out; */
+        user-select: none;
+
+        @media (prefers-reduced-motion: reduce) {
+          transition: none;
+        }
+
+        &[aria-checked='true']:after {
+          transform: translateX(100%);
+        }
+
+        &.focus-visible:focus:after {
+          outline: -webkit-focus-ring-color auto 5px;
+        }
+
+        &:after {
+          content: '';
+          display: inline-block;
           position: absolute;
-          top: -9999px;
-          left: -9999px;
-
-          &:checked + label:after {
-            transform: translateX(100%);
-          }
-
-          &.focus-visible:focus + label:after {
-            outline: -webkit-focus-ring-color auto 5px;
-          }
-        `}
-        checked={themeMode === 'dark'}
-        onChange={theme.toggleDarkMode}
-      />
-      <label
-        htmlFor="dark-mode"
-        css={(theme) => css`
-          display: flex;
-          position: relative;
-          align-items: center;
-          justify-content: space-between;
+          top: 0;
+          left: 0;
           height: 30px;
-          width: 60px;
-          border-radius: 40px;
-          background-color: ${theme.colors.reverseBackground};
-          transition: background-color 0.2s ease-out;
-          user-select: none;
+          width: 30px;
+          border-radius: 50%;
+          border: 1px solid ${CONTENT_TEXT};
+          background-color: #ffffff;
+          /* transition: transform 0.2s ease-out, background-color 0.2s ease-out; */
 
-          &:after {
-            content: '';
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 30px;
-            width: 30px;
-            border-radius: 50%;
-            border: 1px solid ${CONTENT_TEXT};
-            background-color: #ffffff;
-            transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+          @media (prefers-reduced-motion: reduce) {
+            transition: none;
           }
+        }
+      `}
+    >
+      <Icon
+        as={Sun}
+        alt="light-theme"
+        css={css`
+          margin-left: 8px;
         `}
-      >
-        <Icon
-          as={Sun}
-          alt="light-theme"
-          css={css`
-            margin-left: 8px;
-          `}
-        />
-        <Icon
-          as={Moon}
-          alt="dark-theme"
-          css={css`
-            margin-right: 8px;
-          `}
-        />
-      </label>
-    </>
+      />
+      <Icon
+        as={Moon}
+        alt="dark-theme"
+        css={css`
+          margin-right: 8px;
+        `}
+      />
+    </button>
   );
 };
 

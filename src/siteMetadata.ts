@@ -3,6 +3,6 @@ export default {
   description: "I'm Kai Hao, a front-end developer in Taiwan.",
   author: '@kevin940726',
   repo: 'https://github.com/kevin940726/kaihao.dev',
-  origin: 'https://kaihao.dev',
+  origin: process.env.HOST || 'https://kaihao.dev',
   siteUrl: 'https://kaihao.dev',
 } as const;

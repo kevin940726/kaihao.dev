@@ -6,7 +6,10 @@ import BackTo from '@/app/BackTo';
 
 const NotFoundPage = () => (
   <Layout>
-    <SEO title="404: Not found" />
+    <SEO
+      title="404: Not found"
+      image={{ src: '/api/og', width: 1200, height: 626 }}
+    />
     <Layout.Main
       css={css`
         padding: 80px 0;
