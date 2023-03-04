@@ -31,7 +31,7 @@ const config = defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run start',
     url: host,
     timeout: 30_000, // 30 seconds.
     reuseExistingServer: true,
