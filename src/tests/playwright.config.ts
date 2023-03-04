@@ -2,7 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig, devices } from '@playwright/test';
 
-const host = process.env.HOST || 'http://localhost:3000';
+const host = process.env.HOST || 'http://127.0.0.1:3000';
 
 const config = defineConfig({
   reporter: process.env.CI
@@ -31,10 +31,11 @@ const config = defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'npm run start',
+    command: 'pnpm start',
     url: host,
+    ignoreHTTPSErrors: true,
     timeout: 30_000, // 30 seconds.
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
   },
   projects: [
     {

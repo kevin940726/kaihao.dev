@@ -27,7 +27,7 @@ test.describe(`Visual snapshots`, () => {
         expect(ogImage).not.toBeFalsy();
 
         const normalizedUrl = ogImage!
-          .replace('http://localhost:3000/', '/')
+          .replace('http://127.0.0.1:3000/', '/')
           .replace('https://kaihao.dev/', '/');
         const response = await request.get(normalizedUrl);
         const image = await response.body();

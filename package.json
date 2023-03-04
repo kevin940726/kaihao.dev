@@ -7,7 +7,7 @@
     "pnpm": ">=3"
   },
   "scripts": {
-    "dev": "HOST=http://localhost:3000 next dev",
+    "dev": "HOST=http://127.0.0.1:3000 next dev",
     "build": "next build && pnpm generate-rss",
     "export": "next export",
     "start": "next start",
