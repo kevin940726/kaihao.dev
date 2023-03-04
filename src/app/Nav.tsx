@@ -3,11 +3,15 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { rgba } from 'polished';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import siteMetadata from '@/siteMetadata';
 import { BACKGROUND_BLACK } from './colors';
 import { mobile } from './media';
 import logo from './logo.png';
-import ToggleDarkMode from './ToggleDarkMode';
+
+const ToggleDarkMode = dynamic(() => import('./ToggleDarkMode'), {
+  ssr: false,
+});
 
 const NAV_HEIGHT = 50; // px
 const MAX_NAV_WIDTH = 760; // px
