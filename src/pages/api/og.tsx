@@ -1,12 +1,23 @@
 import { ImageResponse } from '@vercel/og';
 import type { NextRequest } from 'next/server';
 import { darkTheme } from '@/app/theme';
-import profileImage from '@/app/profile.jpeg';
 import siteMetadata from '@/siteMetadata';
 
 export const config = {
   runtime: 'edge',
 };
+
+const profileImage = fetch(new URL('../../app/profile.jpeg', import.meta.url))
+  .then((res) => res.arrayBuffer())
+  .then((arrayBuffer) => {
+    const base64String = btoa(
+      new Uint8Array(arrayBuffer).reduce(
+        (data, byte) => data + String.fromCharCode(byte),
+        ''
+      )
+    );
+    return `data:image/jpeg;base64,${base64String}`;
+  });
 
 function PostImage({
   title,
@@ -145,19 +156,19 @@ function DefaultImage({ profileImageSrc }: { profileImageSrc: string }) {
   );
 }
 
-export default function (request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+export default async function OGImage(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
   const isPost = searchParams.has('title');
-  const profileImageSrc = `${origin}${profileImage.src}`;
+  const profileImageBase64 = await profileImage;
 
   return new ImageResponse(
     isPost ? (
       <PostImage
         title={searchParams.get('title')!}
-        profileImageSrc={profileImageSrc}
+        profileImageSrc={profileImageBase64}
       />
     ) : (
-      <DefaultImage profileImageSrc={profileImageSrc} />
+      <DefaultImage profileImageSrc={profileImageBase64} />
     ),
     {
       width: 1200,
