@@ -1,104 +1,35 @@
 import Link from 'next/link';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { rgba } from 'polished';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import siteMetadata from '@/siteMetadata';
-import { BACKGROUND_BLACK } from './colors';
-import { mobile } from './media';
 import logo from './logo.png';
 
 const ToggleDarkMode = dynamic(() => import('./ToggleDarkMode'), {
   ssr: false,
 });
 
-const NAV_HEIGHT = 50; // px
-const MAX_NAV_WIDTH = 760; // px
-
-const NavContainer = styled.nav(
-  (props) => css`
-    display: flex;
-    box-sizing: border-box;
-    align-items: center;
-    height: ${NAV_HEIGHT}px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    box-shadow: 0 2px 1px ${rgba(BACKGROUND_BLACK, 0.1)};
-    border-bottom: 1px solid ${props.theme.colors.border};
-    background-color: ${props.theme.colors.contentBackground};
-    padding: 10px 20px;
-    z-index: 100;
-
-    ${mobile(css`
-      padding: 10px;
-    `)}
-  `
-);
-
-const Title = styled.h3(
-  (props) => css`
-    display: flex;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 500;
-    color: ${props.theme.colors.subText};
-    margin: 0;
-
-    > a {
-      display: flex;
-      align-items: center;
-      color: inherit;
-      text-decoration: none;
-      transition: opacity 0.15s ease-out;
-
-      &:hover {
-        text-decoration: none;
-        opacity: 0.8;
-      }
-    }
-  `
-);
-
 const Nav = () => {
   return (
     <>
-      <NavContainer>
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: ${MAX_NAV_WIDTH}px;
-            max-width: 100%;
-            margin: 0 auto;
-          `}
-        >
-          <Title>
-            <Link href="/">
-              <span
-                css={css`
-                  display: inline-flex;
-                  margin-right: 10px;
-                `}
-              >
+      <nav className="flex items-center h-[50px] w-full fixed top-0 left-0 shadow-sm border-b border-border bg-contentBackground p-2.5 md:px-5 z-[100]">
+        <div className="flex items-center justify-between w-[760px] max-w-full mx-auto">
+          <h3 className="flex items-center text-xl font-semibold text-subText">
+            <Link
+              className="flex items-center text-inherit no-underline transition-opacity hover:no-underline hover:opacity-80"
+              href="/"
+            >
+              <span className="inline-flex mr-2.5">
                 <Image src={logo} alt="logo" width={40} height={40} />
               </span>
               {siteMetadata.title}
             </Link>
-          </Title>
+          </h3>
 
           <ToggleDarkMode />
         </div>
-      </NavContainer>
+      </nav>
 
-      <div
-        css={css`
-          height: ${NAV_HEIGHT}px;
-        `}
-      />
+      <div className="h-[50px]" />
     </>
   );
 };

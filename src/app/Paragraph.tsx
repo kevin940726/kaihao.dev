@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const Paragraph = styled.p`
-  margin: 0em 0 2em;
-`;
+const Paragraph = (props: ComponentPropsWithoutRef<'p'>) => (
+  <p className="mb-8" {...props} />
+);
 
 export default Paragraph;

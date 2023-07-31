@@ -18,4 +18,8 @@ const useThemeMode = () => {
   return themeMode;
 };
 
+export const toggleThemeMode = () => {
+  window.__THEME_MODE_HOOK.toggle();
+};
+
 export default useThemeMode;

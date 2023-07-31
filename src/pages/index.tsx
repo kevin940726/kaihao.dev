@@ -1,7 +1,5 @@
 import type { GetStaticProps } from 'next';
-import { css } from '@emotion/react';
 import Layout from '@/app/Layout';
-import { mobile } from '@/app/media';
 import SEO from '@/app/SEO';
 import Hero from '@/app/Hero';
 import { getPostsList } from '@/internals/posts';
@@ -20,16 +18,7 @@ const IndexPage = ({ posts }: { posts: PostItem[] }) => (
     <Hero />
 
     <Layout.Main>
-      <PostList
-        posts={posts}
-        css={css`
-          margin: -40px auto 150px;
-
-          ${mobile(css`
-            margin-top: 0;
-          `)}
-        `}
-      />
+      <PostList posts={posts} className="md:-mt-10 mx-auto mb-36" />
     </Layout.Main>
   </Layout>
 );

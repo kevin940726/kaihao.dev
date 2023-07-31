@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { Fira_Code } from 'next/font/google';
-import { css } from '@emotion/react';
 import { getMDXComponent } from 'mdx-bundler/client';
+import cx from 'classnames';
 import Layout from '@/app/Layout';
-import { mobile } from '@/app/media';
 import { getPostSlugs, getPost } from '@/internals/posts';
 import type { Post } from '@/internals/posts';
 import SEO from '@/app/SEO';
@@ -23,6 +22,7 @@ const firaCode = Fira_Code({
   display: 'swap',
   preload: true,
   weight: ['300', '400', '500', '700'],
+  variable: '--font-mono',
 });
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -57,21 +57,10 @@ export default function PostPage({
   return (
     <Layout isContent>
       <Layout.Main
-        css={css`
-          line-height: 1.8;
-          margin: 2rem auto 4em;
-          word-break: break-word;
-
-          pre,
-          code {
-            font-family: ${firaCode.style.fontFamily}, 'Menlo', 'Courier',
-              'monospace';
-          }
-
-          ${mobile(css`
-            padding: 0 20px;
-          `)}
-        `}
+        className={cx(
+          firaCode.variable,
+          'leading-[1.8] mt-8 mx-auto mb-16 px-[20px] md:px-0 break-words'
+        )}
       >
         <SEO title={frontmatter.title} description={excerpt} image={image} />
 
@@ -80,12 +69,7 @@ export default function PostPage({
           <time
             dateTime={frontmatter.date}
             title={frontmatter.date}
-            css={css`
-              display: block;
-              font-size: 12px;
-              color: #aaaaaa;
-              text-align: right;
-            `}
+            className="block text-xs text-[#aaaaaa] text-right"
           >
             {frontmatter.date}
           </time>

@@ -1,5 +1,3 @@
-import { css } from '@emotion/react';
-import { mobile } from '@/app/media';
 import Layout from '@/app/Layout';
 import SEO from '@/app/SEO';
 import BackTo from '@/app/BackTo';
@@ -10,27 +8,10 @@ const NotFoundPage = () => (
       title="404: Not found"
       image={{ src: '/api/og', width: 1200, height: 626 }}
     />
-    <Layout.Main
-      css={css`
-        padding: 80px 0;
-
-        ${mobile(
-          css`
-            padding: 80px 20px;
-          `
-        )}
-      `}
-    >
-      <h1>Oops..., nothing here.</h1>
+    <Layout.Main className="py-20 px-5 md:px-0">
+      <h1 className="text-4xl font-bold my-6">Oops..., nothing here.</h1>
       <p>
-        <BackTo
-          href="/"
-          css={css`
-            padding: 0;
-          `}
-        >
-          Back to home page
-        </BackTo>
+        <BackTo href="/">Back to home page</BackTo>
       </p>
     </Layout.Main>
   </Layout>

@@ -1,39 +1,10 @@
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { mobile } from './media';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const BlockQuote = styled.blockquote(
-  (props) => css`
-    position: relative;
-    margin: 1rem 0 2rem;
-    padding: 1rem 2rem;
-    background-color: ${props.theme.colors.blockQuoteBackground};
-
-    &:before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 3px;
-      background-color: ${props.theme.colors.subText};
-    }
-
-    ${mobile(css`
-      padding: 1rem;
-    `)}
-
-    /**
-     * This line will throw the below error in development mode, since we're not using SSR, we can safely ignore it.
-     * 'The pseudo class ":first-child" is potentially unsafe when doing server-side rendering. Try changing it to ":first-of-type".'
-     */
-    > :first-child {
-      margin-top: 0;
-    }
-    > :last-child {
-      margin-bottom: 0;
-    }
-  `
+const BlockQuote = (props: ComponentPropsWithoutRef<'blockquote'>) => (
+  <blockquote
+    className="relative mt-4 mb-8 p-4 md:px-8 bg-blockquoteBackground before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-subText [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+    {...props}
+  />
 );
 
 export default BlockQuote;

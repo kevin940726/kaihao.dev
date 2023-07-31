@@ -1,56 +1,42 @@
-import type { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { mobile } from './media';
-import GlobalStyles from './GlobalStyles';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { Open_Sans } from 'next/font/google';
+import cx from 'classnames';
 import Nav from './Nav';
 import Footer from './Footer';
-
-interface ContainerProps {
-  isContent?: boolean;
-}
 
 interface LayoutProps {
   children: ReactNode;
   isContent?: boolean;
 }
 
-const Container = styled.div<ContainerProps>(
-  (props) => css`
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    background-color: ${props.isContent
-      ? props.theme.colors.contentBackground
-      : props.theme.colors.background};
+const openSans = Open_Sans({
+  display: 'swap',
+  subsets: ['latin'],
+  preload: true,
+  variable: '--font-sans',
+});
 
-    > * {
-      min-height: 0;
-      flex-shrink: 0;
-    }
-
-    ${mobile(css`
-      background-color: ${props.theme.colors.contentBackground};
-    `)}
-  `
+const Main = ({ className, ...props }: ComponentPropsWithoutRef<'main'>) => (
+  <main
+    className={cx('grow flex flex-col max-w-full w-[760px] mx-auto', className)}
+    {...props}
+  />
 );
 
-const Main = styled.main`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  width: 760px;
-  margin: 0 auto;
-`;
-
 const Layout = ({ children, isContent, ...props }: LayoutProps) => (
-  <Container isContent={isContent} {...props}>
-    <GlobalStyles />
+  <div
+    className={cx(
+      [openSans.variable, 'font-sans'],
+      'flex flex-col min-h-full bg-contentBackground',
+      !isContent && 'md:bg-background',
+      '[&>*]:shrink-0 [&>*]:min-h-0'
+    )}
+    {...props}
+  >
     <Nav />
     {children}
     <Footer />
-  </Container>
+  </div>
 );
 
 Layout.Main = Main;

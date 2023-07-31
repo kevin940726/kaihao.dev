@@ -1,7 +1,6 @@
 import type { ComponentPropsWithRef } from 'react';
-import { css, useTheme } from '@emotion/react';
-import useThemeMode from './useThemeMode';
-import { CONTENT_TEXT } from './colors';
+import cx from 'classnames';
+import useThemeMode, { toggleThemeMode } from './useThemeMode';
 
 const Sun = (props: ComponentPropsWithRef<'svg'>) => (
   <svg
@@ -50,6 +49,7 @@ const Moon = (props: ComponentPropsWithRef<'svg'>) => (
 const Icon = ({
   as: As,
   alt,
+  className,
   ...props
 }: {
   as: typeof Sun | typeof Moon;
@@ -58,23 +58,13 @@ const Icon = ({
 }) => (
   <As
     aria-label={alt}
-    css={(theme) => css`
-      width: 18px;
-      height: 18px;
-      color: ${theme.colors.contentBackground};
-
-      svg {
-        width: 18px;
-        height: 18px;
-      }
-    `}
+    className={cx('w-[18px] h-[18px] text-contentBackground', className)}
     {...props}
   />
 );
 
 const ToggleDarkMode = () => {
   const themeMode = useThemeMode();
-  const theme = useTheme();
 
   return (
     <button
@@ -82,66 +72,15 @@ const ToggleDarkMode = () => {
       role="switch"
       aria-label="Toggle dark mode"
       aria-checked={themeMode === 'dark' ? 'true' : 'false'}
-      onClick={theme.toggleDarkMode}
-      css={(theme) => css`
-        display: flex;
-        position: relative;
-        align-items: center;
-        justify-content: space-between;
-        height: 30px;
-        width: 60px;
-        padding: 0;
-        border: none;
-        border-radius: 40px;
-        background-color: ${theme.colors.reverseBackground};
-        /* transition: background-color 0.2s ease-out; */
-        user-select: none;
-
-        @media (prefers-reduced-motion: reduce) {
-          transition: none;
-        }
-
-        &[aria-checked='true']:after {
-          transform: translateX(100%);
-        }
-
-        &.focus-visible:focus:after {
-          outline: -webkit-focus-ring-color auto 5px;
-        }
-
-        &:after {
-          content: '';
-          display: inline-block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 30px;
-          width: 30px;
-          border-radius: 50%;
-          border: 1px solid ${CONTENT_TEXT};
-          background-color: #ffffff;
-          /* transition: transform 0.2s ease-out, background-color 0.2s ease-out; */
-
-          @media (prefers-reduced-motion: reduce) {
-            transition: none;
-          }
-        }
-      `}
+      onClick={toggleThemeMode}
+      className={cx(
+        'flex relative items-center justify-between h-[30px] w-[60px] border-none rounded-[40px] bg-reverseBackground select-none',
+        'after:inline-block after:absolute after:top-0 after:left-0 after:h-[30px] after:w-[30px] after:rounded-full after:border after:border-contentBlack after:bg-backgroundWhite',
+        'aria-checked:after:translate-x-full focus-visible:focus:after:outline-[5px]'
+      )}
     >
-      <Icon
-        as={Sun}
-        alt="light-theme"
-        css={css`
-          margin-left: 8px;
-        `}
-      />
-      <Icon
-        as={Moon}
-        alt="dark-theme"
-        css={css`
-          margin-right: 8px;
-        `}
-      />
+      <Icon as={Sun} alt="light-theme" className="ml-2" />
+      <Icon as={Moon} alt="dark-theme" className="mr-2" />
     </button>
   );
 };

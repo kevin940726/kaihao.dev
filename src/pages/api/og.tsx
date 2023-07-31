@@ -1,6 +1,5 @@
 import { ImageResponse } from '@vercel/og';
 import type { NextRequest } from 'next/server';
-import { darkTheme } from '@/app/theme';
 import siteMetadata from '@/siteMetadata';
 
 export const config = {
@@ -29,7 +28,7 @@ function PostImage({
   return (
     <div
       style={{
-        backgroundColor: darkTheme.colors.background,
+        backgroundColor: '#121212', // backgroundBlack
         backgroundSize: '150px 150px',
         height: '100%',
         width: '100%',
@@ -40,6 +39,7 @@ function PostImage({
         flexDirection: 'column',
         flexWrap: 'nowrap',
       }}
+      tw="bg-backgroundBlack"
     >
       <div style={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
         <div
@@ -47,7 +47,7 @@ function PostImage({
             fontSize: 70,
             fontStyle: 'normal',
             letterSpacing: '-0.025em',
-            color: darkTheme.colors.contentText,
+            color: '#ffffff', // backgroundWhite
             marginTop: 30,
             padding: '0 120px',
             lineHeight: 1.4,
@@ -78,7 +78,7 @@ function PostImage({
             fontSize: 50,
             fontStyle: 'normal',
             letterSpacing: '-0.025em',
-            color: darkTheme.colors.mainText,
+            color: '#f2994a', // mainText
             lineHeight: 1.4,
             whiteSpace: 'pre-wrap',
           }}
@@ -94,7 +94,7 @@ function DefaultImage({ profileImageSrc }: { profileImageSrc: string }) {
   return (
     <div
       style={{
-        backgroundColor: darkTheme.colors.background,
+        backgroundColor: '#121212', // backgroundBlack
         backgroundSize: '150px 150px',
         height: '100%',
         width: '100%',
@@ -130,7 +130,7 @@ function DefaultImage({ profileImageSrc }: { profileImageSrc: string }) {
           fontSize: 62,
           fontStyle: 'normal',
           letterSpacing: '-0.025em',
-          color: darkTheme.colors.mainText,
+          color: '#f2994a', // mainText
           marginTop: 20,
           padding: '0 120px',
           lineHeight: 1.4,
@@ -144,7 +144,7 @@ function DefaultImage({ profileImageSrc }: { profileImageSrc: string }) {
           fontSize: 34,
           fontStyle: 'normal',
           letterSpacing: '-0.025em',
-          color: darkTheme.colors.contentText,
+          color: '#ffffff', // backgroundWhite
           padding: '0 120px',
           lineHeight: 1.4,
           whiteSpace: 'pre-wrap',

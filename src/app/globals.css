@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-main-text: 242 153 74; /* #f2994a */
+    --color-sub-text: 255 87 34; /* #ff5722 */
+    --color-content-black: 40 35 45; /* #28232d */
+    --color-background-white: 255 255 255; /* #ffffff */
+    --color-background-black: 18 18 18; /* #121212 */
+    --color-dim-white: 245 245 245; /* #f5f5f5 */
+    --color-darker-white: 238 238 238; /* #eeeeee */
+    --color-grey: 85 85 85; /* #555555 */
+  }
+
+  :root, body[data-theme-mode="dark"] {
+    --color-content-text: 255 255 255; /* var(--color-background-white) */
+    --color-background: 18 18 18; /* var(--color-background-black) */
+    --color-reverse-background: 245 245 245; /* var(--color-dim-white) */
+    --color-content-background: 40 35 45; /* var(--color-content-black) */
+    --color-border: 18 18 18; /* var(--color-background-black) */
+    --color-horizontal: 85 85 85; /* var(--color-grey) */
+    --color-blockquote-background: rgb(var(--color-main-text) / 0.2);
+    --color-inline-code-background: rgb(var(--color-sub-text) / 0.3);
+  }
+
+  body[data-theme-mode="light"] {
+    --color-content-text: 40 35 45; /* var(--color-content-black) */
+    --color-background: 245 245 245; /* var(--color-dim-white) */
+    --color-reverse-background: 40 35 45; /* var(--color-content-black) */
+    --color-content-background: 255 255 255; /* var(--color-background-white) */
+    --color-border: transparent;
+    --color-horizontal: 238 238 238; /* var(--color-darker-white) */
+    --color-blockquote-background: rgb(var(--color-main-text) / 0.1);
+    --color-inline-code-background: rgb(var(--color-sub-text) / 0.1);
+  }
+
+  #__next {
+    @apply h-full;
+  }
+
+  a {
+    @apply text-subText no-underline hover:underline;
+  }
+}
+
+@layer components {
+  pre code > .highlight-line > .prompt .sign {
+    @apply relative inline-block h-3.5 pr-[0.3rem] pl-1.5 select-none text-xs leading-[0.875rem] text-black bg-[#417ab3];
+    @apply after:absolute after:left-full after:top-0 after:bottom-0 after:h-0 after:w-0 after:border-transparent after:border-l-[5px] after:border-l-[#417ab3] after:border-y-[7px];
+  }
+}

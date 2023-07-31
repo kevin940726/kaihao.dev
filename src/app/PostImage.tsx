@@ -1,6 +1,5 @@
 import type { ComponentProps } from 'react';
 import Image from 'next/image';
-import { css } from '@emotion/react';
 
 interface PostImageProps extends ComponentProps<typeof Image> {
   src: {
@@ -13,22 +12,13 @@ interface PostImageProps extends ComponentProps<typeof Image> {
 
 export default function PostImage({ src, alt, ...props }: PostImageProps) {
   return (
-    <span
-      css={css`
-        display: block;
-        margin: 0 auto;
-      `}
-      style={{ maxWidth: `${src.width}px` }}
-    >
+    <span className="block mx-auto" style={{ maxWidth: `${src.width}px` }}>
       <a href={src.src} target="_blank" rel="noopener noreferrer nofollower">
         <Image
           alt={alt}
           title={alt}
           placeholder="blur"
-          css={css`
-            max-width: 100%;
-            height: auto;
-          `}
+          className="max-w-full h-auto"
           {...src}
           {...props}
         />
