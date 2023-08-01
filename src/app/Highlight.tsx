@@ -28,6 +28,8 @@ const Highlight = ({ children, ...props }: HighlightProps) => {
     'data-codesandbox-url': codesandboxURL,
     ...codeProps
   } = children.props;
+  // Assign a default class name so prismjs can highlight the code
+  const codeClassName = codeProps.className || 'language-plaintext';
 
   const metaProps = useMemo(() => parseMetaString(metastring), [metastring]);
 
@@ -64,16 +66,13 @@ const Highlight = ({ children, ...props }: HighlightProps) => {
         <pre
           className={cx(
             'relative !overflow-visible float-left !rounded-none md:!rounded !m-0 !py-5 !px-0 min-w-full text-sm !leading-relaxed [counter-reset:lines-number] !font-mono',
-            codeProps.className
+            codeClassName
           )}
           tabIndex={-1}
           {...props}
           ref={preRef}
         >
-          <code
-            {...codeProps}
-            className={cx(codeProps.className, '!font-mono')}
-          >
+          <code {...codeProps} className={cx(codeClassName, '!font-mono')}>
             {codeElements}
           </code>
         </pre>
