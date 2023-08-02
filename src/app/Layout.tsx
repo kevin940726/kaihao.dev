@@ -1,13 +1,11 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import { Open_Sans } from 'next/font/google';
 import cx from 'classnames';
-import Nav from './Nav';
-import Footer from './Footer';
-
-interface LayoutProps {
-  children: ReactNode;
-  isContent?: boolean;
-}
+import { Open_Sans } from 'next/font/google';
+import { themeModeScript } from '@/components/themeMode';
+import { GITHUB_LINK, TWITTER_LINK } from '@/components/links';
+import siteMetadata from '@/siteMetadata';
+import '@/components/globals.css';
+import type { ReactNode } from 'react';
+import type { Metadata } from 'next';
 
 const openSans = Open_Sans({
   display: 'swap',
@@ -16,29 +14,58 @@ const openSans = Open_Sans({
   variable: '--font-sans',
 });
 
-const Main = ({ className, ...props }: ComponentPropsWithoutRef<'main'>) => (
-  <main
-    className={cx('grow flex flex-col max-w-full w-[760px] mx-auto', className)}
-    {...props}
-  />
-);
+export const metadata: Metadata = {
+  title: {
+    default: siteMetadata.title,
+    template: `%s | ${siteMetadata.title}`,
+  },
+  description: siteMetadata.description,
+  openGraph: {
+    title: {
+      default: siteMetadata.title,
+      template: `%s | ${siteMetadata.title}`,
+    },
+    description: siteMetadata.description,
+    url: siteMetadata.siteUrl,
+    siteName: siteMetadata.title,
+    type: 'website',
+    locale: 'en_US',
+  },
+  authors: [{ name: siteMetadata.author }],
+  metadataBase: new URL(siteMetadata.siteUrl),
+  alternates: {
+    types: {
+      'application/rss+xml': '/rss.xml',
+    },
+  },
+};
 
-const Layout = ({ children, isContent, ...props }: LayoutProps) => (
-  <div
-    className={cx(
-      [openSans.variable, 'font-sans'],
-      'flex flex-col min-h-full bg-contentBackground',
-      !isContent && 'md:bg-background',
-      '[&>*]:shrink-0 [&>*]:min-h-0'
-    )}
-    {...props}
-  >
-    <Nav />
-    {children}
-    <Footer />
-  </div>
-);
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <html lang="en" className="h-full tab">
+      <head>
+        <link href={GITHUB_LINK} rel="me" />
+        <link href={TWITTER_LINK} rel="me" />
+      </head>
+      <body
+        className={cx('h-full text-contentText bg-contentBackground', [
+          openSans.variable,
+          'font-sans',
+        ])}
+        suppressHydrationWarning
+      >
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(${themeModeScript.toString()})()`,
+          }}
+        />
 
-Layout.Main = Main;
-
-export default Layout;
+        {children}
+      </body>
+    </html>
+  );
+}

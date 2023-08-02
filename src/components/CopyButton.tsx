@@ -1,13 +1,20 @@
-import { forwardRef } from 'react';
+'use client';
+
+import { forwardRef, useCallback } from 'react';
 import type { Ref } from 'react';
 import ClipboardIcon from './ClipboardIcon';
 import useCopyToClipboard from './useCopyToClipboard';
 
 const CopyButton = forwardRef(function InnerCopyButton(
-  { getCode, ...props }: { getCode: () => string },
+  { codeId, ...props }: { codeId: string },
   ref: Ref<HTMLButtonElement>
 ) {
-  const handleClick = useCopyToClipboard(getCode);
+  const handleClick = useCopyToClipboard(
+    useCallback(
+      () => document.getElementById(codeId)?.textContent || '',
+      [codeId]
+    )
+  );
 
   return (
     <button

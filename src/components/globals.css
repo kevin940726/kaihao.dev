@@ -47,7 +47,7 @@
 
 @layer components {
   pre code > .highlight-line > .prompt .sign {
-    @apply relative inline-block h-3.5 pr-[0.3rem] pl-1.5 select-none text-xs leading-[0.875rem] text-black bg-[#417ab3];
-    @apply after:absolute after:left-full after:top-0 after:bottom-0 after:h-0 after:w-0 after:border-transparent after:border-l-[5px] after:border-l-[#417ab3] after:border-y-[7px];
+    @apply relative inline-block h-3.5 pr-[0.3rem] pl-1.5 mr-1 select-none text-xs leading-[0.875rem] text-black bg-[#417ab3];
+    @apply after:absolute after:left-full after:top-0 after:bottom-0 after:h-0 after:w-0 after:border-transparent after:border-l-[0.4rem] after:border-l-[#417ab3] after:border-y-[0.4375rem];
   }
 }

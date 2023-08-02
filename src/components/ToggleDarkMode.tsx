@@ -1,3 +1,4 @@
+'use client';
 import type { ComponentPropsWithRef } from 'react';
 import cx from 'classnames';
 import useThemeMode, { toggleThemeMode } from './useThemeMode';

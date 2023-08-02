@@ -1,9 +1,9 @@
-import type { ComponentProps } from 'react';
 import Link from 'next/link';
-import type { PostItem } from '@/internals/posts';
+import type { ComponentProps } from 'react';
+import type { Post } from '@/internals/posts';
 
 interface PostListProps extends ComponentProps<'section'> {
-  posts: PostItem[];
+  posts: Post[];
 }
 
 const PostList = ({ posts, ...props }: PostListProps) => {
