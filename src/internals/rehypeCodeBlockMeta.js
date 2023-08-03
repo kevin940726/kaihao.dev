@@ -1,8 +1,9 @@
+// @ts-check
 import { visit } from 'unist-util-visit';
 
 /**
  * @typedef {import('hast').Root} Root
- * @typedef {import('hast').Element} Root
+ * @typedef {import('hast').Element} Element
  */
 
 /**
@@ -13,13 +14,17 @@ export default function rehypeCodeBlockMeta() {
    * @param {Root} tree
    */
   return (tree) => {
-    visit(tree, 'element', (node, index, parent) => {
-      if (!parent || parent.tagName !== 'pre' || node.tagName !== 'code') {
+    visit(tree, 'element', (node, _index, parent) => {
+      if (
+        !parent ||
+        /** @type {Element} */ (parent).tagName !== 'pre' ||
+        node.tagName !== 'code'
+      ) {
         return;
       }
 
-      if (node.data?.meta) {
-        node.properties['data-meta'] = node.data.meta;
+      if (node.data?.meta && node.properties) {
+        node.properties['data-meta'] = /** @type {string} */ (node.data.meta);
       }
     });
   };

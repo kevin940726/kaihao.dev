@@ -1,3 +1,4 @@
+// @ts-check
 import { visit, EXIT } from 'unist-util-visit';
 import stringWidth from 'string-width';
 import GraphemeSplitter from 'grapheme-splitter';
@@ -83,7 +84,7 @@ function getHasExcerptDefined(node, exportName) {
  * @property {number} [maxWidth=180]
  * @property {string} [ellipsis='…']
  *
- * @param {RemarkMdxExcerptOptions} [options={}]
+ * @param {RemarkMdxExcerptOptions} options
  * @returns
  */
 export default function remarkMdxExcerpt({
@@ -106,8 +107,8 @@ export default function remarkMdxExcerpt({
       tree,
       /**
        * @param {ContentNode} node
-       * @param {number} index
-       * @param {ContentNode} parent
+       * @param {number|null} index
+       * @param {ContentNode|null} parent
        */
       (node, index, parent) => {
         if (getHasExcerptDefined(node, exportName)) {
