@@ -11,7 +11,7 @@ const ToggleDarkMode = dynamic(() => import('./ToggleDarkMode'), {
 const Nav = () => {
   return (
     <>
-      <nav className="flex items-center h-[50px] w-full fixed top-0 left-0 shadow-sm border-b border-border bg-contentBackground p-2.5 md:px-5 z-[100]">
+      <nav className="flex items-center h-[50px] w-full fixed top-0 left-0 shadow-md border-b border-transparent dark:border-border bg-contentBackground p-2.5 md:px-5 z-[100]">
         <div className="flex items-center justify-between w-[760px] max-w-full mx-auto">
           <h3 className="flex items-center text-xl leading-[23px] text-subText">
             <Link

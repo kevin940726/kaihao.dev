@@ -4,8 +4,8 @@ import profileImg from './profile.jpeg';
 
 const Hero = () => {
   return (
-    <section className="flex flex-col items-center text-center h-[350px] px-5 py-7 text-subText">
-      <span className="inline-flex rounded-full shadow-md mb-6 overflow-hidden">
+    <section className="flex flex-col items-center text-center px-5 pt-7 pb-5 text-subText">
+      <span className="inline-flex rounded-full shadow shadow-backgroundBlack mb-6 overflow-hidden">
         <Image
           src={profileImg}
           alt="Kai Hao"

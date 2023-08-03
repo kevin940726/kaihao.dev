@@ -18,7 +18,7 @@ const IndexPage = ({ posts }: { posts: PostItem[] }) => (
     <Hero />
 
     <Layout.Main>
-      <PostList posts={posts} className="md:-mt-10 mx-auto mb-36" />
+      <PostList posts={posts} className="mx-auto mb-36" />
     </Layout.Main>
   </Layout>
 );
