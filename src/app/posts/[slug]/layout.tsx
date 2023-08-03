@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { Fira_Code } from 'next/font/google';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
-import Layout from '@/components/Layout';
+import Main from '@/components/Main';
 import type { ReactNode } from 'react';
 
 const firaCode = Fira_Code({
@@ -22,14 +22,14 @@ export default async function PostLayout({
     <div className="flex flex-col min-h-full bg-contentBackground [&>*]:shrink-0 [&>*]:min-h-0">
       <Nav />
 
-      <Layout.Main
+      <Main
         className={cx(
           firaCode.variable,
           'leading-[1.8] mt-8 mx-auto mb-16 px-[20px] md:px-0 break-words',
         )}
       >
         {children}
-      </Layout.Main>
+      </Main>
 
       <Footer />
     </div>
