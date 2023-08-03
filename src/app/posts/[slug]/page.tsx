@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { H1 } from '@/components/Headers';
 import EditOnGitHub from '@/components/EditOnGitHub';
 import siteMetadata from '@/siteMetadata';
+import { getPost } from '@/internals/posts';
+import type { Post } from '@/internals/posts';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -9,29 +11,33 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const { frontmatter, excerpt } = await import(`@/posts/${slug}/index.mdx`);
+  try {
+    const { frontmatter, excerpt } = await getPost(slug);
 
-  return {
-    title: frontmatter.title,
-    description: excerpt,
-    openGraph: {
-      title: {
-        default: siteMetadata.title,
-        template: `%s | ${siteMetadata.title}`,
+    return {
+      title: frontmatter.title,
+      description: excerpt,
+      openGraph: {
+        title: {
+          default: siteMetadata.title,
+          template: `%s | ${siteMetadata.title}`,
+        },
+        description: excerpt,
+        url: `${siteMetadata.siteUrl}/posts/${slug}`,
+        siteName: siteMetadata.title,
+        type: 'article',
+        locale: 'en_US',
       },
-      description: excerpt,
-      url: `${siteMetadata.siteUrl}/posts/${slug}`,
-      siteName: siteMetadata.title,
-      type: 'article',
-      locale: 'en_US',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${frontmatter.title} | ${siteMetadata.title}`,
-      description: excerpt,
-      creator: siteMetadata.author,
-    },
-  };
+      twitter: {
+        card: 'summary_large_image',
+        title: `${frontmatter.title} | ${siteMetadata.title}`,
+        description: excerpt,
+        creator: siteMetadata.author,
+      },
+    };
+  } catch {
+    return notFound();
+  }
 }
 
 export default async function Post({
@@ -39,13 +45,14 @@ export default async function Post({
 }: {
   params: { slug: string };
 }) {
-  const PostModule = await import(`@/posts/${slug}/index.mdx`);
-
-  if (!PostModule) {
+  let post: Post;
+  try {
+    post = await getPost(slug);
+  } catch {
     return notFound();
   }
 
-  const { frontmatter } = PostModule;
+  const { frontmatter, Component } = post;
 
   return (
     <>
@@ -60,7 +67,7 @@ export default async function Post({
         </time>
       </H1>
 
-      <PostModule.default />
+      <Component />
 
       <EditOnGitHub slug={slug} />
     </>

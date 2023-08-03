@@ -1,9 +1,20 @@
-import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/server';
 import siteMetadata from '@/siteMetadata';
 
+/**
+ * Don't use dynamic import as it will bundle all the posts and exceed
+ * the bundle size limit. Instead, fetch the post title from the server.
+ */
+async function getPostTitle(slug: string) {
+  const html = await fetch(new URL(`/posts/${slug}`, siteMetadata.origin)).then(
+    (res) => res.text(),
+  );
+  const title = html.match(/<title>([\s\S]+?) \| Kai Hao<\/title>/)?.[1]!;
+  return title;
+}
+
 export const runtime = 'edge';
-export const revalidate = 60 * 60; // 1 hour
+export const revalidate = false; // On-demand static generation
 
 export const size = {
   width: 1200,
@@ -88,7 +99,8 @@ export default async function Image({
 }: {
   params: { slug: string };
 }) {
-  const PostModule = await import(`@/posts/${slug}/index.mdx`);
+  const title = await getPostTitle(slug);
+
   const profileImageBase64 = await fetch(
     new URL('../../../components/profile.jpeg', import.meta.url),
   )
@@ -103,17 +115,8 @@ export default async function Image({
       return `data:image/jpeg;base64,${base64String}`;
     });
 
-  if (!PostModule) {
-    return notFound();
-  }
-
   return new ImageResponse(
-    (
-      <PostImage
-        title={PostModule.frontmatter.title}
-        profileImageSrc={profileImageBase64}
-      />
-    ),
+    <PostImage title={title} profileImageSrc={profileImageBase64} />,
     {
       width: 1200,
       height: 626,
