@@ -1,12 +1,10 @@
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const InlineCode = styled.code(
-  (props) => css`
-    background-color: ${props.theme.colors.inlineCodeBackground};
-    padding: 3px 5px;
-    font-size: 0.85em;
-  `
+const InlineCode = (props: ComponentPropsWithoutRef<'code'>) => (
+  <code
+    className="bg-inlineCodeBackground px-[5px] py-[3px] text-[0.85em]"
+    {...props}
+  />
 );
 
 export default InlineCode;

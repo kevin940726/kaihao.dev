@@ -1,36 +1,17 @@
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const Actions = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  border-top-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 30px;
-`;
+const Actions = (props: ComponentPropsWithoutRef<'div'>) => (
+  <div
+    className="flex justify-end rounded-tl rounded-br overflow-hidden text-subText text-xs absolute bottom-0 right-0 h-[30px]"
+    {...props}
+  />
+);
 
-const ActionItem = styled.button(
-  (props) => css`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
-    padding: 3px 5px;
-    background-color: transparent;
-    color: ${props.theme.colors.subText};
-    font-size: 13px;
-    opacity: 0.8;
-    transition: opacity 0.15s ease-out;
-
-    &:hover {
-      opacity: 1;
-    }
-  `
+const ActionItem = (props: ComponentPropsWithoutRef<'button'>) => (
+  <button
+    className="inline-flex items-center justify-center cursor-pointer border-none px-1 py-0.5 bg-transparent text-subText text-xs opacity-80 transition-opacity hover:opacity-100"
+    {...props}
+  />
 );
 
 type ActionsType = typeof Actions;

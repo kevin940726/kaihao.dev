@@ -1,23 +1,13 @@
-import styled from '@emotion/styled';
+import type { ComponentPropsWithoutRef } from 'react';
 
-export const Ul = styled.ul`
-  padding-left: 20px;
-  margin: 0 0 2em;
+export const Ul = (props: ComponentPropsWithoutRef<'ul'>) => (
+  <ul className="pl-5 mb-8 list-disc" {...props} />
+);
 
-  & & {
-    margin: 0;
-  }
-`;
+export const Ol = (props: ComponentPropsWithoutRef<'ol'>) => (
+  <ol className="pl-5 mb-8 list-decimal" {...props} />
+);
 
-export const Ol = styled.ol`
-  padding-left: 20px;
-  margin: 0 0 2em;
-
-  & & {
-    margin: 0;
-  }
-`;
-
-export const Li = styled.li`
-  margin-bottom: 0.5em;
-`;
+export const Li = (props: ComponentPropsWithoutRef<'li'>) => (
+  <li className="mb-2" {...props} />
+);

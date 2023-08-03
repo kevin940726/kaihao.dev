@@ -1,10 +1,10 @@
 {
-  "name": "next-kaihao.dev",
+  "name": "kaihao.dev",
   "type": "module",
   "private": true,
   "engines": {
     "node": ">=18",
-    "pnpm": ">=3"
+    "pnpm": ">=8"
   },
   "scripts": {
     "dev": "HOST=http://127.0.0.1:3000 next dev",
@@ -17,13 +17,10 @@
     "generate-rss": "NODE_ENV=production tsx src/internals/generateRSS.ts"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
     "@vercel/og": "^0.2.0",
+    "classnames": "^2.3.2",
     "esbuild": "^0.17.10",
-    "focus-visible": "^5.2.0",
     "image-size": "^1.0.2",
-    "modern-normalize": "^1.1.0",
     "next": "13.2.1",
     "polished": "^4.2.2",
     "prism-themes": "^1.9.0",
@@ -45,6 +42,7 @@
     "@types/rss": "^0.0.30",
     "@types/sharp": "^0.31.1",
     "@types/unist": "^2.0.6",
+    "autoprefixer": "^10.4.14",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.1",
     "grapheme-splitter": "^1.0.4",
@@ -52,6 +50,7 @@
     "lodash.truncate": "^4.4.2",
     "mdast-util-mdx": "^2.0.1",
     "mdx-bundler": "^9.2.1",
+    "postcss": "^8.4.27",
     "prettier": "2.8.4",
     "prismjs": "^1.29.0",
     "remark-codesandbox": "^0.10.1",
@@ -60,6 +59,7 @@
     "remark-mdx-images": "^2.0.0",
     "rss": "^1.2.2",
     "string-width": "^5.1.2",
+    "tailwindcss": "^3.3.3",
     "tsx": "^3.12.3",
     "typescript": "4.9.5",
     "unist-util-visit": "4.1.2"

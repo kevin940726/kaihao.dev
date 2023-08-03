@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 import type { ReactElement, HTMLAttributes } from 'react';
-import { css } from '@emotion/react';
 import slugify from 'slugify';
+import cx from 'classnames';
 import getTextContent from './getTextContent';
-import { desktop } from './media';
 
 slugify.extend({
   '<': '',
@@ -19,6 +18,15 @@ const createHeader = (
   RenderComponent: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
   options: HeaderOptions = {}
 ) => {
+  const headerClassNames = {
+    h1: 'text-4xl font-bold',
+    h2: 'text-2xl font-bold',
+    h3: 'text-lg font-bold',
+    h4: 'text-base font-bold',
+    h5: 'text-sm font-bold',
+    h6: 'text-xs font-bold',
+  } as const;
+
   const HeaderComponent = ({
     children,
   }: HTMLAttributes<HTMLHeadingElement>) => {
@@ -40,44 +48,16 @@ const createHeader = (
     return (
       <RenderComponent
         id={fragment}
-        css={(theme) =>
-          css`
-            position: relative;
-            line-height: 2;
-            color: ${theme.colors.subText};
-            ${!hideBorderBottom &&
-            css`
-              border-bottom: 1px solid ${theme.colors.horizontal};
-            `}
-            scroll-margin-top: 50px;
-            margin-bottom: 1em;
-
-            ${desktop(css`
-              &:hover > a {
-                opacity: 1;
-              }
-            `)}
-          `
-        }
+        className={cx(
+          'group relative leading-loose text-subText scroll-mt-12 mb-4',
+          !hideBorderBottom && 'border-b border-horizontal',
+          headerClassNames[RenderComponent]
+        )}
       >
         {hideAnchor || (
           <a
             href={`#${fragment}`}
-            css={(theme) => css`
-              position: absolute;
-              left: 0px;
-              top: 0;
-              bottom: 0;
-              color: ${theme.colors.contentText};
-              transform: translateX(-100%);
-              opacity: 0;
-              padding-right: 10px;
-
-              &:active,
-              &:focus {
-                opacity: 1;
-              }
-            `}
+            className="absolute left-0 top-0 bottom-0 text-contentText -translate-x-full opacity-0 active:opacity-100 focus:opacity-100 md:group-hover:opacity-100 pr-2"
           >
             #
           </a>

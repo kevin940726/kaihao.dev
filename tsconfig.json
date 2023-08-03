@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": ".",
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
@@ -20,7 +20,6 @@
     "importsNotUsedAsValues": "error",
     "preserveValueImports": true,
     "jsx": "preserve",
-    "jsxImportSource": "@emotion/react",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "incremental": true,

@@ -1,37 +1,31 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import cx from 'classnames';
 import type { AnchorHTMLAttributes } from 'react';
 
 interface PostLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
 }
 
-const StyledLink = styled.a(
-  (props) => css`
-    border-bottom: 1px dashed ${props.theme.colors.mainText};
-    color: ${props.theme.colors.subText};
+const PostLink = ({ children, href, className, ...props }: PostLinkProps) => {
+  const mergedClassName = cx(
+    'border-b border-dashed hover:border-solid hover:no-underline',
+    className || 'border-mainText text-subText'
+  );
 
-    &:hover {
-      border-bottom-style: solid;
-      text-decoration: none;
-    }
-  `
-);
-
-const PostLink = ({ children, href, ...props }: PostLinkProps) =>
-  href.startsWith('#') ? (
-    <StyledLink href={href} {...props}>
+  return href.startsWith('#') ? (
+    <a className={mergedClassName} href={href} {...props}>
       {children}
-    </StyledLink>
+    </a>
   ) : (
-    <StyledLink
+    <a
+      className={mergedClassName}
       href={href}
       target="_blank"
       rel="noopener noreferrer nofollower"
       {...props}
     >
       {children}
-    </StyledLink>
+    </a>
   );
+};
 
 export default PostLink;

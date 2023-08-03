@@ -1,19 +1,21 @@
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import { forwardRef } from 'react';
+import Link from 'next/link';
+import cx from 'classnames';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const FlatButton = styled.a(
-  (props) => css`
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    margin: 10px 0;
-    text-decoration: none;
-    transition: background-color 0.15s ease-out;
-
-    &:hover {
-      background-color: ${props.theme.colors.background};
-    }
-  `
-);
+const FlatButton = forwardRef<
+  HTMLAnchorElement,
+  ComponentPropsWithoutRef<typeof Link>
+>((props, ref) => (
+  <Link
+    {...props}
+    className={cx(
+      'inline-flex items-center no-underline transition-colors hover:bg-background',
+      props.className
+    )}
+    ref={ref}
+  />
+));
+FlatButton.displayName = 'FlatButton';
 
 export default FlatButton;

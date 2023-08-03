@@ -28,7 +28,7 @@ class Document extends NextDocument<{ themeModeScript: string }> {
 
   render() {
     return (
-      <Html>
+      <Html className="h-full tab">
         <Head>
           <link
             rel="alternate"
@@ -37,7 +37,7 @@ class Document extends NextDocument<{ themeModeScript: string }> {
             href="/rss.xml"
           />
         </Head>
-        <body>
+        <body className="h-full text-contentText bg-contentBackground">
           <script
             dangerouslySetInnerHTML={{ __html: this.props.themeModeScript }}
           />

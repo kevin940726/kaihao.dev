@@ -1,37 +1,11 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import Image from 'next/image';
 import SocialLinks from './SocialLinks';
 import profileImg from './profile.jpeg';
 
-const HeroSection = styled.section(
-  (props) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 350px;
-    padding: 30px 20px;
-
-    p {
-      color: ${props.theme.colors.subText};
-      margin-top: 0;
-    }
-  `
-);
-
 const Hero = () => {
   return (
-    <HeroSection>
-      <span
-        css={css`
-          display: inline-flex;
-          border-radius: 50%;
-          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-          margin-bottom: 25px;
-          overflow: hidden;
-        `}
-      >
+    <section className="flex flex-col items-center text-center px-5 pt-7 pb-5 text-subText">
+      <span className="inline-flex rounded-full shadow shadow-backgroundBlack mb-6 overflow-hidden">
         <Image
           src={profileImg}
           alt="Kai Hao"
@@ -42,26 +16,13 @@ const Hero = () => {
         />
       </span>
 
-      <p
-        css={css`
-          font-size: 36px;
-          font-weight: bold;
-          margin-bottom: 10px;
-        `}
-      >
-        Hello there.
-      </p>
-      <p
-        css={css`
-          font-size: 24px;
-          margin-bottom: 25px;
-        `}
-      >
+      <p className="text-4xl font-bold mb-2.5">Hello there.</p>
+      <p className="text-2xl mb-6">
         {"I'm Kai Hao, a front-end developer in Taiwan."}
       </p>
 
       <SocialLinks />
-    </HeroSection>
+    </section>
   );
 };
 
