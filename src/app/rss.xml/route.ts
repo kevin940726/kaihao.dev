@@ -15,13 +15,13 @@ export async function GET() {
   const posts = await getPosts();
 
   for (const post of posts) {
-    const postUrl = new URL(`/posts/${post.slug}`, siteMetadata.siteUrl).href;
+    const postUrl = new URL(`/posts/${post.slug}`, siteMetadata.origin).href;
     const html = await fetch(postUrl).then((res) => res.text());
     const contentHtml =
       html.match(/<main(?:[^>]*?)>([\s\S]+?)<\/main>/)?.[1] || '';
     const image =
       html.match(
-        /<meta property="og:image" content="([\s\S]+?)"\s?\/?>/
+        /<meta property="og:image" content="([\s\S]+?)"\s?\/?>/,
       )?.[1] || '';
 
     feed.item({

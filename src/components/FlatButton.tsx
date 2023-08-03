@@ -11,7 +11,7 @@ const FlatButton = forwardRef<
     {...props}
     className={cx(
       'inline-flex items-center no-underline transition-colors hover:bg-background',
-      props.className
+      props.className,
     )}
     ref={ref}
   />

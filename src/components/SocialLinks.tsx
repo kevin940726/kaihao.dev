@@ -24,7 +24,7 @@ const SocialLink = ({
       'inline-flex box-content relative text-[0] h-[35px] w-[35px] rounded-full shadow bg-cover bg-backgroundWhite cursor-pointer transition-transform overflow-hidden',
       'dark:border dark:border-dimWhite',
       'before:absolute before:top-0 before:left-0 before:h-full before:w-full before:rounded-full before:shadow before:opacity-0 before:transition-opacity',
-      'hover:translate-y-[-1px] hover:before:opacity-100'
+      'hover:translate-y-[-1px] hover:before:opacity-100',
     )}
     href={href}
     target="_blank"

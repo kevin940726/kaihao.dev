@@ -8,11 +8,11 @@ Querying elements with selectors is quite intuitive in JavaScript. `querySelecto
 ```js codesandbox=observe-selector
 function queryElements(selector, callback) {
   const elements = document.querySelectorAll(selector);
-  elements.forEach(element => callback(element));
+  elements.forEach((element) => callback(element));
 }
 
 // Use it
-queryElements('[data-target]', element => {
+queryElements('[data-target]', (element) => {
   element.style.outline = '2px solid red';
 });
 ```
@@ -32,7 +32,7 @@ Using `MutationObserver` to create an observer to listen to new elements added t
 ```js codesandbox=observe-selector
 function queryElements(selector, callback) {
   const elements = document.querySelectorAll(selector);
-  elements.forEach(element => callback(element));
+  elements.forEach((element) => callback(element));
 }
 
 function observe(selector, callback) {
@@ -54,7 +54,7 @@ function observe(selector, callback) {
 }
 
 // Use it
-observe('[data-target]', element => {
+observe('[data-target]', (element) => {
   element.style.outline = '2px solid red';
 });
 ```
@@ -85,7 +85,7 @@ If you really think about it, you might find that `animation` runs as soon as th
 That seems perfect, all we need now is to listen to the event when the animation starts. Luckily, there's an [`animationstart`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/animationstart_event) event we can listen to. What's better is that this event bubbles up, so that we can just attach our listener to `document`.
 
 ```js
-document.addEventListener('animationstart', event => {
+document.addEventListener('animationstart', (event) => {
   if (event.animationName === 'observer-animation') {
     callback(event.target);
   }
@@ -112,7 +112,7 @@ function observe(selector, callback) {
   `;
   document.head.appendChild(style);
 
-  document.addEventListener('animationstart', event => {
+  document.addEventListener('animationstart', (event) => {
     if (event.animationName === animationName) {
       callback(event.target);
     }
@@ -120,7 +120,7 @@ function observe(selector, callback) {
 }
 
 // Use it
-observe('[data-target]', element => {
+observe('[data-target]', (element) => {
   element.style.outline = '2px solid red';
 });
 ```

@@ -78,15 +78,15 @@ function DefaultImage({ profileImageSrc }: { profileImageSrc: string }) {
 
 export default async function Image() {
   const profileImageBase64 = await fetch(
-    new URL('../components/profile.jpeg', import.meta.url)
+    new URL('../components/profile.jpeg', import.meta.url),
   )
     .then((res) => res.arrayBuffer())
     .then((arrayBuffer) => {
       const base64String = btoa(
         new Uint8Array(arrayBuffer).reduce(
           (data, byte) => data + String.fromCharCode(byte),
-          ''
-        )
+          '',
+        ),
       );
       return `data:image/jpeg;base64,${base64String}`;
     });
@@ -96,6 +96,6 @@ export default async function Image() {
     {
       width: 1200,
       height: 626,
-    }
+    },
   );
 }

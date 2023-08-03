@@ -14,7 +14,8 @@
     --color-grey: 85 85 85; /* #555555 */
   }
 
-  :root, body[data-theme-mode="dark"] {
+  :root,
+  body[data-theme-mode='dark'] {
     --color-content-text: 255 255 255; /* var(--color-background-white) */
     --color-background: 18 18 18; /* var(--color-background-black) */
     --color-reverse-background: 245 245 245; /* var(--color-dim-white) */
@@ -25,7 +26,7 @@
     --color-inline-code-background: rgb(var(--color-sub-text) / 0.3);
   }
 
-  body[data-theme-mode="light"] {
+  body[data-theme-mode='light'] {
     --color-content-text: 40 35 45; /* var(--color-content-black) */
     --color-background: 245 245 245; /* var(--color-dim-white) */
     --color-reverse-background: 40 35 45; /* var(--color-content-black) */

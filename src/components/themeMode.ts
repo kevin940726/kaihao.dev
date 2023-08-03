@@ -23,7 +23,7 @@ export const themeModeScript = function () {
     constructor() {
       try {
         this.#themeMode = window.sessionStorage.getItem(
-          STORAGE_KEY
+          STORAGE_KEY,
         ) as ThemeMode;
         if (this.#themeMode) {
           this.#userPreference = true;

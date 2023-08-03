@@ -7,13 +7,13 @@ import useCopyToClipboard from './useCopyToClipboard';
 
 const CopyButton = forwardRef(function InnerCopyButton(
   { codeId, ...props }: { codeId: string },
-  ref: Ref<HTMLButtonElement>
+  ref: Ref<HTMLButtonElement>,
 ) {
   const handleClick = useCopyToClipboard(
     useCallback(
       () => document.getElementById(codeId)?.textContent || '',
-      [codeId]
-    )
+      [codeId],
+    ),
   );
 
   return (

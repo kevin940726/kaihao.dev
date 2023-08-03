@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
   },
   authors: [{ name: siteMetadata.author }],
-  metadataBase: new URL(siteMetadata.siteUrl),
+  metadataBase: new URL(siteMetadata.origin),
   alternates: {
     types: {
       'application/rss+xml': '/rss.xml',

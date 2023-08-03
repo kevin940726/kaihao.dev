@@ -16,7 +16,7 @@ interface HeaderOptions {
 
 const createHeader = (
   RenderComponent: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
-  options: HeaderOptions = {}
+  options: HeaderOptions = {},
 ) => {
   const headerClassNames = {
     h1: 'text-4xl font-bold',
@@ -36,13 +36,13 @@ const createHeader = (
       () =>
         slugify(
           getTextContent(
-            children as (string | ReactElement<unknown, string>)[]
+            children as (string | ReactElement<unknown, string>)[],
           ),
           {
             lower: true,
-          }
+          },
         ),
-      [children]
+      [children],
     );
 
     return (
@@ -51,7 +51,7 @@ const createHeader = (
         className={cx(
           'group relative leading-loose text-subText scroll-mt-12 mb-4',
           !hideBorderBottom && 'border-b border-horizontal',
-          headerClassNames[RenderComponent]
+          headerClassNames[RenderComponent],
         )}
       >
         {hideAnchor || (

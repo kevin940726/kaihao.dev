@@ -24,7 +24,7 @@ const withMDX = createMDX({
             'observe-selector': {
               extends: `file:${path.resolve(
                 process.cwd(),
-                'src/posts/One-fun-trick-to-observe-elements-in-realtime-without-MutationObserver/observe-selector'
+                'src/posts/One-fun-trick-to-observe-elements-in-realtime-without-MutationObserver/observe-selector',
               )}`,
               entry: 'src/index.js',
             },

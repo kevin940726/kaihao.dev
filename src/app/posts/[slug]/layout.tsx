@@ -25,7 +25,7 @@ export default async function PostLayout({
       <Layout.Main
         className={cx(
           firaCode.variable,
-          'leading-[1.8] mt-8 mx-auto mb-16 px-[20px] md:px-0 break-words'
+          'leading-[1.8] mt-8 mx-auto mb-16 px-[20px] md:px-0 break-words',
         )}
       >
         {children}

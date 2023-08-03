@@ -12,7 +12,7 @@ const useThemeMode = () => {
   const themeMode = useSyncExternalStore(
     themeModeHook.subscribe,
     themeModeHook.getSnapshot,
-    themeModeHook.getSnapshot
+    themeModeHook.getSnapshot,
   );
 
   return themeMode;

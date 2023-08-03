@@ -71,8 +71,8 @@ function getHasExcerptDefined(node, exportName) {
         body.declaration.declarations.some(
           (variableDeclarator) =>
             variableDeclarator.id.type === 'Identifier' &&
-            variableDeclarator.id.name === exportName
-        )
+            variableDeclarator.id.name === exportName,
+        ),
     )
   );
 }
@@ -148,7 +148,7 @@ export default function remarkMdxExcerpt({
         } else {
           isLastNodeInlineText = false;
         }
-      }
+      },
     );
 
     // Abort if the user has already defined the "excerpt" export.

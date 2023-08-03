@@ -29,7 +29,7 @@ const Layout = ({ children, isContent, ...props }: LayoutProps) => (
       [openSans.variable, 'font-sans'],
       'flex flex-col min-h-full bg-contentBackground',
       !isContent && 'md:bg-background',
-      '[&>*]:shrink-0 [&>*]:min-h-0'
+      '[&>*]:shrink-0 [&>*]:min-h-0',
     )}
     {...props}
   >

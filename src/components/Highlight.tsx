@@ -81,7 +81,7 @@ const Highlight = async ({ children, ...props }: HighlightProps) => {
           : 'bg-transparent',
         'before:[counter-increment:lines-number] before:content-[counter(lines-number)] before:inline-block before:-ml-2.5 before:mr-2.5 md:before:mr-4 before:text-right before:w-8 before:text-[#666666] before:align-middle',
         'selection:bg-subText selection:bg-opacity-30 selection:text-backgroundWhite',
-        '[.prompt_.sign]:relative'
+        '[.prompt_.sign]:relative',
       )}
       dangerouslySetInnerHTML={{
         __html: index < lines.length - 1 ? line + '\n' : line,
@@ -95,7 +95,7 @@ const Highlight = async ({ children, ...props }: HighlightProps) => {
         <pre
           className={cx(
             'relative !overflow-visible float-left !rounded-none md:!rounded !m-0 !py-5 !px-0 min-w-full text-sm !leading-relaxed [counter-reset:lines-number] !font-mono',
-            codeClassName
+            codeClassName,
           )}
           tabIndex={-1}
           {...props}

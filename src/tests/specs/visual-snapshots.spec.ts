@@ -16,7 +16,7 @@ test.describe(`Visual snapshots`, () => {
         await page.goto(route.url, { waitUntil: 'networkidle' });
 
         expect(
-          await page.screenshot({ fullPage: true, animations: 'disabled' })
+          await page.screenshot({ fullPage: true, animations: 'disabled' }),
         ).toMatchSnapshot(`${route.label}-${colorScheme}-mode.png`);
       }
 

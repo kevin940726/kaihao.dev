@@ -10,14 +10,14 @@ test.describe('Dark mode', async () => {
 
     await expect(
       toggleDarkMode,
-      'Should default to light mode'
+      'Should default to light mode',
     ).toHaveAttribute('aria-checked', 'false');
 
     await toggleDarkMode.click();
 
     await expect(toggleDarkMode, 'Should switch to dark mode').toHaveAttribute(
       'aria-checked',
-      'true'
+      'true',
     );
   });
 
@@ -32,14 +32,14 @@ test.describe('Dark mode', async () => {
 
     await expect(toggleDarkMode, 'Should default to dark mode').toHaveAttribute(
       'aria-checked',
-      'true'
+      'true',
     );
 
     await toggleDarkMode.click();
 
     await expect(toggleDarkMode, 'Should switch to light mode').toHaveAttribute(
       'aria-checked',
-      'false'
+      'false',
     );
   });
 
@@ -54,14 +54,14 @@ test.describe('Dark mode', async () => {
 
     await expect(toggleDarkMode, 'Should switch to dark mode').toHaveAttribute(
       'aria-checked',
-      'true'
+      'true',
     );
 
     await page.reload();
 
     await expect(toggleDarkMode, 'Should remain dark mode').toHaveAttribute(
       'aria-checked',
-      'true'
+      'true',
     );
   });
 
@@ -76,37 +76,37 @@ test.describe('Dark mode', async () => {
 
     await expect(
       toggleDarkMode,
-      'Should default to light mode'
+      'Should default to light mode',
     ).toHaveAttribute('aria-checked', 'false');
 
     await page.emulateMedia({ colorScheme: 'dark' });
     await expect(toggleDarkMode, 'Should switch to dark mode').toHaveAttribute(
       'aria-checked',
-      'true'
+      'true',
     );
 
     await toggleDarkMode.click();
     await expect(toggleDarkMode, 'Should switch to light mode').toHaveAttribute(
       'aria-checked',
-      'false'
+      'false',
     );
 
     await toggleDarkMode.click();
     await expect(toggleDarkMode, 'Should switch to dark mode').toHaveAttribute(
       'aria-checked',
-      'true'
+      'true',
     );
 
     await page.emulateMedia({ colorScheme: 'light' });
     await expect(toggleDarkMode, 'Should remain dark mode').toHaveAttribute(
       'aria-checked',
-      'true'
+      'true',
     );
 
     await page.reload();
     await expect(toggleDarkMode, 'Should remain dark mode').toHaveAttribute(
       'aria-checked',
-      'true'
+      'true',
     );
   });
 });

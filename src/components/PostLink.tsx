@@ -8,7 +8,7 @@ interface PostLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 const PostLink = ({ children, href, className, ...props }: PostLinkProps) => {
   const mergedClassName = cx(
     'border-b border-dashed hover:border-solid hover:no-underline',
-    className || 'border-mainText text-subText'
+    className || 'border-mainText text-subText',
   );
 
   return href.startsWith('#') ? (
