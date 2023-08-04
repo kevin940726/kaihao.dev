@@ -1,14 +1,8 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
+import ToggleDarkMode from './ToggleDarkMode';
 import siteMetadata from '@/siteMetadata';
 import logo from './logo.png';
-
-const ToggleDarkMode = dynamic(() => import('./ToggleDarkMode'), {
-  ssr: false,
-});
 
 const Nav = () => {
   return (

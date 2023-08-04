@@ -1,7 +1,8 @@
 'use client';
-import type { ComponentPropsWithRef } from 'react';
+
 import cx from 'classnames';
 import useThemeMode, { toggleThemeMode } from './useThemeMode';
+import type { ComponentPropsWithRef } from 'react';
 
 const Sun = (props: ComponentPropsWithRef<'svg'>) => (
   <svg
@@ -72,12 +73,14 @@ const ToggleDarkMode = () => {
       type="button"
       role="switch"
       aria-label="Toggle dark mode"
-      aria-checked={themeMode === 'dark' ? 'true' : 'false'}
+      aria-checked={
+        themeMode === null ? undefined : themeMode === 'dark' ? 'true' : 'false'
+      }
       onClick={toggleThemeMode}
       className={cx(
         'flex relative items-center justify-between h-[30px] w-[60px] border-none rounded-[40px] bg-reverseBackground select-none',
         'after:inline-block after:absolute after:top-0 after:left-0 after:h-[30px] after:w-[30px] after:rounded-full after:border after:border-contentBlack after:bg-backgroundWhite',
-        'aria-checked:after:translate-x-full focus-visible:focus:after:outline-[5px]',
+        'dark:after:translate-x-full focus-visible:focus:after:outline-[5px]',
       )}
     >
       <Icon as={Sun} alt="light-theme" className="ml-2" />

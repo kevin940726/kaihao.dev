@@ -28,6 +28,7 @@
     "react-dom": "18.2.0",
     "remark-frontmatter": "^4.0.1",
     "remark-mdx-images": "^2.0.0",
+    "server-only": "^0.0.1",
     "sharp": "^0.32.4",
     "slugify": "^1.6.5"
   },

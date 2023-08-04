@@ -5,14 +5,14 @@ const themeModeHook =
     ? window.__THEME_MODE_HOOK
     : {
         subscribe: (_listener: () => void) => () => {},
-        getSnapshot: () => 'dark',
+        getSnapshot: () => null,
       };
 
 const useThemeMode = () => {
   const themeMode = useSyncExternalStore(
     themeModeHook.subscribe,
     themeModeHook.getSnapshot,
-    themeModeHook.getSnapshot,
+    () => null,
   );
 
   return themeMode;
