@@ -5,7 +5,8 @@ export default {
   repo: 'https://github.com/kevin940726/kaihao.dev',
   origin:
     process.env.HOST ||
-    (process.env.VERCEL_ENV !== 'production' &&
+    (process.env.VERCEL_ENV &&
+      process.env.VERCEL_ENV !== 'production' &&
       `https://${process.env.VERCEL_URL}`) ||
     'https://kaihao.dev',
   siteUrl: 'https://kaihao.dev',

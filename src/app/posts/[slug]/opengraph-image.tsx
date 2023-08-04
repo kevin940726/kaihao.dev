@@ -14,7 +14,6 @@ async function getPostTitle(slug: string) {
 }
 
 export const runtime = 'edge';
-export const revalidate = false; // On-demand static generation
 
 export const size = {
   width: 1200,

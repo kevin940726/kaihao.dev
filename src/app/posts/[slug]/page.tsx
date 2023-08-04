@@ -18,10 +18,7 @@ export async function generateMetadata({
       title: frontmatter.title,
       description: excerpt,
       openGraph: {
-        title: {
-          default: siteMetadata.title,
-          template: `%s | ${siteMetadata.title}`,
-        },
+        title: frontmatter.title,
         description: excerpt,
         url: `${siteMetadata.origin}/posts/${slug}`,
         siteName: siteMetadata.title,

@@ -2,7 +2,8 @@ import RSS from 'rss';
 import { getPosts } from '@/internals/posts';
 import siteMetadata from '@/siteMetadata';
 
-export const revalidate = false; // Cache forever like a static file
+export const dynamic = 'force-dynamic';
+// export const revalidate = 0; // Cache forever like a static file
 
 export async function GET() {
   const feed = new RSS({
@@ -16,11 +17,10 @@ export async function GET() {
 
   for (const post of posts) {
     const postUrl = new URL(`/posts/${post.slug}`, siteMetadata.origin).href;
-    const html = await fetch(postUrl, { redirect: 'follow' }).then((res) =>
-      res.text(),
-    );
-    const contentHtml =
-      html.match(/<main(?:[^>]*?)>([\s\S]+?)<\/main>/)?.[1] || '';
+    const html = await fetch(postUrl, {
+      next: { tags: ['rss'] },
+    }).then((response) => response.text());
+    const contentHtml = html.match(/<main(?:[^>]*?)>([\s\S]+?)<\/main>/)?.[1];
     const image = html.match(
       /<meta property="og:image" content="([\s\S]+?)"\s?\/?>/,
     )?.[1];
