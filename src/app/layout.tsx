@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       template: `%s | ${siteMetadata.title}`,
     },
     description: siteMetadata.description,
-    url: siteMetadata.siteUrl,
+    url: siteMetadata.origin,
     siteName: siteMetadata.title,
     type: 'website',
     locale: 'en_US',

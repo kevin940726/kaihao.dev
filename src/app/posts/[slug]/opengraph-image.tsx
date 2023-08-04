@@ -43,7 +43,6 @@ function PostImage({
         flexDirection: 'column',
         flexWrap: 'nowrap',
       }}
-      tw="bg-backgroundBlack"
     >
       <div style={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
         <div

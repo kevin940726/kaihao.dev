@@ -23,7 +23,7 @@ export async function generateMetadata({
           template: `%s | ${siteMetadata.title}`,
         },
         description: excerpt,
-        url: `${siteMetadata.siteUrl}/posts/${slug}`,
+        url: `${siteMetadata.origin}/posts/${slug}`,
         siteName: siteMetadata.title,
         type: 'article',
         locale: 'en_US',
