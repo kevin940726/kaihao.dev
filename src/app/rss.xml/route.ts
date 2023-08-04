@@ -3,7 +3,6 @@ import { getPosts } from '@/internals/posts';
 import siteMetadata from '@/siteMetadata';
 
 export const dynamic = 'force-dynamic';
-// export const revalidate = 0; // Cache forever like a static file
 
 export async function GET() {
   const feed = new RSS({
@@ -31,7 +30,7 @@ export async function GET() {
       url: postUrl,
       guid: postUrl,
       date: post.frontmatter.date,
-      enclosure: image ? { url: image } : undefined,
+      enclosure: image ? { url: image, type: 'image/png' } : undefined,
       custom_elements: contentHtml
         ? [{ 'content:encoded': `<![CDATA[${contentHtml}]` }]
         : undefined,
@@ -40,5 +39,7 @@ export async function GET() {
 
   const xml = feed.xml({ indent: true });
 
-  return new Response(xml, { headers: { 'Content-Type': 'text/xml' } });
+  return new Response(xml, {
+    headers: { 'Content-Type': 'application/rss+xml; charset=UTF-8' },
+  });
 }
