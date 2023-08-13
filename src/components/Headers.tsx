@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
-import type { ReactElement, HTMLAttributes } from 'react';
 import slugify from 'slugify';
 import cx from 'classnames';
 import getTextContent from './getTextContent';
+import type { ReactElement, HTMLAttributes } from 'react';
 
 slugify.extend({
   '<': '',
@@ -32,17 +31,11 @@ const createHeader = (
   }: HTMLAttributes<HTMLHeadingElement>) => {
     const { hideBorderBottom, hideAnchor } = options;
 
-    const fragment = useMemo(
-      () =>
-        slugify(
-          getTextContent(
-            children as (string | ReactElement<unknown, string>)[],
-          ),
-          {
-            lower: true,
-          },
-        ),
-      [children],
+    const fragment = slugify(
+      getTextContent(children as (string | ReactElement<unknown, string>)[]),
+      {
+        lower: true,
+      },
     );
 
     return (

@@ -19,7 +19,6 @@ export async function GET() {
     const html = await fetch(postUrl, {
       next: { tags: ['rss'] },
     }).then((response) => response.text());
-    const contentHtml = html.match(/<main(?:[^>]*?)>([\s\S]+?)<\/main>/)?.[1];
     const image = html.match(
       /<meta property="og:image" content="([\s\S]+?)"\s?\/?>/,
     )?.[1];
@@ -31,9 +30,6 @@ export async function GET() {
       guid: postUrl,
       date: post.frontmatter.date,
       enclosure: image ? { url: image, type: 'image/png' } : undefined,
-      custom_elements: contentHtml
-        ? [{ 'content:encoded': `<![CDATA[${contentHtml}]` }]
-        : undefined,
     });
   }
 
