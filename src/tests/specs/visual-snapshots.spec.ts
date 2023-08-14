@@ -13,7 +13,7 @@ test.describe(`Visual snapshots`, () => {
     test(`${route.label}`, async ({ page, request }, testInfo) => {
       for (const colorScheme of ['light', 'dark'] as const) {
         await page.emulateMedia({ colorScheme });
-        await page.goto(route.url, { waitUntil: 'networkidle' });
+        await page.goto(route.url);
 
         expect(
           await page.screenshot({ fullPage: true, animations: 'disabled' }),

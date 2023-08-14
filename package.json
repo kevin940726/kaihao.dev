@@ -13,7 +13,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "playwright test -c src/tests/playwright.config.ts",
-    "test:docker": "docker run --rm -e HOST=http://host.docker.internal:3000 -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.31.1-focal npm test"
+    "test:docker": "docker run --rm -e HOST=http://host.docker.internal:3000 -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.37.0 npm test"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",
@@ -33,7 +33,7 @@
     "slugify": "^1.6.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.31.1",
+    "@playwright/test": "^1.37.0",
     "@types/hast": "^2.3.4",
     "@types/mdast": "^3.0.10",
     "@types/mdx": "^2.0.5",
