@@ -36,7 +36,7 @@ const createStore = (reducer, initialState = {}) => {
     dispatch(action) {
       state = reducer(state, action);
 
-      listeners.forEach(listener => {
+      listeners.forEach((listener) => {
         listener();
       });
     },
@@ -54,9 +54,7 @@ The `<Provider>` API is relatively straightforward, we just have to pass down th
 const Context = React.createContext();
 
 const Provider = ({ children, store }) => (
-  <Context.Provider value={store}>
-    {children}
-  </Context.Provider>
+  <Context.Provider value={store}>{children}</Context.Provider>
 );
 ```
 
@@ -95,9 +93,7 @@ const reducer = (state, action) => {
     case 'DELETE': {
       return {
         ...state,
-        todos: state.todos.filter(
-          todo => todo.id !== action.payload
-        ),
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
       };
     }
     default:
@@ -124,19 +120,18 @@ const Todo = ({ id, content, dispatch }) => (
 );
 
 const TodoContainer = connect((state, ownProps) => ({
-  content: state.todos.find(todo => todo.id === ownProps.id)
-    .content,
+  content: state.todos.find((todo) => todo.id === ownProps.id).content,
 }))(Todo);
 
 const TodoList = ({ todos }) => (
   <ul>
-    {todos.map(todo => (
+    {todos.map((todo) => (
       <TodoContainer key={todo.id} id={todo.id} />
     ))}
   </ul>
 );
 
-const TodoListContainer = connect(state => ({
+const TodoListContainer = connect((state) => ({
   todos: state.todos,
 }))(TodoList);
 
@@ -144,7 +139,7 @@ ReactDOM.render(
   <Provider store={store}>
     <TodoListContainer />
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 ```
 
@@ -162,29 +157,21 @@ We are starting from `react-redux` v4 when things are simpler and the APIs are _
 // For demonstration purpose, we intentionally omit `mapDispatchToProps`,
 // since it's almost the same as `mapStateToProps`.
 // Instead, we just pass down `dispatch` as a prop.
-const connect = mapStateToProps => WrappedComponent => props => {
+const connect = (mapStateToProps) => (WrappedComponent) => (props) => {
   const store = React.useContext(Context);
   const [state, setState] = React.useState(() =>
-    mapStateToProps(store.getState(), props)
+    mapStateToProps(store.getState(), props),
   );
   const propsRef = React.useRef();
   propsRef.current = props;
 
   React.useEffect(() => {
     return store.subscribe(() => {
-      setState(
-        mapStateToProps(store.getState(), propsRef.current)
-      );
+      setState(mapStateToProps(store.getState(), propsRef.current));
     });
   }, [store, setState, propsRef]);
 
-  return (
-    <WrappedComponent
-      {...props}
-      {...state}
-      dispatch={store.dispatch}
-    />
-  );
+  return <WrappedComponent {...props} {...state} dispatch={store.dispatch} />;
 };
 ```
 
@@ -206,9 +193,9 @@ This is the famous `zombie children` problem in action. **Changing the state hap
 How can we fix it though? If it's because we're managing the state _outside_ of React, can we just bring it _inside_ React? We want the `props` to always stay up-to-date, which only happens when React renders the component with the latest props. So why not do that? We can move our `mapStateToProps` to render phase instead, we just have to trigger an update in the listener callback to force a re-render.
 
 ```jsx {3,4,8}
-const connect = mapStateToProps => WrappedComponent => props => {
+const connect = (mapStateToProps) => (WrappedComponent) => (props) => {
   const store = React.useContext(Context);
-  const [, forceUpdate] = React.useReducer(c => c + 1, 0);
+  const [, forceUpdate] = React.useReducer((c) => c + 1, 0);
   const state = mapStateToProps(store.getState(), props);
 
   React.useEffect(() => {
@@ -217,13 +204,7 @@ const connect = mapStateToProps => WrappedComponent => props => {
     });
   }, [store, forceUpdate]);
 
-  return (
-    <WrappedComponent
-      {...props}
-      {...state}
-      dispatch={store.dispatch}
-    />
-  );
+  return <WrappedComponent {...props} {...state} dispatch={store.dispatch} />;
 };
 ```
 
@@ -342,7 +323,7 @@ const createSubscription = () => {
       };
     },
     notifyUpdates() {
-      listeners.forEach(listener => {
+      listeners.forEach((listener) => {
         listener();
       });
     },
@@ -355,7 +336,7 @@ We create a `createSubscription` function, which is much like `createStore`, it 
 You might notice that this is simply just a function to create an _event emitter_, which is exactly right and it's just as simple as that. The next step is to write our new `connect` HOC and put our `mapStateToProps` inside the listener callbacks to bail out updates early.
 
 ```jsx {4-10,14-17,28-32,38-40,43,49}
-const connect = mapStateToProps => WrappedComponent => props => {
+const connect = (mapStateToProps) => (WrappedComponent) => (props) => {
   const store = React.useContext(Context);
 
   const subStore = React.useMemo(
@@ -363,24 +344,18 @@ const connect = mapStateToProps => WrappedComponent => props => {
       ...store,
       ...createSubscription(),
     }),
-    [store]
+    [store],
   );
 
-  const [, forceUpdate] = React.useReducer(c => c + 1, 0);
+  const [, forceUpdate] = React.useReducer((c) => c + 1, 0);
   const stateRef = React.useRef();
-  stateRef.current = mapStateToProps(
-    store.getState(),
-    props
-  );
+  stateRef.current = mapStateToProps(store.getState(), props);
   const propsRef = React.useRef();
   propsRef.current = props;
 
   React.useEffect(() => {
     return store.subscribe(() => {
-      const nextState = mapStateToProps(
-        store.getState(),
-        propsRef.current
-      );
+      const nextState = mapStateToProps(store.getState(), propsRef.current);
 
       if (shallowEqual(stateRef.current, nextState)) {
         // Bail out updates early, immediately notify updates to children
@@ -444,9 +419,7 @@ There is a more straightforward way to fix this, by using _React context_. We're
 // Again, there're lack of many optimizations and error handlings
 // in this implementation for demonstration purpose.
 const Provider = ({ children, store }) => {
-  const [state, setState] = React.useState(() =>
-    store.getState()
-  );
+  const [state, setState] = React.useState(() => store.getState());
 
   React.useEffect(() => {
     return store.subscribe(() => {
@@ -459,28 +432,18 @@ const Provider = ({ children, store }) => {
       ...store,
       state,
     }),
-    [store, state]
+    [store, state],
   );
 
-  return (
-    <Context.Provider value={context}>
-      {children}
-    </Context.Provider>
-  );
+  return <Context.Provider value={context}>{children}</Context.Provider>;
 };
 
-const connect = mapStateToProps => WrappedComponent => props => {
+const connect = (mapStateToProps) => (WrappedComponent) => (props) => {
   const { state, dispatch } = React.useContext(Context);
 
   const mappedState = mapStateToProps(state, props);
 
-  return (
-    <WrappedComponent
-      {...props}
-      {...mappedState}
-      dispatch={dispatch}
-    />
-  );
+  return <WrappedComponent {...props} {...mappedState} dispatch={dispatch} />;
 };
 ```
 
@@ -497,8 +460,7 @@ But first, we're going to rewrite our Todo app to use the hooks. More specifical
 ```jsx
 const Todo = ({ id }) => {
   const content = useSelector(
-    state =>
-      state.todos.find(todo => todo.id === id).content
+    (state) => state.todos.find((todo) => todo.id === id).content,
   );
   const dispatch = useDispatch();
 
@@ -514,11 +476,11 @@ const Todo = ({ id }) => {
 };
 
 const TodoList = () => {
-  const todos = useSelector(state => state.todos);
+  const todos = useSelector((state) => state.todos);
 
   return (
     <ul>
-      {todos.map(todo => (
+      {todos.map((todo) => (
         <Todo key={todo.id} id={todo.id} />
       ))}
     </ul>
@@ -531,16 +493,15 @@ We don't need those HOC containers anymore, with hooks, we can just call `useSel
 The `useDispatch` hook implementation is also pretty straightforward.
 
 ```js
-const useDispatch = () =>
-  React.useContext(Context).dispatch;
+const useDispatch = () => React.useContext(Context).dispatch;
 ```
 
 We can create our `useSelector` hook pretty easily too.
 
 ```js
-const useSelector = selector => {
+const useSelector = (selector) => {
   const store = React.useContext(Context);
-  const [, forceUpdate] = React.useReducer(c => c + 1, 0);
+  const [, forceUpdate] = React.useReducer((c) => c + 1, 0);
   const state = selector(store.getState());
 
   React.useEffect(() => {
@@ -556,11 +517,9 @@ const useSelector = selector => {
 However, it's not even close to being ready to use. Every time the state updated, we'll be re-rendering all of our _connected_ components. It's even worse with hooks API because we don't have an intermediate container component that's usually cheaper to render to potentially bail out updates of the usually more expensive wrapped component. Different from the previous trade-offs, we kind of _have to_ put `selector` in the listener callback to bail out updates early.
 
 ```js
-const useSelector = selector => {
+const useSelector = (selector) => {
   const store = React.useContext(Context);
-  const [state, setState] = React.useState(() =>
-    selector(store.getState())
-  );
+  const [state, setState] = React.useState(() => selector(store.getState()));
 
   React.useEffect(() => {
     return store.subscribe(() => {
@@ -598,9 +557,9 @@ What about the kind of stale props problem which doesn't throw errors? The cases
 Looks like we can safely ignore the error in the 5th step, and re-try it in the render phase instead.
 
 ```js
-const useSelector = selector => {
+const useSelector = (selector) => {
   const store = React.useContext(Context);
-  const [, forceUpdate] = React.useReducer(c => c + 1, 0);
+  const [, forceUpdate] = React.useReducer((c) => c + 1, 0);
   const currentState = React.useRef();
   // Try to get the state in the render phase to safely get the latest props
   currentState.current = selector(store.getState());

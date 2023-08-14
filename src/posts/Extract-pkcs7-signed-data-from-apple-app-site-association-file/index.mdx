@@ -66,10 +66,8 @@ function extractSignedDataFromDER(derBuffer) {
         const lengthOfLength = buffer[index] & 0x7f;
         index += 1;
         length = parseInt(
-          buffer
-            .slice(index, index + lengthOfLength)
-            .toString('hex'),
-          16
+          buffer.slice(index, index + lengthOfLength).toString('hex'),
+          16,
         );
         index += lengthOfLength;
       }
@@ -90,13 +88,8 @@ function extractSignedDataFromDER(derBuffer) {
         value = [].concat(children);
       }
 
-      if (
-        type === 0x06 &&
-        value.toString('hex') === DATA_PKCS7
-      ) {
-        const signedDataBuffer = parseDER(
-          buffer.slice(index)
-        ).value[0].value;
+      if (type === 0x06 && value.toString('hex') === DATA_PKCS7) {
+        const signedDataBuffer = parseDER(buffer.slice(index)).value[0].value;
         signedData = signedDataBuffer.toString('utf8');
         break;
       }
