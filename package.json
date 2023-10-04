@@ -48,7 +48,7 @@
     "eslint-config-next": "13.4.12",
     "grapheme-splitter": "^1.0.4",
     "mdast-util-mdx": "^2.0.1",
-    "postcss": "^8.4.27",
+    "postcss": "^8.4.31",
     "prettier": "3.0.1",
     "prettier-plugin-tailwind": "^2.2.12",
     "prismjs": "^1.29.0",
