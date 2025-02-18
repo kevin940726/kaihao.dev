@@ -3,8 +3,8 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=18",
-    "pnpm": ">=8"
+    "node": ">=22",
+    "pnpm": ">=10"
   },
   "scripts": {
     "dev": "HOST=http://127.0.0.1:3000 next dev",
@@ -13,7 +13,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "playwright test -c src/tests/playwright.config.ts",
-    "test:docker": "docker run --rm -e HOST=http://host.docker.internal:3000 -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.37.0 npm test"
+    "test:docker": "docker run --rm -e HOST=http://host.docker.internal:3000 -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.50.1 npm test"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",
@@ -29,11 +29,11 @@
     "remark-frontmatter": "^4.0.1",
     "remark-mdx-images": "^2.0.0",
     "server-only": "^0.0.1",
-    "sharp": "^0.32.4",
+    "sharp": "^0.32.6",
     "slugify": "^1.6.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.37.0",
+    "@playwright/test": "~1.50.1",
     "@types/hast": "^2.3.4",
     "@types/mdast": "^3.0.10",
     "@types/mdx": "^2.0.5",
