@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "HOST=http://127.0.0.1:3000 next dev",
     "build": "next build",
-    "export": "next export",
     "start": "next start",
     "lint": "next lint",
     "test": "playwright test -c src/tests/playwright.config.ts",
