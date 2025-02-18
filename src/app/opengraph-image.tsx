@@ -1,8 +1,8 @@
-import { ImageResponse } from "next/og";
+import { ImageResponse } from 'next/og';
 import siteMetadata from '@/siteMetadata';
 
 export const runtime = 'edge';
-export const revalidate = 60 * 60; // 1 hour
+export const revalidate = 3600; // 1 hour
 
 export const size = {
   width: 1200,

@@ -6,11 +6,17 @@ import { getPost } from '@/internals/posts';
 import type { Post } from '@/internals/posts';
 import type { Metadata } from 'next';
 
-export async function generateMetadata({
-  params: { slug },
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   try {
     const { frontmatter, excerpt } = await getPost(slug);
 
@@ -37,11 +43,17 @@ export async function generateMetadata({
   }
 }
 
-export default async function Post({
-  params: { slug },
-}: {
-  params: { slug: string };
-}) {
+export default async function Post(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   let post: Post;
   try {
     post = await getPost(slug);

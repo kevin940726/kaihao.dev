@@ -7,7 +7,7 @@
     "pnpm": ">=10"
   },
   "scripts": {
-    "dev": "HOST=http://127.0.0.1:3000 next dev",
+    "dev": "HOST=http://127.0.0.1:3000 next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -17,14 +17,14 @@
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
-    "@next/mdx": "^13.4.12",
+    "@next/mdx": "15.1.7",
     "@vercel/og": "^0.2.0",
     "classnames": "^2.3.2",
-    "next": "14.2.24",
+    "next": "15.1.7",
     "polished": "^4.2.2",
     "prism-themes": "^1.9.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "remark-frontmatter": "^4.0.1",
     "remark-mdx-images": "^2.0.0",
     "server-only": "^0.0.1",
@@ -38,13 +38,13 @@
     "@types/mdx": "^2.0.5",
     "@types/node": "18.14.2",
     "@types/prismjs": "^1.26.0",
-    "@types/react": "18.0.28",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
     "@types/rss": "^0.0.30",
     "@types/unist": "^2.0.6",
     "autoprefixer": "^10.4.14",
     "eslint": "8.35.0",
-    "eslint-config-next": "14.2.24",
+    "eslint-config-next": "15.1.7",
     "grapheme-splitter": "^1.0.4",
     "mdast-util-mdx": "^2.0.1",
     "postcss": "^8.4.27",
@@ -63,5 +63,11 @@
   },
   "prettier": {
     "singleQuote": true
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.0.10",
+      "@types/react-dom": "19.0.4"
+    }
   }
 }
