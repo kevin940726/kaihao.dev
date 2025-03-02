@@ -6,6 +6,7 @@
     "node": ">=22",
     "pnpm": ">=10"
   },
+  "packageManager": "pnpm@10.4.1",
   "scripts": {
     "dev": "HOST=http://127.0.0.1:3000 next dev --turbopack",
     "build": "next build",
