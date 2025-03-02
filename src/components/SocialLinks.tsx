@@ -49,8 +49,9 @@ const XLink = () => (
   <SocialLink
     title="X (Twitter)"
     href={X_LINK}
-    // X logo looks bigger than other icons
-    className="h-[30px] w-[30px] text-black dark:text-white"
+    // X logo looks bigger than other icon
+    style={{ height: '30px', width: '30px' }}
+    className="text-black dark:text-white"
   >
     <XLogo />
   </SocialLink>
@@ -71,7 +72,7 @@ const LinkedInLink = () => (
 );
 
 const SocialLinks = () => (
-  <ul className="flex justify-center align-center">
+  <ul className="flex justify-center items-center">
     <li className="inline-flex mx-4">
       <XLink />
     </li>
