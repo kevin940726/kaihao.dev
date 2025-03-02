@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { Open_Sans } from 'next/font/google';
 import { themeModeScript } from '@/components/themeMode';
-import { GITHUB_LINK, TWITTER_LINK } from '@/components/links';
+import { GITHUB_LINK, X_LINK } from '@/components/links';
 import siteMetadata from '@/siteMetadata';
 import '@/components/globals.css';
 import type { ReactNode } from 'react';
@@ -49,7 +49,7 @@ export default async function RootLayout({
     <html lang="en" className="h-full tab">
       <head>
         <link href={GITHUB_LINK} rel="me" />
-        <link href={TWITTER_LINK} rel="me" />
+        <link href={X_LINK} rel="me" />
       </head>
       <body
         className={cx('h-full text-contentText bg-contentBackground', [
